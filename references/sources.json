@@ -1,0 +1,80 @@
+[
+  {
+    "id": "qdbo-2026",
+    "url": "https://www.vldb.org/pvldb/vol19/p3606-liu.pdf",
+    "accessed": "2026-11-18",
+    "local_path": "references/pdfs/qdbo-2026.pdf",
+    "sha256": "a1ac1a338cdfd862a1a5341b2c464338e6d5e9adf24c9bc7770e8c42de5399dc",
+    "review_scope": "Methods/results sections, pp.8-12; setup/table checked visually"
+  },
+  {
+    "id": "q2o-demo-2025",
+    "url": "https://www.vldb.org/pvldb/vol18/p5439-liu.pdf",
+    "accessed": "2026-11-18",
+    "local_path": "references/pdfs/q2o-demo-2025.pdf",
+    "sha256": "d96c8af06b7865c0da9452f3e2d2d35f58dde076507ce8fd05528d306489e9e9",
+    "review_scope": "System/encoding/scenarios, pp.2-4"
+  },
+  {
+    "id": "q2o-realtime-2026",
+    "url": "https://arxiv.org/pdf/2601.12123",
+    "accessed": "2026-11-18",
+    "local_path": "references/pdfs/q2o-realtime-2026.pdf",
+    "sha256": "583628e5b23eb2148dde0e269166deff6258a718b1ccf0d2466ddf153ac18ad8",
+    "review_scope": "Both pages"
+  },
+  {
+    "id": "structured-initialization-2026",
+    "url": "https://arxiv.org/pdf/2608.20683",
+    "accessed": "2026-11-18",
+    "local_path": "references/pdfs/structured-initialization-2026.pdf",
+    "sha256": "7a1d102d567fa5c70552f8a4d76ff486f5cf35bda243625540b3583e992d0aa8",
+    "review_scope": "Abstract, scope and sections3.3-5; page5 visually checked"
+  },
+  {
+    "id": "digital-annealing-2023",
+    "url": "https://www.vldb.org/pvldb/vol17/p511-schonberger.pdf",
+    "accessed": "2026-11-18",
+    "local_path": "references/pdfs/digital-annealing-2023.pdf",
+    "sha256": "32478c24ea55f7705790b9127109f79d7ca6f85b56ce571367800795686fe2b8",
+    "review_scope": "Readout and evaluation sections5-6"
+  },
+  {
+    "id": "hybrid-qubo-2026",
+    "url": "https://arxiv.org/pdf/2606.16247",
+    "accessed": "2026-11-18",
+    "local_path": "references/pdfs/hybrid-qubo-2026.pdf",
+    "sha256": "4a0e26342ed5b6761f02c3f1ec650ee104c277849112bdebf2cea10df2ca1f74",
+    "review_scope": "Abstract and experimental methods sections4-5"
+  },
+  {
+    "id": "eraser-2024",
+    "url": "https://www.vldb.org/pvldb/vol17/p926-zhu.pdf",
+    "accessed": "2026-11-18",
+    "local_path": "references/pdfs/eraser-2024.pdf",
+    "sha256": "86a1db36cb8d185e8e6e9cec0fecc2553b03ce0bc4d4f441fee66d9a4d8b312b",
+    "review_scope": "Abstract and introduction/method overview"
+  },
+  {
+    "id": "bao-preprint",
+    "url": "https://arxiv.org/pdf/2004.03814",
+    "accessed": "2026-11-18",
+    "local_path": "references/pdfs/bao-preprint.pdf",
+    "sha256": "afe270cec51e1f7851b5cf701ef28a82aaf198ed8afe1f796dabc2cef33b8f22",
+    "review_scope": "Abstract and sections1-3; published-version full review pending"
+  },
+  {
+    "id": "job-2015",
+    "url": "https://www.vldb.org/pvldb/vol9/p204-leis.pdf",
+    "accessed": "2026-11-18",
+    "local_path": "references/pdfs/job-2015.pdf",
+    "sha256": "c7f5f654f506ca0f84249205f3c1702d2f5839a34c2aae95595c91331c5af32b",
+    "review_scope": "Introduction/benchmark/cardinality sections1-3"
+  },
+  {
+    "id": "hybrid-qubo-journal-2026",
+    "url": "https://doi.org/10.3390/info17111130",
+    "accessed": "2026-11-18",
+    "review_scope": "Publisher HTML sections5-6 and scope/limitations; no full version diff"
+  }
+]
