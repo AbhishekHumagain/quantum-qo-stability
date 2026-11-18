@@ -1,0 +1,164 @@
+{
+  "completed_date": "2026-11-18",
+  "dataset": {
+    "url": "https://event.cwi.nl/da/job/imdb.tgz",
+    "retrieved_utc": "2026-11-18T18:12:37.735089+00:00",
+    "archive_bytes": 1263193115,
+    "archive_sha256": "25f9d893c54f903366e0c263f88db0d429dbc2b159d4987ebc1e203242a7e988",
+    "checksum_status": "locally_computed_no_publisher_checksum_verified",
+    "csv": {
+      "aka_name.csv": {
+        "bytes": 73004383,
+        "sha256": "80005a6815cbcd1f1790d2207648932ea790440e9e06ae5473b32c66519ebf0e"
+      },
+      "aka_title.csv": {
+        "bytes": 38858446,
+        "sha256": "5d11232563dd8ee0d06eec08e405dbb28d43e5b7194fb1704bf7d8235f21ad85"
+      },
+      "cast_info.csv": {
+        "bytes": 1418137141,
+        "sha256": "bfd359eeca7dc571272cd52d560d0178beaf722130feec128ad4681ee493a7c7"
+      },
+      "char_name.csv": {
+        "bytes": 215711567,
+        "sha256": "2deb082b4891c91b638b588707ac2b342918bb5b435b2998af6ad45d2459c10b"
+      },
+      "company_name.csv": {
+        "bytes": 17802021,
+        "sha256": "1915eae9e39b595f73166a76aa7a0cc158f902931db627182231ca31ad6a6b7c"
+      },
+      "company_type.csv": {
+        "bytes": 92,
+        "sha256": "27f13bddd29d5f8921bbc9710d95c4454cc5e072bc4c1288d8a312a2260e5a26"
+      },
+      "comp_cast_type.csv": {
+        "bytes": 45,
+        "sha256": "40728bcd55d173ea63a589b863fc1e873a854998f0422b571c14d3a24a05c823"
+      },
+      "complete_cast.csv": {
+        "bytes": 2414495,
+        "sha256": "01153e5f8cbac79c9e08016e7c5501f3404c84086839c0257e63f61995c8ca72"
+      },
+      "info_type.csv": {
+        "bytes": 1928,
+        "sha256": "f3179f676bd54ab5b5d99b7204f762afce7e56adee277b9cdb12e6b778f71660"
+      },
+      "keyword.csv": {
+        "bytes": 3791536,
+        "sha256": "7a1160e983ef8e97216309deac2be33d91519ab4e716edd6131f66372d969108"
+      },
+      "kind_type.csv": {
+        "bytes": 85,
+        "sha256": "423b4c5a6c22eb51945fed746610520b07dc6c84219cf2c6b1b8a676e1ce439e"
+      },
+      "link_type.csv": {
+        "bytes": 261,
+        "sha256": "12d359eb45298ac80ab7d914c8b5e23480b7e4f34cf29ec51e072446156da968"
+      },
+      "movie_companies.csv": {
+        "bytes": 93112104,
+        "sha256": "38755ab1706a8e384810dd1cce0d1032839386c9c37cc7834f36a45d177cd683"
+      },
+      "movie_info.csv": {
+        "bytes": 963782656,
+        "sha256": "7451bd8d6b1fa939a90f5f20bf3dc420340e49016044b6d0e7226c01431ee9c0"
+      },
+      "movie_info_idx.csv": {
+        "bytes": 35335875,
+        "sha256": "194b245145d8035e60df6daad0cd4fabc6f58c9594c8f95cf76748753f6c0a2f"
+      },
+      "movie_keyword.csv": {
+        "bytes": 93799307,
+        "sha256": "50a698bdfd207489e1cb02e301e3de45ee9171f1ddc9fe9c3f7308cacc2d7240"
+      },
+      "movie_link.csv": {
+        "bytes": 656584,
+        "sha256": "b964ab6ee45d958c207382ac15d2fcb7881caa3f16b9a16e24b3b45eb2a893bc"
+      },
+      "name.csv": {
+        "bytes": 321191609,
+        "sha256": "99a69afb079afad800ed3ac4913110ce8f3b95ef9b488bfda641e308cfb836e6"
+      },
+      "person_info.csv": {
+        "bytes": 399133124,
+        "sha256": "004a4fb9dcc12109e028fd1440a1270ca8dbeb4a67147b686a67770275ad52a1"
+      },
+      "role_type.csv": {
+        "bytes": 160,
+        "sha256": "2afc2b0dc30042bb5920be6feabd13de79423a144c18efba07c5d9a5ac224100"
+      },
+      "title.csv": {
+        "bytes": 203877939,
+        "sha256": "663c5bc45f08440cd2e09d97f22768a82ea4f1f7a049e6b9dfc17fb7b34da0f4"
+      }
+    }
+  },
+  "load": {
+    "completed_utc": "2026-11-18T18:17:02.275776+00:00",
+    "postgres": "PostgreSQL 18.3 (Homebrew) on aarch64-apple-darwin25.2.0, compiled by Apple clang version 17.0.0 (clang-1700.6.3.2), 64-bit",
+    "archive_sha256": "25f9d893c54f903366e0c263f88db0d429dbc2b159d4987ebc1e203242a7e988",
+    "rows": {
+      "aka_name": 901343,
+      "aka_title": 361472,
+      "cast_info": 36244344,
+      "char_name": 3140339,
+      "comp_cast_type": 4,
+      "company_name": 234997,
+      "company_type": 4,
+      "complete_cast": 135086,
+      "info_type": 113,
+      "keyword": 134170,
+      "kind_type": 7,
+      "link_type": 18,
+      "movie_companies": 2609129,
+      "movie_info": 14835720,
+      "movie_info_idx": 1380035,
+      "movie_keyword": 4523930,
+      "movie_link": 29997,
+      "name": 4167491,
+      "person_info": 2963664,
+      "role_type": 12,
+      "title": 2528312
+    },
+    "load_seconds": 251.23310150002362,
+    "indexes": "JOB schema primary keys + fkindexes.sql",
+    "statistics_sha256": "7254dbf24bc0d317548d82e1a6c002c8993cbf21885b49aec79ba0d6a8ffba17",
+    "autovacuum_policy": "disabled on benchmark tables; explicit ANALYZE after load"
+  },
+  "total_rows": 74190187,
+  "preflight": {
+    "status": "passed",
+    "queries_planned": 12,
+    "estimated_input_plans": 291,
+    "query_ids": [
+      "3a",
+      "16a",
+      "10a",
+      "18a",
+      "21a",
+      "23a",
+      "25a",
+      "13a",
+      "26a",
+      "29a",
+      "24a",
+      "28a"
+    ],
+    "predicate_edges_lost_to_factor_one": 0,
+    "JOB_benchmark_query_executions": 0,
+    "raw_output": "results/job-preflight-001",
+    "pilot_sha256": "e98e5aff0e65a7916128f9b3a834098839edda981cefd241c6039473fd8977e4",
+    "settings": {
+      "server_version": "18.3 (Homebrew)",
+      "geqo": "on",
+      "geqo_threshold": "12",
+      "geqo_seed": "0",
+      "max_parallel_workers_per_gather": "0",
+      "jit": "off",
+      "work_mem": "4096",
+      "default_statistics_target": "100",
+      "shared_buffers": "16384",
+      "statement_timeout": "60000"
+    }
+  }
+}

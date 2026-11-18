@@ -46,7 +46,10 @@ def main():
             rows.append(row)
             with (args.output/'queries.jsonl').open('a') as stream:
                 stream.write(json.dumps(row)+'\n')
-    (args.output/'manifest.json').write_text(json.dumps({'pilot_sha256':hashlib.sha256((ROOT/'workloads/job/pilot.json').read_bytes()).hexdigest(),'settings':settings,'execution':'EXPLAIN only'},indent=2)+'\n')
+    receipt=ROOT/'data/load-receipt.json'
+    (args.output/'manifest.json').write_text(json.dumps({'pilot_sha256':hashlib.sha256((ROOT/'workloads/job/pilot.json').read_bytes()).hexdigest(),
+        'load_receipt_sha256':hashlib.sha256(receipt.read_bytes()).hexdigest() if receipt.exists() else None,
+        'settings':settings,'execution':'EXPLAIN only'},indent=2)+'\n')
     print(f"Preflight: {sum(r['status']=='ok' for r in rows)}/{len(rows)} queries planned; none executed")
     if any(r['status']!='ok' for r in rows):
         raise SystemExit(1)

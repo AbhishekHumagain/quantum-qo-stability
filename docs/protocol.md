@@ -72,11 +72,13 @@ cannot guarantee actual-runtime safety.
 
 ## Next gates
 
-1. Read complete QDBO/Q2O papers and audit repeated-run reporting and safeguards.
+1. Targeted methods/results audit completed in `literature-audit.md`, including
+   direct stability overlap. Complete systematic citation-chain review remains pending.
 2. Resolve the artifact cost-helper inconsistency and cardinality provenance.
 3. DONE for the local PostgreSQL 18 pilot: version-matched pg_hint_plan and structural
    enforcement checks. Extend verification beyond supported scan/unary/inner-join shapes
    before accepting other plan shapes; do not silently skip unsupported nodes.
 4. Choose the paper's PostgreSQL version, machine, IMDB snapshot, and storage budget.
-5. Execute a stratified JOB pilot, then freeze the main experiment specification.
+5. A performance-blind 12-template JOB pilot manifest is prepared in `workloads/job`.
+   Execute the pilot after populated-data preflight, then freeze the main experiment specification.
 6. Add quantum/hybrid adapters and safeguards; analyse and write only observed findings.

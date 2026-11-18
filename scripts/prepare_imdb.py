@@ -47,6 +47,9 @@ def prepare(archive, destination):
                 while block := stream.read(1024*1024):
                     output.write(block)
             receipt['csv'][name] = {"bytes": path.stat().st_size, "sha256": digest(path)}
+        # tar EOF can precede gzip EOF; drain the wrapper to check its CRC/trailer.
+        while source.fileobj.read(1024*1024):
+            pass
     if set(receipt['csv']) != {table+'.csv' for table in tables}:
         raise ValueError("Missing expected JOB tables")
     (destination/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')

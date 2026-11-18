@@ -1,0 +1,21 @@
+{
+  "catalog_instances": 113,
+  "catalog_templates": 33,
+  "pilot_instances": 12,
+  "pilot_templates": 12,
+  "pilot_size_strata": {
+    "small": 4,
+    "medium": 4,
+    "large": 4
+  },
+  "pilot_self_join_queries": 6,
+  "canonical_qdbo_sql_matches": 113,
+  "alias_order_matches": 113,
+  "dimensions_match": 113,
+  "artifact_queries_with_factors_above_one": 1,
+  "schema_only_planning_checked": 12,
+  "JOB_query_executions": 0,
+  "populated_database_queries_planned": 12,
+  "estimated_input_plans": 291,
+  "dataset_loaded": true
+}

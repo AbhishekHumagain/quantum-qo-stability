@@ -19,6 +19,10 @@ Original proposals in the parent directory are preserved.
 - Locally compiled pg_hint_plan 1.8.1 for PostgreSQL 18; session-local loading.
 - Database-backed SA pilot with directed tree verification, ignored-hint controls,
   repeated executions, and an exploratory estimated-cost fallback guard.
+- Targeted primary-paper audit, checked bibliography, and a deterministic JOB catalog
+  and 12-template stratified pilot manifest with SQL/input hashes.
+- Canonical IMDB loaded into a separate database; all 12 selected JOB queries pass
+  EXPLAIN-only preflight, including filtered-base/pair model extraction.
 
 ## Run locally
 
@@ -73,9 +77,17 @@ hints. Every selected directed order and the baseline receives repeated measurem
 This is still a tiny synthetic workload; it is not a JOB execution experiment.
 The guard decisions use only pre-execution planner costs, but their reported runtime
 ratios reuse the measured plan medians; complete policy latency is not yet replayed.
-Full IMDB loading, real JOB execution, hybrid/QPU adapters, other safeguards, robust
+Real JOB execution, hybrid/QPU adapters, other safeguards, robust
 failure handling for long campaigns, and inferential analysis remain pending.
 
 Read [the protocol](docs/protocol.md), [artifact audit](docs/artifact-audit.md),
 and milestone reports [1](docs/milestone-01.md) and [2](docs/milestone-02.md)
 before interpreting outputs.
+
+Continue with the [literature audit](docs/literature-audit.md),
+[JOB setup instructions](docs/job-setup.md), and
+[selected workload](workloads/job/README.md). The review found prior work explicitly
+studying quantum join-optimization stability; our narrower database-regression
+contribution remains a hypothesis requiring real evidence and further literature review.
+The [third milestone report](docs/milestone-03.md) records the populated-data preflight;
+no JOB execution timings have been collected.

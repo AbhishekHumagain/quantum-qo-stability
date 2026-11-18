@@ -76,5 +76,17 @@
     "url": "https://doi.org/10.3390/info17111130",
     "accessed": "2026-11-18",
     "review_scope": "Publisher HTML sections5-6 and scope/limitations; no full version diff"
+  },
+  {
+    "id": "conformal-screen-2025",
+    "url": "https://www.vldb.org/pvldb/vol18/p2653-liu.pdf",
+    "accessed": "2026-11-18",
+    "review_scope": "Primary publisher abstract/introduction screen only; full methods pending"
+  },
+  {
+    "id": "rpt-screen-2025",
+    "url": "https://arxiv.org/abs/2502.15181",
+    "accessed": "2026-11-18",
+    "review_scope": "Primary preprint abstract screen only; full methods pending"
   }
 ]
