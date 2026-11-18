@@ -77,8 +77,9 @@ hints. Every selected directed order and the baseline receives repeated measurem
 This is still a tiny synthetic workload; it is not a JOB execution experiment.
 The guard decisions use only pre-execution planner costs, but their reported runtime
 ratios reuse the measured plan medians; complete policy latency is not yet replayed.
-Real JOB execution, hybrid/QPU adapters, other safeguards, robust
-failure handling for long campaigns, and inferential analysis remain pending.
+The full JOB CPU execution campaign is now running with a durable task ledger,
+explicit failure/timeout accounting, and resumable checkpoints. Hybrid/QPU adapters,
+other safeguards, and inferential analysis remain pending.
 
 Read [the protocol](docs/protocol.md), [artifact audit](docs/artifact-audit.md),
 and milestone reports [1](docs/milestone-01.md) and [2](docs/milestone-02.md)
@@ -89,5 +90,6 @@ Continue with the [literature audit](docs/literature-audit.md),
 [selected workload](workloads/job/README.md). The review found prior work explicitly
 studying quantum join-optimization stability; our narrower database-regression
 contribution remains a hypothesis requiring real evidence and further literature review.
-The [third milestone report](docs/milestone-03.md) records the populated-data preflight;
-no JOB execution timings have been collected.
+The [third milestone report](docs/milestone-03.md) records the earlier populated-data
+preflight. Actual JOB CPU timings are now being collected under the
+[frozen pilot protocol](docs/job-pilot-protocol.md); see the [running campaign](docs/job-pilot-running.md).
