@@ -138,6 +138,7 @@ def analyze(directory):
         'aggregate':aggregate,'queries':queries,
         'limitations':['Twelve selected templates; one machine; low-budget CPU solvers; estimated pairwise inputs.',
             'No quantum, hybrid service, full iterative QDBO, or true-cardinality intervention.',
+            'This pilot fixes directed nested join hints; the pinned QDBO helper emits flat Leading hints that leave directions free. These are different planning restrictions.',
             'Complete-only ratios exclude unmeasurable outcomes; risk bounds retain unknowns.',
             'Offline guard diagnostics reuse shared medians and do not measure guarded end-to-end latency.',
             'Five repetitions characterize only a preliminary execution-noise floor; no p99 or significance claim.']}
@@ -169,14 +170,15 @@ def render_report(report, output):
         'They are identification bounds over the observed pilot, not confidence intervals or a population guarantee.',
         'Guard decisions use pre-execution costs; their runtime diagnostics reuse measured plan medians. '
         'This is not a replayed end-to-end safeguard experiment.', '', '## Timing components', '',
-        '| Query | SA optimizer task ms | SA sampling ms | SA decode ms | SA validation ms | GEQO optimizer task ms | SA guard comparison us |',
+        '| Query | SA optimizer task ms | SA sampling ms | SA decode/hint ms | SA preflight EXPLAIN/hash ms | GEQO optimizer task ms | SA guard comparison us |',
         '|---|---:|---:|---:|---:|---:|---:|']
     for q in report['queries']:
         sa,geqo=q['solvers']['sa'],q['solvers']['geqo']
         lines.append(f"| {q['query_id']} | {fmt(sa['median_optimizer_task_ms'])} | {fmt(sa['median_sa_sampling_ms'])} | {fmt(sa['median_decoding_ms'])} | {fmt(sa['median_validation_ms'])} | {fmt(geqo['median_optimizer_task_ms'])} | {fmt(sa['median_incremental_guard_comparison_us'])} |")
     lines += ['', 'Optimizer task time includes adapter and planning overhead. Model extraction, encoding, '
         'and baseline estimation were cached once/query; encoding-task wall time includes first-use imports. '
-        'The guard comparison is only a Python comparison; validation is separately measured. '
+        'The guard comparison is only a Python comparison. The preflight EXPLAIN/hash timer '
+        'ends before the subsequent structural-tree comparison; optimizer task time includes that comparison. '
         'None of these columns is total end-to-end guarded latency.', '',
         '## Limits', '']+[f'- {item}' for item in report['limitations']]
     (output/'README.md').write_text('\n'.join(lines)+'\n')
