@@ -1,0 +1,21 @@
+{
+  "experiment": "JOB CPU pilot v1; fixed estimated inputs; no quantum hardware",
+  "workload": "workloads/job/pilot.json",
+  "solve_repeats": 30,
+  "execution_repeats": 5,
+  "sa_reads": 10,
+  "sa_sweeps": 200,
+  "seed": 20261118,
+  "statement_timeout_ms": 60000,
+  "work_mem": "4MB",
+  "baseline_geqo_threshold": 12,
+  "baseline_geqo_seed": 0,
+  "geqo_effort": 5,
+  "geqo_pool_size": 0,
+  "geqo_generations": 0,
+  "descriptive_slowdown_thresholds": [1.1, 1.25, 2.0],
+  "timeout_policy": "Stop repeating a physical plan after its first timeout; record all unrun scheduled repeats explicitly. Never substitute the timeout cap for a completed runtime.",
+  "guard_policy": "Fallback on failed validation or candidate estimated Total Cost greater than cached default cost. Evaluate offline using shared plan medians; do not label this a measured guarded end-to-end policy.",
+  "timing_policy": "One warmup per physical plan per timing session, then five randomized blocks with the default baseline in every block; verify tree and physical hash on every execution.",
+  "encoding_policy": "Build once per query from fixed estimated filtered base/pair inputs, save BQM, then independently sample 30 seeds. Encoding is not charged anew to each solve."
+}
