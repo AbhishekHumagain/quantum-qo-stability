@@ -1,0 +1,11 @@
+.venv/
+.python/
+.uv-cache/
+.local/
+.pytest_cache/
+__pycache__/
+*.egg-info/
+vendor/
+results/
+.env
+*.log

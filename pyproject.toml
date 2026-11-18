@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qopt-reliability"
+version = "0.1.0"
+description = "Reproducible reliability experiments for stochastic join ordering"
+requires-python = ">=3.12"
+dependencies = ["dwave-samplers", "psycopg[binary]", "numpy", "scipy", "pandas", "matplotlib"]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.scripts]
+qopt = "qopt.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
