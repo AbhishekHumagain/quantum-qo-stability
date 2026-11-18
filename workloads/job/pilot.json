@@ -1,0 +1,3198 @@
+{
+  "schema_version": 1,
+  "source_commits": {
+    "job": "a39603662e023e449cb2121997a5034df9e02ebf",
+    "qdbo": "2c8a3b3429634eb5d810b98f343b8729555c24b1"
+  },
+  "outcome_data_used_for_selection": false,
+  "selection_seed": 20261118,
+  "selection_rule": "First variant per template; 4 templates per relation-size stratum; anchor min/max relation counts then round-robin self-join/density groups; SHA256 seed/template ranking for ties",
+  "size_bounds": {
+    "small": "<=8",
+    "medium": "9..11",
+    "large": ">=12"
+  },
+  "limits": {
+    "solve_repeats": 30,
+    "execution_repeats": 5,
+    "statement_timeout_ms": 60000
+  },
+  "execution_status": "not_executed_on_JOB",
+  "queries": [
+    {
+      "query_id": "3a",
+      "template_id": 3,
+      "variant": "a",
+      "sql_path": "vendor/job/3a.sql",
+      "sql_sha256": "09c04f1846b8b7d839d050b5719230e844e7612357dd749c59b37a7eb3cf9db2",
+      "relations": 4,
+      "alias_mapping": [
+        {
+          "index": 0,
+          "alias": "k",
+          "table": "keyword"
+        },
+        {
+          "index": 1,
+          "alias": "mi",
+          "table": "movie_info"
+        },
+        {
+          "index": 2,
+          "alias": "mk",
+          "table": "movie_keyword"
+        },
+        {
+          "index": 3,
+          "alias": "t",
+          "table": "title"
+        }
+      ],
+      "local_filters": {
+        "k": [
+          "k.keyword LIKE '%sequel%'"
+        ],
+        "mi": [
+          "mi.info IN ('Sweden', 'Norway', 'Germany', 'Denmark', 'Swedish', 'Denish', 'Norwegian', 'German')"
+        ],
+        "t": [
+          "t.production_year > 2005"
+        ]
+      },
+      "join_predicates": [
+        {
+          "aliases": [
+            "mi",
+            "t"
+          ],
+          "sql": "t.id = mi.movie_id"
+        },
+        {
+          "aliases": [
+            "mk",
+            "t"
+          ],
+          "sql": "t.id = mk.movie_id"
+        },
+        {
+          "aliases": [
+            "mi",
+            "mk"
+          ],
+          "sql": "mk.movie_id = mi.movie_id"
+        },
+        {
+          "aliases": [
+            "k",
+            "mk"
+          ],
+          "sql": "k.id = mk.keyword_id"
+        }
+      ],
+      "unsupported_cross_alias_predicates": [],
+      "edges": [
+        [
+          "k",
+          "mk"
+        ],
+        [
+          "mi",
+          "mk"
+        ],
+        [
+          "mi",
+          "t"
+        ],
+        [
+          "mk",
+          "t"
+        ]
+      ],
+      "edge_count": 4,
+      "components": 1,
+      "cycle_rank": 1,
+      "density": 0.6666666666666666,
+      "max_degree": 3,
+      "self_join": false,
+      "size_stratum": "small",
+      "density_band": "dense",
+      "normalized_sql_sha256": "0532c0c19582c83d72b33872d8684d6331fa18d70735896c71c3f7c833801618",
+      "qdbo": {
+        "folder": "vendor/qdbo/workloads/join_ordering/JOB/q9",
+        "sql_sha256": "09c04f1846b8b7d839d050b5719230e844e7612357dd749c59b37a7eb3cf9db2",
+        "cards_sha256": "180bb016ae4b251b2cfae888249653568080f3c39aac324b72857245a77de5f3",
+        "factors_sha256": "dc84e5bfd15ce3ac207c0e21a03f5c49070270807ba75bdc30b29396292104f3",
+        "normalized_sql_matches": true,
+        "alias_order_matches": true,
+        "dimensions_match": true,
+        "factor_above_one": false,
+        "cardinality_provenance": "unverified_published_artifact_inputs"
+      }
+    },
+    {
+      "query_id": "16a",
+      "template_id": 16,
+      "variant": "a",
+      "sql_path": "vendor/job/16a.sql",
+      "sql_sha256": "43cd687d2b4005c6b665762dbf7e5277135ebe738d82e672371571ca255902b9",
+      "relations": 8,
+      "alias_mapping": [
+        {
+          "index": 0,
+          "alias": "an",
+          "table": "aka_name"
+        },
+        {
+          "index": 1,
+          "alias": "ci",
+          "table": "cast_info"
+        },
+        {
+          "index": 2,
+          "alias": "cn",
+          "table": "company_name"
+        },
+        {
+          "index": 3,
+          "alias": "k",
+          "table": "keyword"
+        },
+        {
+          "index": 4,
+          "alias": "mc",
+          "table": "movie_companies"
+        },
+        {
+          "index": 5,
+          "alias": "mk",
+          "table": "movie_keyword"
+        },
+        {
+          "index": 6,
+          "alias": "n",
+          "table": "name"
+        },
+        {
+          "index": 7,
+          "alias": "t",
+          "table": "title"
+        }
+      ],
+      "local_filters": {
+        "cn": [
+          "cn.country_code = '[us]'"
+        ],
+        "k": [
+          "k.keyword = 'character-name-in-title'"
+        ],
+        "t": [
+          "t.episode_nr >= 50",
+          "t.episode_nr < 100"
+        ]
+      },
+      "join_predicates": [
+        {
+          "aliases": [
+            "an",
+            "n"
+          ],
+          "sql": "an.person_id = n.id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "n"
+          ],
+          "sql": "n.id = ci.person_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "t"
+          ],
+          "sql": "ci.movie_id = t.id"
+        },
+        {
+          "aliases": [
+            "mk",
+            "t"
+          ],
+          "sql": "t.id = mk.movie_id"
+        },
+        {
+          "aliases": [
+            "k",
+            "mk"
+          ],
+          "sql": "mk.keyword_id = k.id"
+        },
+        {
+          "aliases": [
+            "mc",
+            "t"
+          ],
+          "sql": "t.id = mc.movie_id"
+        },
+        {
+          "aliases": [
+            "cn",
+            "mc"
+          ],
+          "sql": "mc.company_id = cn.id"
+        },
+        {
+          "aliases": [
+            "an",
+            "ci"
+          ],
+          "sql": "an.person_id = ci.person_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "mc"
+          ],
+          "sql": "ci.movie_id = mc.movie_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "mk"
+          ],
+          "sql": "ci.movie_id = mk.movie_id"
+        },
+        {
+          "aliases": [
+            "mc",
+            "mk"
+          ],
+          "sql": "mc.movie_id = mk.movie_id"
+        }
+      ],
+      "unsupported_cross_alias_predicates": [],
+      "edges": [
+        [
+          "an",
+          "ci"
+        ],
+        [
+          "an",
+          "n"
+        ],
+        [
+          "ci",
+          "mc"
+        ],
+        [
+          "ci",
+          "mk"
+        ],
+        [
+          "ci",
+          "n"
+        ],
+        [
+          "ci",
+          "t"
+        ],
+        [
+          "cn",
+          "mc"
+        ],
+        [
+          "k",
+          "mk"
+        ],
+        [
+          "mc",
+          "mk"
+        ],
+        [
+          "mc",
+          "t"
+        ],
+        [
+          "mk",
+          "t"
+        ]
+      ],
+      "edge_count": 11,
+      "components": 1,
+      "cycle_rank": 4,
+      "density": 0.39285714285714285,
+      "max_degree": 5,
+      "self_join": false,
+      "size_stratum": "small",
+      "density_band": "moderate",
+      "normalized_sql_sha256": "7f35567e583c478950eaf814eee0822b21a73cb8e5fce54f5176b8a29b94ceff",
+      "qdbo": {
+        "folder": "vendor/qdbo/workloads/join_ordering/JOB/q56",
+        "sql_sha256": "43cd687d2b4005c6b665762dbf7e5277135ebe738d82e672371571ca255902b9",
+        "cards_sha256": "cb98285d9cfdd694d5d8556912dc389acb615ea81b0600140ffc1a9deccdedef",
+        "factors_sha256": "f128a2177cdf2a655d6a509d21cbaba181a1175e8b1617990620ab5d4423c8cc",
+        "normalized_sql_matches": true,
+        "alias_order_matches": true,
+        "dimensions_match": true,
+        "factor_above_one": false,
+        "cardinality_provenance": "unverified_published_artifact_inputs"
+      }
+    },
+    {
+      "query_id": "10a",
+      "template_id": 10,
+      "variant": "a",
+      "sql_path": "vendor/job/10a.sql",
+      "sql_sha256": "dcffd7d004228d834af7bf332e365837cc5a3fb60fb3859a55235da6d1455a89",
+      "relations": 7,
+      "alias_mapping": [
+        {
+          "index": 0,
+          "alias": "chn",
+          "table": "char_name"
+        },
+        {
+          "index": 1,
+          "alias": "ci",
+          "table": "cast_info"
+        },
+        {
+          "index": 2,
+          "alias": "cn",
+          "table": "company_name"
+        },
+        {
+          "index": 3,
+          "alias": "ct",
+          "table": "company_type"
+        },
+        {
+          "index": 4,
+          "alias": "mc",
+          "table": "movie_companies"
+        },
+        {
+          "index": 5,
+          "alias": "rt",
+          "table": "role_type"
+        },
+        {
+          "index": 6,
+          "alias": "t",
+          "table": "title"
+        }
+      ],
+      "local_filters": {
+        "ci": [
+          "ci.note LIKE '%(voice)%'",
+          "ci.note LIKE '%(uncredited)%'"
+        ],
+        "cn": [
+          "cn.country_code = '[ru]'"
+        ],
+        "rt": [
+          "rt.role = 'actor'"
+        ],
+        "t": [
+          "t.production_year > 2005"
+        ]
+      },
+      "join_predicates": [
+        {
+          "aliases": [
+            "mc",
+            "t"
+          ],
+          "sql": "t.id = mc.movie_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "t"
+          ],
+          "sql": "t.id = ci.movie_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "mc"
+          ],
+          "sql": "ci.movie_id = mc.movie_id"
+        },
+        {
+          "aliases": [
+            "chn",
+            "ci"
+          ],
+          "sql": "chn.id = ci.person_role_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "rt"
+          ],
+          "sql": "rt.id = ci.role_id"
+        },
+        {
+          "aliases": [
+            "cn",
+            "mc"
+          ],
+          "sql": "cn.id = mc.company_id"
+        },
+        {
+          "aliases": [
+            "ct",
+            "mc"
+          ],
+          "sql": "ct.id = mc.company_type_id"
+        }
+      ],
+      "unsupported_cross_alias_predicates": [],
+      "edges": [
+        [
+          "chn",
+          "ci"
+        ],
+        [
+          "ci",
+          "mc"
+        ],
+        [
+          "ci",
+          "rt"
+        ],
+        [
+          "ci",
+          "t"
+        ],
+        [
+          "cn",
+          "mc"
+        ],
+        [
+          "ct",
+          "mc"
+        ],
+        [
+          "mc",
+          "t"
+        ]
+      ],
+      "edge_count": 7,
+      "components": 1,
+      "cycle_rank": 1,
+      "density": 0.3333333333333333,
+      "max_degree": 4,
+      "self_join": false,
+      "size_stratum": "small",
+      "density_band": "sparse",
+      "normalized_sql_sha256": "9bfc8af68b00f0c8ddce36ddd9fd837650a79430c221c284250005654236dae9",
+      "qdbo": {
+        "folder": "vendor/qdbo/workloads/join_ordering/JOB/q35",
+        "sql_sha256": "dcffd7d004228d834af7bf332e365837cc5a3fb60fb3859a55235da6d1455a89",
+        "cards_sha256": "aa55552eb106930fe35f6b913c56db94da4a63e69cea414c597d07a151c39c86",
+        "factors_sha256": "76143690d8908420db26570d2958bebebbeaec38623123d356c40f930578c3bd",
+        "normalized_sql_matches": true,
+        "alias_order_matches": true,
+        "dimensions_match": true,
+        "factor_above_one": false,
+        "cardinality_provenance": "unverified_published_artifact_inputs"
+      }
+    },
+    {
+      "query_id": "18a",
+      "template_id": 18,
+      "variant": "a",
+      "sql_path": "vendor/job/18a.sql",
+      "sql_sha256": "04816db9a582e138e9d1b2af9491520f42fa84307cf9abf3395f9c697f02d21e",
+      "relations": 7,
+      "alias_mapping": [
+        {
+          "index": 0,
+          "alias": "ci",
+          "table": "cast_info"
+        },
+        {
+          "index": 1,
+          "alias": "it1",
+          "table": "info_type"
+        },
+        {
+          "index": 2,
+          "alias": "it2",
+          "table": "info_type"
+        },
+        {
+          "index": 3,
+          "alias": "mi",
+          "table": "movie_info"
+        },
+        {
+          "index": 4,
+          "alias": "mi_idx",
+          "table": "movie_info_idx"
+        },
+        {
+          "index": 5,
+          "alias": "n",
+          "table": "name"
+        },
+        {
+          "index": 6,
+          "alias": "t",
+          "table": "title"
+        }
+      ],
+      "local_filters": {
+        "ci": [
+          "ci.note IN ('(producer)', '(executive producer)')"
+        ],
+        "it1": [
+          "it1.info = 'budget'"
+        ],
+        "it2": [
+          "it2.info = 'votes'"
+        ],
+        "n": [
+          "n.gender = 'm'",
+          "n.name LIKE '%Tim%'"
+        ]
+      },
+      "join_predicates": [
+        {
+          "aliases": [
+            "mi",
+            "t"
+          ],
+          "sql": "t.id = mi.movie_id"
+        },
+        {
+          "aliases": [
+            "mi_idx",
+            "t"
+          ],
+          "sql": "t.id = mi_idx.movie_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "t"
+          ],
+          "sql": "t.id = ci.movie_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "mi"
+          ],
+          "sql": "ci.movie_id = mi.movie_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "mi_idx"
+          ],
+          "sql": "ci.movie_id = mi_idx.movie_id"
+        },
+        {
+          "aliases": [
+            "mi",
+            "mi_idx"
+          ],
+          "sql": "mi.movie_id = mi_idx.movie_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "n"
+          ],
+          "sql": "n.id = ci.person_id"
+        },
+        {
+          "aliases": [
+            "it1",
+            "mi"
+          ],
+          "sql": "it1.id = mi.info_type_id"
+        },
+        {
+          "aliases": [
+            "it2",
+            "mi_idx"
+          ],
+          "sql": "it2.id = mi_idx.info_type_id"
+        }
+      ],
+      "unsupported_cross_alias_predicates": [],
+      "edges": [
+        [
+          "ci",
+          "mi"
+        ],
+        [
+          "ci",
+          "mi_idx"
+        ],
+        [
+          "ci",
+          "n"
+        ],
+        [
+          "ci",
+          "t"
+        ],
+        [
+          "it1",
+          "mi"
+        ],
+        [
+          "it2",
+          "mi_idx"
+        ],
+        [
+          "mi",
+          "mi_idx"
+        ],
+        [
+          "mi",
+          "t"
+        ],
+        [
+          "mi_idx",
+          "t"
+        ]
+      ],
+      "edge_count": 9,
+      "components": 1,
+      "cycle_rank": 3,
+      "density": 0.42857142857142855,
+      "max_degree": 4,
+      "self_join": true,
+      "size_stratum": "small",
+      "density_band": "moderate",
+      "normalized_sql_sha256": "f09f93edc8f4dcc0020273e5856082555d703b9d3dd31e244252305de02ec38c",
+      "qdbo": {
+        "folder": "vendor/qdbo/workloads/join_ordering/JOB/q66",
+        "sql_sha256": "04816db9a582e138e9d1b2af9491520f42fa84307cf9abf3395f9c697f02d21e",
+        "cards_sha256": "004a6bc2be80dd422c663fd0f33fea88af73d4b0ebf8b43c2380c56c3c85d65b",
+        "factors_sha256": "f57585519f2b0745c7766799439e3fd25a7d04a2108433095d1c539768321be8",
+        "normalized_sql_matches": true,
+        "alias_order_matches": true,
+        "dimensions_match": true,
+        "factor_above_one": false,
+        "cardinality_provenance": "unverified_published_artifact_inputs"
+      }
+    },
+    {
+      "query_id": "21a",
+      "template_id": 21,
+      "variant": "a",
+      "sql_path": "vendor/job/21a.sql",
+      "sql_sha256": "c899a4175c318b17df6c253c53253a130efeed6e6d2230180b02e08e9dcba722",
+      "relations": 9,
+      "alias_mapping": [
+        {
+          "index": 0,
+          "alias": "cn",
+          "table": "company_name"
+        },
+        {
+          "index": 1,
+          "alias": "ct",
+          "table": "company_type"
+        },
+        {
+          "index": 2,
+          "alias": "k",
+          "table": "keyword"
+        },
+        {
+          "index": 3,
+          "alias": "lt",
+          "table": "link_type"
+        },
+        {
+          "index": 4,
+          "alias": "mc",
+          "table": "movie_companies"
+        },
+        {
+          "index": 5,
+          "alias": "mi",
+          "table": "movie_info"
+        },
+        {
+          "index": 6,
+          "alias": "mk",
+          "table": "movie_keyword"
+        },
+        {
+          "index": 7,
+          "alias": "ml",
+          "table": "movie_link"
+        },
+        {
+          "index": 8,
+          "alias": "t",
+          "table": "title"
+        }
+      ],
+      "local_filters": {
+        "cn": [
+          "cn.country_code <> '[pl]'",
+          "(cn.name LIKE '%Film%' OR cn.name LIKE '%Warner%')"
+        ],
+        "ct": [
+          "ct.kind = 'production companies'"
+        ],
+        "k": [
+          "k.keyword = 'sequel'"
+        ],
+        "lt": [
+          "lt.link LIKE '%follow%'"
+        ],
+        "mc": [
+          "mc.note IS NULL"
+        ],
+        "mi": [
+          "mi.info IN ('Sweden', 'Norway', 'Germany', 'Denmark', 'Swedish', 'Denish', 'Norwegian', 'German')"
+        ],
+        "t": [
+          "t.production_year BETWEEN 1950 AND 2000"
+        ]
+      },
+      "join_predicates": [
+        {
+          "aliases": [
+            "lt",
+            "ml"
+          ],
+          "sql": "lt.id = ml.link_type_id"
+        },
+        {
+          "aliases": [
+            "ml",
+            "t"
+          ],
+          "sql": "ml.movie_id = t.id"
+        },
+        {
+          "aliases": [
+            "mk",
+            "t"
+          ],
+          "sql": "t.id = mk.movie_id"
+        },
+        {
+          "aliases": [
+            "k",
+            "mk"
+          ],
+          "sql": "mk.keyword_id = k.id"
+        },
+        {
+          "aliases": [
+            "mc",
+            "t"
+          ],
+          "sql": "t.id = mc.movie_id"
+        },
+        {
+          "aliases": [
+            "ct",
+            "mc"
+          ],
+          "sql": "mc.company_type_id = ct.id"
+        },
+        {
+          "aliases": [
+            "cn",
+            "mc"
+          ],
+          "sql": "mc.company_id = cn.id"
+        },
+        {
+          "aliases": [
+            "mi",
+            "t"
+          ],
+          "sql": "mi.movie_id = t.id"
+        },
+        {
+          "aliases": [
+            "mk",
+            "ml"
+          ],
+          "sql": "ml.movie_id = mk.movie_id"
+        },
+        {
+          "aliases": [
+            "mc",
+            "ml"
+          ],
+          "sql": "ml.movie_id = mc.movie_id"
+        },
+        {
+          "aliases": [
+            "mc",
+            "mk"
+          ],
+          "sql": "mk.movie_id = mc.movie_id"
+        },
+        {
+          "aliases": [
+            "mi",
+            "ml"
+          ],
+          "sql": "ml.movie_id = mi.movie_id"
+        },
+        {
+          "aliases": [
+            "mi",
+            "mk"
+          ],
+          "sql": "mk.movie_id = mi.movie_id"
+        },
+        {
+          "aliases": [
+            "mc",
+            "mi"
+          ],
+          "sql": "mc.movie_id = mi.movie_id"
+        }
+      ],
+      "unsupported_cross_alias_predicates": [],
+      "edges": [
+        [
+          "cn",
+          "mc"
+        ],
+        [
+          "ct",
+          "mc"
+        ],
+        [
+          "k",
+          "mk"
+        ],
+        [
+          "lt",
+          "ml"
+        ],
+        [
+          "mc",
+          "mi"
+        ],
+        [
+          "mc",
+          "mk"
+        ],
+        [
+          "mc",
+          "ml"
+        ],
+        [
+          "mc",
+          "t"
+        ],
+        [
+          "mi",
+          "mk"
+        ],
+        [
+          "mi",
+          "ml"
+        ],
+        [
+          "mi",
+          "t"
+        ],
+        [
+          "mk",
+          "ml"
+        ],
+        [
+          "mk",
+          "t"
+        ],
+        [
+          "ml",
+          "t"
+        ]
+      ],
+      "edge_count": 14,
+      "components": 1,
+      "cycle_rank": 6,
+      "density": 0.3888888888888889,
+      "max_degree": 6,
+      "self_join": false,
+      "size_stratum": "medium",
+      "density_band": "moderate",
+      "normalized_sql_sha256": "49d736dcdf13b4cd9265cf84228a9e11ec1d4595786bd3b1501cee639c59b77b",
+      "qdbo": {
+        "folder": "vendor/qdbo/workloads/join_ordering/JOB/q76",
+        "sql_sha256": "c899a4175c318b17df6c253c53253a130efeed6e6d2230180b02e08e9dcba722",
+        "cards_sha256": "a4ce7369fc3d109e6fea3527313ebe839e26e15c4220361904bb4461561ffcee",
+        "factors_sha256": "4da3eb7c4c2df8098c79db74dd6cc434d5b7499aaa42d0edfed7a0f32c3dc0d0",
+        "normalized_sql_matches": true,
+        "alias_order_matches": true,
+        "dimensions_match": true,
+        "factor_above_one": false,
+        "cardinality_provenance": "unverified_published_artifact_inputs"
+      }
+    },
+    {
+      "query_id": "23a",
+      "template_id": 23,
+      "variant": "a",
+      "sql_path": "vendor/job/23a.sql",
+      "sql_sha256": "0115941960633919edac315eb3e40d1df1953a66b93cbab316244018d2adcb09",
+      "relations": 11,
+      "alias_mapping": [
+        {
+          "index": 0,
+          "alias": "cc",
+          "table": "complete_cast"
+        },
+        {
+          "index": 1,
+          "alias": "cct1",
+          "table": "comp_cast_type"
+        },
+        {
+          "index": 2,
+          "alias": "cn",
+          "table": "company_name"
+        },
+        {
+          "index": 3,
+          "alias": "ct",
+          "table": "company_type"
+        },
+        {
+          "index": 4,
+          "alias": "it1",
+          "table": "info_type"
+        },
+        {
+          "index": 5,
+          "alias": "k",
+          "table": "keyword"
+        },
+        {
+          "index": 6,
+          "alias": "kt",
+          "table": "kind_type"
+        },
+        {
+          "index": 7,
+          "alias": "mc",
+          "table": "movie_companies"
+        },
+        {
+          "index": 8,
+          "alias": "mi",
+          "table": "movie_info"
+        },
+        {
+          "index": 9,
+          "alias": "mk",
+          "table": "movie_keyword"
+        },
+        {
+          "index": 10,
+          "alias": "t",
+          "table": "title"
+        }
+      ],
+      "local_filters": {
+        "cct1": [
+          "cct1.kind = 'complete+verified'"
+        ],
+        "cn": [
+          "cn.country_code = '[us]'"
+        ],
+        "it1": [
+          "it1.info = 'release dates'"
+        ],
+        "kt": [
+          "kt.kind IN ('movie')"
+        ],
+        "mi": [
+          "mi.note LIKE '%internet%'",
+          "mi.info IS NOT NULL",
+          "(mi.info LIKE 'USA:% 199%' OR mi.info LIKE 'USA:% 200%')"
+        ],
+        "t": [
+          "t.production_year > 2000"
+        ]
+      },
+      "join_predicates": [
+        {
+          "aliases": [
+            "kt",
+            "t"
+          ],
+          "sql": "kt.id = t.kind_id"
+        },
+        {
+          "aliases": [
+            "mi",
+            "t"
+          ],
+          "sql": "t.id = mi.movie_id"
+        },
+        {
+          "aliases": [
+            "mk",
+            "t"
+          ],
+          "sql": "t.id = mk.movie_id"
+        },
+        {
+          "aliases": [
+            "mc",
+            "t"
+          ],
+          "sql": "t.id = mc.movie_id"
+        },
+        {
+          "aliases": [
+            "cc",
+            "t"
+          ],
+          "sql": "t.id = cc.movie_id"
+        },
+        {
+          "aliases": [
+            "mi",
+            "mk"
+          ],
+          "sql": "mk.movie_id = mi.movie_id"
+        },
+        {
+          "aliases": [
+            "mc",
+            "mk"
+          ],
+          "sql": "mk.movie_id = mc.movie_id"
+        },
+        {
+          "aliases": [
+            "cc",
+            "mk"
+          ],
+          "sql": "mk.movie_id = cc.movie_id"
+        },
+        {
+          "aliases": [
+            "mc",
+            "mi"
+          ],
+          "sql": "mi.movie_id = mc.movie_id"
+        },
+        {
+          "aliases": [
+            "cc",
+            "mi"
+          ],
+          "sql": "mi.movie_id = cc.movie_id"
+        },
+        {
+          "aliases": [
+            "cc",
+            "mc"
+          ],
+          "sql": "mc.movie_id = cc.movie_id"
+        },
+        {
+          "aliases": [
+            "k",
+            "mk"
+          ],
+          "sql": "k.id = mk.keyword_id"
+        },
+        {
+          "aliases": [
+            "it1",
+            "mi"
+          ],
+          "sql": "it1.id = mi.info_type_id"
+        },
+        {
+          "aliases": [
+            "cn",
+            "mc"
+          ],
+          "sql": "cn.id = mc.company_id"
+        },
+        {
+          "aliases": [
+            "ct",
+            "mc"
+          ],
+          "sql": "ct.id = mc.company_type_id"
+        },
+        {
+          "aliases": [
+            "cc",
+            "cct1"
+          ],
+          "sql": "cct1.id = cc.status_id"
+        }
+      ],
+      "unsupported_cross_alias_predicates": [],
+      "edges": [
+        [
+          "cc",
+          "cct1"
+        ],
+        [
+          "cc",
+          "mc"
+        ],
+        [
+          "cc",
+          "mi"
+        ],
+        [
+          "cc",
+          "mk"
+        ],
+        [
+          "cc",
+          "t"
+        ],
+        [
+          "cn",
+          "mc"
+        ],
+        [
+          "ct",
+          "mc"
+        ],
+        [
+          "it1",
+          "mi"
+        ],
+        [
+          "k",
+          "mk"
+        ],
+        [
+          "kt",
+          "t"
+        ],
+        [
+          "mc",
+          "mi"
+        ],
+        [
+          "mc",
+          "mk"
+        ],
+        [
+          "mc",
+          "t"
+        ],
+        [
+          "mi",
+          "mk"
+        ],
+        [
+          "mi",
+          "t"
+        ],
+        [
+          "mk",
+          "t"
+        ]
+      ],
+      "edge_count": 16,
+      "components": 1,
+      "cycle_rank": 6,
+      "density": 0.2909090909090909,
+      "max_degree": 6,
+      "self_join": false,
+      "size_stratum": "medium",
+      "density_band": "sparse",
+      "normalized_sql_sha256": "dcc87eaad908aa87b8ee0d85ac2ec0060e3534ab00dc2abf97dc2b24f26c6336",
+      "qdbo": {
+        "folder": "vendor/qdbo/workloads/join_ordering/JOB/q83",
+        "sql_sha256": "0115941960633919edac315eb3e40d1df1953a66b93cbab316244018d2adcb09",
+        "cards_sha256": "cbd55b0160b9bc305ff93115c5448adc99b9387cffe140a252f33b3a6ce1caed",
+        "factors_sha256": "12661453162a57d8f3f4bb0cdfe88789411bcb9afb4310cc49c909cd135f3643",
+        "normalized_sql_matches": true,
+        "alias_order_matches": true,
+        "dimensions_match": true,
+        "factor_above_one": false,
+        "cardinality_provenance": "unverified_published_artifact_inputs"
+      }
+    },
+    {
+      "query_id": "25a",
+      "template_id": 25,
+      "variant": "a",
+      "sql_path": "vendor/job/25a.sql",
+      "sql_sha256": "643c0557c8d898467d56c492ff7b0ebe4ebacaa6131af16e0b22f26ba9f21ace",
+      "relations": 9,
+      "alias_mapping": [
+        {
+          "index": 0,
+          "alias": "ci",
+          "table": "cast_info"
+        },
+        {
+          "index": 1,
+          "alias": "it1",
+          "table": "info_type"
+        },
+        {
+          "index": 2,
+          "alias": "it2",
+          "table": "info_type"
+        },
+        {
+          "index": 3,
+          "alias": "k",
+          "table": "keyword"
+        },
+        {
+          "index": 4,
+          "alias": "mi",
+          "table": "movie_info"
+        },
+        {
+          "index": 5,
+          "alias": "mi_idx",
+          "table": "movie_info_idx"
+        },
+        {
+          "index": 6,
+          "alias": "mk",
+          "table": "movie_keyword"
+        },
+        {
+          "index": 7,
+          "alias": "n",
+          "table": "name"
+        },
+        {
+          "index": 8,
+          "alias": "t",
+          "table": "title"
+        }
+      ],
+      "local_filters": {
+        "ci": [
+          "ci.note IN ('(writer)', '(head writer)', '(written by)', '(story)', '(story editor)')"
+        ],
+        "it1": [
+          "it1.info = 'genres'"
+        ],
+        "it2": [
+          "it2.info = 'votes'"
+        ],
+        "k": [
+          "k.keyword IN ('murder', 'blood', 'gore', 'death', 'female-nudity')"
+        ],
+        "mi": [
+          "mi.info = 'Horror'"
+        ],
+        "n": [
+          "n.gender = 'm'"
+        ]
+      },
+      "join_predicates": [
+        {
+          "aliases": [
+            "mi",
+            "t"
+          ],
+          "sql": "t.id = mi.movie_id"
+        },
+        {
+          "aliases": [
+            "mi_idx",
+            "t"
+          ],
+          "sql": "t.id = mi_idx.movie_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "t"
+          ],
+          "sql": "t.id = ci.movie_id"
+        },
+        {
+          "aliases": [
+            "mk",
+            "t"
+          ],
+          "sql": "t.id = mk.movie_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "mi"
+          ],
+          "sql": "ci.movie_id = mi.movie_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "mi_idx"
+          ],
+          "sql": "ci.movie_id = mi_idx.movie_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "mk"
+          ],
+          "sql": "ci.movie_id = mk.movie_id"
+        },
+        {
+          "aliases": [
+            "mi",
+            "mi_idx"
+          ],
+          "sql": "mi.movie_id = mi_idx.movie_id"
+        },
+        {
+          "aliases": [
+            "mi",
+            "mk"
+          ],
+          "sql": "mi.movie_id = mk.movie_id"
+        },
+        {
+          "aliases": [
+            "mi_idx",
+            "mk"
+          ],
+          "sql": "mi_idx.movie_id = mk.movie_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "n"
+          ],
+          "sql": "n.id = ci.person_id"
+        },
+        {
+          "aliases": [
+            "it1",
+            "mi"
+          ],
+          "sql": "it1.id = mi.info_type_id"
+        },
+        {
+          "aliases": [
+            "it2",
+            "mi_idx"
+          ],
+          "sql": "it2.id = mi_idx.info_type_id"
+        },
+        {
+          "aliases": [
+            "k",
+            "mk"
+          ],
+          "sql": "k.id = mk.keyword_id"
+        }
+      ],
+      "unsupported_cross_alias_predicates": [],
+      "edges": [
+        [
+          "ci",
+          "mi"
+        ],
+        [
+          "ci",
+          "mi_idx"
+        ],
+        [
+          "ci",
+          "mk"
+        ],
+        [
+          "ci",
+          "n"
+        ],
+        [
+          "ci",
+          "t"
+        ],
+        [
+          "it1",
+          "mi"
+        ],
+        [
+          "it2",
+          "mi_idx"
+        ],
+        [
+          "k",
+          "mk"
+        ],
+        [
+          "mi",
+          "mi_idx"
+        ],
+        [
+          "mi",
+          "mk"
+        ],
+        [
+          "mi",
+          "t"
+        ],
+        [
+          "mi_idx",
+          "mk"
+        ],
+        [
+          "mi_idx",
+          "t"
+        ],
+        [
+          "mk",
+          "t"
+        ]
+      ],
+      "edge_count": 14,
+      "components": 1,
+      "cycle_rank": 6,
+      "density": 0.3888888888888889,
+      "max_degree": 5,
+      "self_join": true,
+      "size_stratum": "medium",
+      "density_band": "moderate",
+      "normalized_sql_sha256": "bdc51520d8a943ec6726bc0b28b142c452a79f743ef66c4c5f403f1c5b4b0794",
+      "qdbo": {
+        "folder": "vendor/qdbo/workloads/join_ordering/JOB/q88",
+        "sql_sha256": "643c0557c8d898467d56c492ff7b0ebe4ebacaa6131af16e0b22f26ba9f21ace",
+        "cards_sha256": "3d3e1af07607d7819ad159a3e7aecd5372a47bf9175da8699d363183f319154e",
+        "factors_sha256": "4fe645d519180aad19554543ffb9df8e5fd69dfd8dc2efcbfdb3ded092293e76",
+        "normalized_sql_matches": true,
+        "alias_order_matches": true,
+        "dimensions_match": true,
+        "factor_above_one": false,
+        "cardinality_provenance": "unverified_published_artifact_inputs"
+      }
+    },
+    {
+      "query_id": "13a",
+      "template_id": 13,
+      "variant": "a",
+      "sql_path": "vendor/job/13a.sql",
+      "sql_sha256": "c7d5c4fa1a5eb37bc327f531c4fe49fa4b8e2fe2ad251938880cafb3c191553d",
+      "relations": 9,
+      "alias_mapping": [
+        {
+          "index": 0,
+          "alias": "cn",
+          "table": "company_name"
+        },
+        {
+          "index": 1,
+          "alias": "ct",
+          "table": "company_type"
+        },
+        {
+          "index": 2,
+          "alias": "it",
+          "table": "info_type"
+        },
+        {
+          "index": 3,
+          "alias": "it2",
+          "table": "info_type"
+        },
+        {
+          "index": 4,
+          "alias": "kt",
+          "table": "kind_type"
+        },
+        {
+          "index": 5,
+          "alias": "mc",
+          "table": "movie_companies"
+        },
+        {
+          "index": 6,
+          "alias": "mi",
+          "table": "movie_info"
+        },
+        {
+          "index": 7,
+          "alias": "miidx",
+          "table": "movie_info_idx"
+        },
+        {
+          "index": 8,
+          "alias": "t",
+          "table": "title"
+        }
+      ],
+      "local_filters": {
+        "cn": [
+          "cn.country_code = '[de]'"
+        ],
+        "ct": [
+          "ct.kind = 'production companies'"
+        ],
+        "it": [
+          "it.info = 'rating'"
+        ],
+        "it2": [
+          "it2.info = 'release dates'"
+        ],
+        "kt": [
+          "kt.kind = 'movie'"
+        ]
+      },
+      "join_predicates": [
+        {
+          "aliases": [
+            "mi",
+            "t"
+          ],
+          "sql": "mi.movie_id = t.id"
+        },
+        {
+          "aliases": [
+            "it2",
+            "mi"
+          ],
+          "sql": "it2.id = mi.info_type_id"
+        },
+        {
+          "aliases": [
+            "kt",
+            "t"
+          ],
+          "sql": "kt.id = t.kind_id"
+        },
+        {
+          "aliases": [
+            "mc",
+            "t"
+          ],
+          "sql": "mc.movie_id = t.id"
+        },
+        {
+          "aliases": [
+            "cn",
+            "mc"
+          ],
+          "sql": "cn.id = mc.company_id"
+        },
+        {
+          "aliases": [
+            "ct",
+            "mc"
+          ],
+          "sql": "ct.id = mc.company_type_id"
+        },
+        {
+          "aliases": [
+            "miidx",
+            "t"
+          ],
+          "sql": "miidx.movie_id = t.id"
+        },
+        {
+          "aliases": [
+            "it",
+            "miidx"
+          ],
+          "sql": "it.id = miidx.info_type_id"
+        },
+        {
+          "aliases": [
+            "mi",
+            "miidx"
+          ],
+          "sql": "mi.movie_id = miidx.movie_id"
+        },
+        {
+          "aliases": [
+            "mc",
+            "mi"
+          ],
+          "sql": "mi.movie_id = mc.movie_id"
+        },
+        {
+          "aliases": [
+            "mc",
+            "miidx"
+          ],
+          "sql": "miidx.movie_id = mc.movie_id"
+        }
+      ],
+      "unsupported_cross_alias_predicates": [],
+      "edges": [
+        [
+          "cn",
+          "mc"
+        ],
+        [
+          "ct",
+          "mc"
+        ],
+        [
+          "it",
+          "miidx"
+        ],
+        [
+          "it2",
+          "mi"
+        ],
+        [
+          "kt",
+          "t"
+        ],
+        [
+          "mc",
+          "mi"
+        ],
+        [
+          "mc",
+          "miidx"
+        ],
+        [
+          "mc",
+          "t"
+        ],
+        [
+          "mi",
+          "miidx"
+        ],
+        [
+          "mi",
+          "t"
+        ],
+        [
+          "miidx",
+          "t"
+        ]
+      ],
+      "edge_count": 11,
+      "components": 1,
+      "cycle_rank": 3,
+      "density": 0.3055555555555556,
+      "max_degree": 5,
+      "self_join": true,
+      "size_stratum": "medium",
+      "density_band": "sparse",
+      "normalized_sql_sha256": "9fd82253ee7595bd5185b98eeb83ee2902d25145805353e4eb45f03029cc0be0",
+      "qdbo": {
+        "folder": "vendor/qdbo/workloads/join_ordering/JOB/q45",
+        "sql_sha256": "c7d5c4fa1a5eb37bc327f531c4fe49fa4b8e2fe2ad251938880cafb3c191553d",
+        "cards_sha256": "47d542c6a754068659adee27d0874bbd792d06c7e600ec27b779fc4d135c21c9",
+        "factors_sha256": "e9984df42f168a2a8cce013b8484aff3395e81e7dc7c47bd79334412fc2effe0",
+        "normalized_sql_matches": true,
+        "alias_order_matches": true,
+        "dimensions_match": true,
+        "factor_above_one": false,
+        "cardinality_provenance": "unverified_published_artifact_inputs"
+      }
+    },
+    {
+      "query_id": "26a",
+      "template_id": 26,
+      "variant": "a",
+      "sql_path": "vendor/job/26a.sql",
+      "sql_sha256": "e68db6c6477fcd41adde48510c3eaec1765ad13fa9e6b899348dc996f6a589cc",
+      "relations": 12,
+      "alias_mapping": [
+        {
+          "index": 0,
+          "alias": "cc",
+          "table": "complete_cast"
+        },
+        {
+          "index": 1,
+          "alias": "cct1",
+          "table": "comp_cast_type"
+        },
+        {
+          "index": 2,
+          "alias": "cct2",
+          "table": "comp_cast_type"
+        },
+        {
+          "index": 3,
+          "alias": "chn",
+          "table": "char_name"
+        },
+        {
+          "index": 4,
+          "alias": "ci",
+          "table": "cast_info"
+        },
+        {
+          "index": 5,
+          "alias": "it2",
+          "table": "info_type"
+        },
+        {
+          "index": 6,
+          "alias": "k",
+          "table": "keyword"
+        },
+        {
+          "index": 7,
+          "alias": "kt",
+          "table": "kind_type"
+        },
+        {
+          "index": 8,
+          "alias": "mi_idx",
+          "table": "movie_info_idx"
+        },
+        {
+          "index": 9,
+          "alias": "mk",
+          "table": "movie_keyword"
+        },
+        {
+          "index": 10,
+          "alias": "n",
+          "table": "name"
+        },
+        {
+          "index": 11,
+          "alias": "t",
+          "table": "title"
+        }
+      ],
+      "local_filters": {
+        "cct1": [
+          "cct1.kind = 'cast'"
+        ],
+        "cct2": [
+          "cct2.kind LIKE '%complete%'"
+        ],
+        "chn": [
+          "chn.name IS NOT NULL",
+          "(chn.name LIKE '%man%' OR chn.name LIKE '%Man%')"
+        ],
+        "it2": [
+          "it2.info = 'rating'"
+        ],
+        "k": [
+          "k.keyword IN ('superhero', 'marvel-comics', 'based-on-comic', 'tv-special', 'fight', 'violence', 'magnet', 'web', 'claw', 'laser')"
+        ],
+        "kt": [
+          "kt.kind = 'movie'"
+        ],
+        "mi_idx": [
+          "mi_idx.info > '7.0'"
+        ],
+        "t": [
+          "t.production_year > 2000"
+        ]
+      },
+      "join_predicates": [
+        {
+          "aliases": [
+            "kt",
+            "t"
+          ],
+          "sql": "kt.id = t.kind_id"
+        },
+        {
+          "aliases": [
+            "mk",
+            "t"
+          ],
+          "sql": "t.id = mk.movie_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "t"
+          ],
+          "sql": "t.id = ci.movie_id"
+        },
+        {
+          "aliases": [
+            "cc",
+            "t"
+          ],
+          "sql": "t.id = cc.movie_id"
+        },
+        {
+          "aliases": [
+            "mi_idx",
+            "t"
+          ],
+          "sql": "t.id = mi_idx.movie_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "mk"
+          ],
+          "sql": "mk.movie_id = ci.movie_id"
+        },
+        {
+          "aliases": [
+            "cc",
+            "mk"
+          ],
+          "sql": "mk.movie_id = cc.movie_id"
+        },
+        {
+          "aliases": [
+            "mi_idx",
+            "mk"
+          ],
+          "sql": "mk.movie_id = mi_idx.movie_id"
+        },
+        {
+          "aliases": [
+            "cc",
+            "ci"
+          ],
+          "sql": "ci.movie_id = cc.movie_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "mi_idx"
+          ],
+          "sql": "ci.movie_id = mi_idx.movie_id"
+        },
+        {
+          "aliases": [
+            "cc",
+            "mi_idx"
+          ],
+          "sql": "cc.movie_id = mi_idx.movie_id"
+        },
+        {
+          "aliases": [
+            "chn",
+            "ci"
+          ],
+          "sql": "chn.id = ci.person_role_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "n"
+          ],
+          "sql": "n.id = ci.person_id"
+        },
+        {
+          "aliases": [
+            "k",
+            "mk"
+          ],
+          "sql": "k.id = mk.keyword_id"
+        },
+        {
+          "aliases": [
+            "cc",
+            "cct1"
+          ],
+          "sql": "cct1.id = cc.subject_id"
+        },
+        {
+          "aliases": [
+            "cc",
+            "cct2"
+          ],
+          "sql": "cct2.id = cc.status_id"
+        },
+        {
+          "aliases": [
+            "it2",
+            "mi_idx"
+          ],
+          "sql": "it2.id = mi_idx.info_type_id"
+        }
+      ],
+      "unsupported_cross_alias_predicates": [],
+      "edges": [
+        [
+          "cc",
+          "cct1"
+        ],
+        [
+          "cc",
+          "cct2"
+        ],
+        [
+          "cc",
+          "ci"
+        ],
+        [
+          "cc",
+          "mi_idx"
+        ],
+        [
+          "cc",
+          "mk"
+        ],
+        [
+          "cc",
+          "t"
+        ],
+        [
+          "chn",
+          "ci"
+        ],
+        [
+          "ci",
+          "mi_idx"
+        ],
+        [
+          "ci",
+          "mk"
+        ],
+        [
+          "ci",
+          "n"
+        ],
+        [
+          "ci",
+          "t"
+        ],
+        [
+          "it2",
+          "mi_idx"
+        ],
+        [
+          "k",
+          "mk"
+        ],
+        [
+          "kt",
+          "t"
+        ],
+        [
+          "mi_idx",
+          "mk"
+        ],
+        [
+          "mi_idx",
+          "t"
+        ],
+        [
+          "mk",
+          "t"
+        ]
+      ],
+      "edge_count": 17,
+      "components": 1,
+      "cycle_rank": 6,
+      "density": 0.25757575757575757,
+      "max_degree": 6,
+      "self_join": true,
+      "size_stratum": "large",
+      "density_band": "sparse",
+      "normalized_sql_sha256": "d5e03a31e7b7264cc7304edc50617579c4e66552d480c75de762548f35ba29ec",
+      "qdbo": {
+        "folder": "vendor/qdbo/workloads/join_ordering/JOB/q91",
+        "sql_sha256": "e68db6c6477fcd41adde48510c3eaec1765ad13fa9e6b899348dc996f6a589cc",
+        "cards_sha256": "6ecbd99d74519b0091bfd2455e0652e827d30c1d18af9a49ac5818c5b828067a",
+        "factors_sha256": "ed7b4ff66aa42b76829ed4db507f424ccd281a90e06ddf3644de16c3d8626b6e",
+        "normalized_sql_matches": true,
+        "alias_order_matches": true,
+        "dimensions_match": true,
+        "factor_above_one": false,
+        "cardinality_provenance": "unverified_published_artifact_inputs"
+      }
+    },
+    {
+      "query_id": "29a",
+      "template_id": 29,
+      "variant": "a",
+      "sql_path": "vendor/job/29a.sql",
+      "sql_sha256": "a693c52de057655e421c2ab5569503ac54da257653dcb0cde8020eef027b5c96",
+      "relations": 17,
+      "alias_mapping": [
+        {
+          "index": 0,
+          "alias": "an",
+          "table": "aka_name"
+        },
+        {
+          "index": 1,
+          "alias": "cc",
+          "table": "complete_cast"
+        },
+        {
+          "index": 2,
+          "alias": "cct1",
+          "table": "comp_cast_type"
+        },
+        {
+          "index": 3,
+          "alias": "cct2",
+          "table": "comp_cast_type"
+        },
+        {
+          "index": 4,
+          "alias": "chn",
+          "table": "char_name"
+        },
+        {
+          "index": 5,
+          "alias": "ci",
+          "table": "cast_info"
+        },
+        {
+          "index": 6,
+          "alias": "cn",
+          "table": "company_name"
+        },
+        {
+          "index": 7,
+          "alias": "it",
+          "table": "info_type"
+        },
+        {
+          "index": 8,
+          "alias": "it3",
+          "table": "info_type"
+        },
+        {
+          "index": 9,
+          "alias": "k",
+          "table": "keyword"
+        },
+        {
+          "index": 10,
+          "alias": "mc",
+          "table": "movie_companies"
+        },
+        {
+          "index": 11,
+          "alias": "mi",
+          "table": "movie_info"
+        },
+        {
+          "index": 12,
+          "alias": "mk",
+          "table": "movie_keyword"
+        },
+        {
+          "index": 13,
+          "alias": "n",
+          "table": "name"
+        },
+        {
+          "index": 14,
+          "alias": "pi",
+          "table": "person_info"
+        },
+        {
+          "index": 15,
+          "alias": "rt",
+          "table": "role_type"
+        },
+        {
+          "index": 16,
+          "alias": "t",
+          "table": "title"
+        }
+      ],
+      "local_filters": {
+        "cct1": [
+          "cct1.kind = 'cast'"
+        ],
+        "cct2": [
+          "cct2.kind = 'complete+verified'"
+        ],
+        "chn": [
+          "chn.name = 'Queen'"
+        ],
+        "ci": [
+          "ci.note IN ('(voice)', '(voice) (uncredited)', '(voice: English version)')"
+        ],
+        "cn": [
+          "cn.country_code = '[us]'"
+        ],
+        "it": [
+          "it.info = 'release dates'"
+        ],
+        "it3": [
+          "it3.info = 'trivia'"
+        ],
+        "k": [
+          "k.keyword = 'computer-animation'"
+        ],
+        "mi": [
+          "mi.info IS NOT NULL",
+          "(mi.info LIKE 'Japan:%200%' OR mi.info LIKE 'USA:%200%')"
+        ],
+        "n": [
+          "n.gender = 'f'",
+          "n.name LIKE '%An%'"
+        ],
+        "rt": [
+          "rt.role = 'actress'"
+        ],
+        "t": [
+          "t.title = 'Shrek 2'",
+          "t.production_year BETWEEN 2000 AND 2010"
+        ]
+      },
+      "join_predicates": [
+        {
+          "aliases": [
+            "mi",
+            "t"
+          ],
+          "sql": "t.id = mi.movie_id"
+        },
+        {
+          "aliases": [
+            "mc",
+            "t"
+          ],
+          "sql": "t.id = mc.movie_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "t"
+          ],
+          "sql": "t.id = ci.movie_id"
+        },
+        {
+          "aliases": [
+            "mk",
+            "t"
+          ],
+          "sql": "t.id = mk.movie_id"
+        },
+        {
+          "aliases": [
+            "cc",
+            "t"
+          ],
+          "sql": "t.id = cc.movie_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "mc"
+          ],
+          "sql": "mc.movie_id = ci.movie_id"
+        },
+        {
+          "aliases": [
+            "mc",
+            "mi"
+          ],
+          "sql": "mc.movie_id = mi.movie_id"
+        },
+        {
+          "aliases": [
+            "mc",
+            "mk"
+          ],
+          "sql": "mc.movie_id = mk.movie_id"
+        },
+        {
+          "aliases": [
+            "cc",
+            "mc"
+          ],
+          "sql": "mc.movie_id = cc.movie_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "mi"
+          ],
+          "sql": "mi.movie_id = ci.movie_id"
+        },
+        {
+          "aliases": [
+            "mi",
+            "mk"
+          ],
+          "sql": "mi.movie_id = mk.movie_id"
+        },
+        {
+          "aliases": [
+            "cc",
+            "mi"
+          ],
+          "sql": "mi.movie_id = cc.movie_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "mk"
+          ],
+          "sql": "ci.movie_id = mk.movie_id"
+        },
+        {
+          "aliases": [
+            "cc",
+            "ci"
+          ],
+          "sql": "ci.movie_id = cc.movie_id"
+        },
+        {
+          "aliases": [
+            "cc",
+            "mk"
+          ],
+          "sql": "mk.movie_id = cc.movie_id"
+        },
+        {
+          "aliases": [
+            "cn",
+            "mc"
+          ],
+          "sql": "cn.id = mc.company_id"
+        },
+        {
+          "aliases": [
+            "it",
+            "mi"
+          ],
+          "sql": "it.id = mi.info_type_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "n"
+          ],
+          "sql": "n.id = ci.person_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "rt"
+          ],
+          "sql": "rt.id = ci.role_id"
+        },
+        {
+          "aliases": [
+            "an",
+            "n"
+          ],
+          "sql": "n.id = an.person_id"
+        },
+        {
+          "aliases": [
+            "an",
+            "ci"
+          ],
+          "sql": "ci.person_id = an.person_id"
+        },
+        {
+          "aliases": [
+            "chn",
+            "ci"
+          ],
+          "sql": "chn.id = ci.person_role_id"
+        },
+        {
+          "aliases": [
+            "n",
+            "pi"
+          ],
+          "sql": "n.id = pi.person_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "pi"
+          ],
+          "sql": "ci.person_id = pi.person_id"
+        },
+        {
+          "aliases": [
+            "it3",
+            "pi"
+          ],
+          "sql": "it3.id = pi.info_type_id"
+        },
+        {
+          "aliases": [
+            "k",
+            "mk"
+          ],
+          "sql": "k.id = mk.keyword_id"
+        },
+        {
+          "aliases": [
+            "cc",
+            "cct1"
+          ],
+          "sql": "cct1.id = cc.subject_id"
+        },
+        {
+          "aliases": [
+            "cc",
+            "cct2"
+          ],
+          "sql": "cct2.id = cc.status_id"
+        }
+      ],
+      "unsupported_cross_alias_predicates": [],
+      "edges": [
+        [
+          "an",
+          "ci"
+        ],
+        [
+          "an",
+          "n"
+        ],
+        [
+          "cc",
+          "cct1"
+        ],
+        [
+          "cc",
+          "cct2"
+        ],
+        [
+          "cc",
+          "ci"
+        ],
+        [
+          "cc",
+          "mc"
+        ],
+        [
+          "cc",
+          "mi"
+        ],
+        [
+          "cc",
+          "mk"
+        ],
+        [
+          "cc",
+          "t"
+        ],
+        [
+          "chn",
+          "ci"
+        ],
+        [
+          "ci",
+          "mc"
+        ],
+        [
+          "ci",
+          "mi"
+        ],
+        [
+          "ci",
+          "mk"
+        ],
+        [
+          "ci",
+          "n"
+        ],
+        [
+          "ci",
+          "pi"
+        ],
+        [
+          "ci",
+          "rt"
+        ],
+        [
+          "ci",
+          "t"
+        ],
+        [
+          "cn",
+          "mc"
+        ],
+        [
+          "it",
+          "mi"
+        ],
+        [
+          "it3",
+          "pi"
+        ],
+        [
+          "k",
+          "mk"
+        ],
+        [
+          "mc",
+          "mi"
+        ],
+        [
+          "mc",
+          "mk"
+        ],
+        [
+          "mc",
+          "t"
+        ],
+        [
+          "mi",
+          "mk"
+        ],
+        [
+          "mi",
+          "t"
+        ],
+        [
+          "mk",
+          "t"
+        ],
+        [
+          "n",
+          "pi"
+        ]
+      ],
+      "edge_count": 28,
+      "components": 1,
+      "cycle_rank": 12,
+      "density": 0.20588235294117646,
+      "max_degree": 10,
+      "self_join": true,
+      "size_stratum": "large",
+      "density_band": "sparse",
+      "normalized_sql_sha256": "08d7abb544e090e422e382ea827681f35bb5d82df112ad0b19783f59a9c4ce19",
+      "qdbo": {
+        "folder": "vendor/qdbo/workloads/join_ordering/JOB/q100",
+        "sql_sha256": "a693c52de057655e421c2ab5569503ac54da257653dcb0cde8020eef027b5c96",
+        "cards_sha256": "ea5a55d6cec5ce323c8762592f8493be9e18b794fcced092fb5b2b4681ec5afa",
+        "factors_sha256": "61bcdb5f9b280547b95115af993a9160cfbfc8e21fd43ba2164728e4e2487408",
+        "normalized_sql_matches": true,
+        "alias_order_matches": true,
+        "dimensions_match": true,
+        "factor_above_one": false,
+        "cardinality_provenance": "unverified_published_artifact_inputs"
+      }
+    },
+    {
+      "query_id": "24a",
+      "template_id": 24,
+      "variant": "a",
+      "sql_path": "vendor/job/24a.sql",
+      "sql_sha256": "2364e4924f1ad3a81b07420e6d5310d3220df7474c5b11b50ed062e884daf480",
+      "relations": 12,
+      "alias_mapping": [
+        {
+          "index": 0,
+          "alias": "an",
+          "table": "aka_name"
+        },
+        {
+          "index": 1,
+          "alias": "chn",
+          "table": "char_name"
+        },
+        {
+          "index": 2,
+          "alias": "ci",
+          "table": "cast_info"
+        },
+        {
+          "index": 3,
+          "alias": "cn",
+          "table": "company_name"
+        },
+        {
+          "index": 4,
+          "alias": "it",
+          "table": "info_type"
+        },
+        {
+          "index": 5,
+          "alias": "k",
+          "table": "keyword"
+        },
+        {
+          "index": 6,
+          "alias": "mc",
+          "table": "movie_companies"
+        },
+        {
+          "index": 7,
+          "alias": "mi",
+          "table": "movie_info"
+        },
+        {
+          "index": 8,
+          "alias": "mk",
+          "table": "movie_keyword"
+        },
+        {
+          "index": 9,
+          "alias": "n",
+          "table": "name"
+        },
+        {
+          "index": 10,
+          "alias": "rt",
+          "table": "role_type"
+        },
+        {
+          "index": 11,
+          "alias": "t",
+          "table": "title"
+        }
+      ],
+      "local_filters": {
+        "ci": [
+          "ci.note IN ('(voice)', '(voice: Japanese version)', '(voice) (uncredited)', '(voice: English version)')"
+        ],
+        "cn": [
+          "cn.country_code = '[us]'"
+        ],
+        "it": [
+          "it.info = 'release dates'"
+        ],
+        "k": [
+          "k.keyword IN ('hero', 'martial-arts', 'hand-to-hand-combat')"
+        ],
+        "mi": [
+          "mi.info IS NOT NULL",
+          "(mi.info LIKE 'Japan:%201%' OR mi.info LIKE 'USA:%201%')"
+        ],
+        "n": [
+          "n.gender = 'f'",
+          "n.name LIKE '%An%'"
+        ],
+        "rt": [
+          "rt.role = 'actress'"
+        ],
+        "t": [
+          "t.production_year > 2010"
+        ]
+      },
+      "join_predicates": [
+        {
+          "aliases": [
+            "mi",
+            "t"
+          ],
+          "sql": "t.id = mi.movie_id"
+        },
+        {
+          "aliases": [
+            "mc",
+            "t"
+          ],
+          "sql": "t.id = mc.movie_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "t"
+          ],
+          "sql": "t.id = ci.movie_id"
+        },
+        {
+          "aliases": [
+            "mk",
+            "t"
+          ],
+          "sql": "t.id = mk.movie_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "mc"
+          ],
+          "sql": "mc.movie_id = ci.movie_id"
+        },
+        {
+          "aliases": [
+            "mc",
+            "mi"
+          ],
+          "sql": "mc.movie_id = mi.movie_id"
+        },
+        {
+          "aliases": [
+            "mc",
+            "mk"
+          ],
+          "sql": "mc.movie_id = mk.movie_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "mi"
+          ],
+          "sql": "mi.movie_id = ci.movie_id"
+        },
+        {
+          "aliases": [
+            "mi",
+            "mk"
+          ],
+          "sql": "mi.movie_id = mk.movie_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "mk"
+          ],
+          "sql": "ci.movie_id = mk.movie_id"
+        },
+        {
+          "aliases": [
+            "cn",
+            "mc"
+          ],
+          "sql": "cn.id = mc.company_id"
+        },
+        {
+          "aliases": [
+            "it",
+            "mi"
+          ],
+          "sql": "it.id = mi.info_type_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "n"
+          ],
+          "sql": "n.id = ci.person_id"
+        },
+        {
+          "aliases": [
+            "ci",
+            "rt"
+          ],
+          "sql": "rt.id = ci.role_id"
+        },
+        {
+          "aliases": [
+            "an",
+            "n"
+          ],
+          "sql": "n.id = an.person_id"
+        },
+        {
+          "aliases": [
+            "an",
+            "ci"
+          ],
+          "sql": "ci.person_id = an.person_id"
+        },
+        {
+          "aliases": [
+            "chn",
+            "ci"
+          ],
+          "sql": "chn.id = ci.person_role_id"
+        },
+        {
+          "aliases": [
+            "k",
+            "mk"
+          ],
+          "sql": "k.id = mk.keyword_id"
+        }
+      ],
+      "unsupported_cross_alias_predicates": [],
+      "edges": [
+        [
+          "an",
+          "ci"
+        ],
+        [
+          "an",
+          "n"
+        ],
+        [
+          "chn",
+          "ci"
+        ],
+        [
+          "ci",
+          "mc"
+        ],
+        [
+          "ci",
+          "mi"
+        ],
+        [
+          "ci",
+          "mk"
+        ],
+        [
+          "ci",
+          "n"
+        ],
+        [
+          "ci",
+          "rt"
+        ],
+        [
+          "ci",
+          "t"
+        ],
+        [
+          "cn",
+          "mc"
+        ],
+        [
+          "it",
+          "mi"
+        ],
+        [
+          "k",
+          "mk"
+        ],
+        [
+          "mc",
+          "mi"
+        ],
+        [
+          "mc",
+          "mk"
+        ],
+        [
+          "mc",
+          "t"
+        ],
+        [
+          "mi",
+          "mk"
+        ],
+        [
+          "mi",
+          "t"
+        ],
+        [
+          "mk",
+          "t"
+        ]
+      ],
+      "edge_count": 18,
+      "components": 1,
+      "cycle_rank": 7,
+      "density": 0.2727272727272727,
+      "max_degree": 8,
+      "self_join": false,
+      "size_stratum": "large",
+      "density_band": "sparse",
+      "normalized_sql_sha256": "d0c9ef27c3df927c78b14c36ac8718762d4ec32e0e41d8053736667161efe002",
+      "qdbo": {
+        "folder": "vendor/qdbo/workloads/join_ordering/JOB/q86",
+        "sql_sha256": "2364e4924f1ad3a81b07420e6d5310d3220df7474c5b11b50ed062e884daf480",
+        "cards_sha256": "bafb33bf20cc8d409c40e6115394ea69ac17cc4ac547e1b0669fb75fb4bd2d69",
+        "factors_sha256": "931f0bcc660fdf1dec0f1c8451f09c801a29d54b7652c8ab578c1a57b3e489b6",
+        "normalized_sql_matches": true,
+        "alias_order_matches": true,
+        "dimensions_match": true,
+        "factor_above_one": false,
+        "cardinality_provenance": "unverified_published_artifact_inputs"
+      }
+    },
+    {
+      "query_id": "28a",
+      "template_id": 28,
+      "variant": "a",
+      "sql_path": "vendor/job/28a.sql",
+      "sql_sha256": "f4d032f672de59f119453a2f948717e1c88dbd2358e1fb5186ca295030eac9d1",
+      "relations": 14,
+      "alias_mapping": [
+        {
+          "index": 0,
+          "alias": "cc",
+          "table": "complete_cast"
+        },
+        {
+          "index": 1,
+          "alias": "cct1",
+          "table": "comp_cast_type"
+        },
+        {
+          "index": 2,
+          "alias": "cct2",
+          "table": "comp_cast_type"
+        },
+        {
+          "index": 3,
+          "alias": "cn",
+          "table": "company_name"
+        },
+        {
+          "index": 4,
+          "alias": "ct",
+          "table": "company_type"
+        },
+        {
+          "index": 5,
+          "alias": "it1",
+          "table": "info_type"
+        },
+        {
+          "index": 6,
+          "alias": "it2",
+          "table": "info_type"
+        },
+        {
+          "index": 7,
+          "alias": "k",
+          "table": "keyword"
+        },
+        {
+          "index": 8,
+          "alias": "kt",
+          "table": "kind_type"
+        },
+        {
+          "index": 9,
+          "alias": "mc",
+          "table": "movie_companies"
+        },
+        {
+          "index": 10,
+          "alias": "mi",
+          "table": "movie_info"
+        },
+        {
+          "index": 11,
+          "alias": "mi_idx",
+          "table": "movie_info_idx"
+        },
+        {
+          "index": 12,
+          "alias": "mk",
+          "table": "movie_keyword"
+        },
+        {
+          "index": 13,
+          "alias": "t",
+          "table": "title"
+        }
+      ],
+      "local_filters": {
+        "cct1": [
+          "cct1.kind = 'crew'"
+        ],
+        "cct2": [
+          "cct2.kind <> 'complete+verified'"
+        ],
+        "cn": [
+          "cn.country_code <> '[us]'"
+        ],
+        "it1": [
+          "it1.info = 'countries'"
+        ],
+        "it2": [
+          "it2.info = 'rating'"
+        ],
+        "k": [
+          "k.keyword IN ('murder', 'murder-in-title', 'blood', 'violence')"
+        ],
+        "kt": [
+          "kt.kind IN ('movie', 'episode')"
+        ],
+        "mc": [
+          "mc.note NOT LIKE '%(USA)%'",
+          "mc.note LIKE '%(200%)%'"
+        ],
+        "mi": [
+          "mi.info IN ('Sweden', 'Norway', 'Germany', 'Denmark', 'Swedish', 'Danish', 'Norwegian', 'German', 'USA', 'American')"
+        ],
+        "mi_idx": [
+          "mi_idx.info < '8.5'"
+        ],
+        "t": [
+          "t.production_year > 2000"
+        ]
+      },
+      "join_predicates": [
+        {
+          "aliases": [
+            "kt",
+            "t"
+          ],
+          "sql": "kt.id = t.kind_id"
+        },
+        {
+          "aliases": [
+            "mi",
+            "t"
+          ],
+          "sql": "t.id = mi.movie_id"
+        },
+        {
+          "aliases": [
+            "mk",
+            "t"
+          ],
+          "sql": "t.id = mk.movie_id"
+        },
+        {
+          "aliases": [
+            "mi_idx",
+            "t"
+          ],
+          "sql": "t.id = mi_idx.movie_id"
+        },
+        {
+          "aliases": [
+            "mc",
+            "t"
+          ],
+          "sql": "t.id = mc.movie_id"
+        },
+        {
+          "aliases": [
+            "cc",
+            "t"
+          ],
+          "sql": "t.id = cc.movie_id"
+        },
+        {
+          "aliases": [
+            "mi",
+            "mk"
+          ],
+          "sql": "mk.movie_id = mi.movie_id"
+        },
+        {
+          "aliases": [
+            "mi_idx",
+            "mk"
+          ],
+          "sql": "mk.movie_id = mi_idx.movie_id"
+        },
+        {
+          "aliases": [
+            "mc",
+            "mk"
+          ],
+          "sql": "mk.movie_id = mc.movie_id"
+        },
+        {
+          "aliases": [
+            "cc",
+            "mk"
+          ],
+          "sql": "mk.movie_id = cc.movie_id"
+        },
+        {
+          "aliases": [
+            "mi",
+            "mi_idx"
+          ],
+          "sql": "mi.movie_id = mi_idx.movie_id"
+        },
+        {
+          "aliases": [
+            "mc",
+            "mi"
+          ],
+          "sql": "mi.movie_id = mc.movie_id"
+        },
+        {
+          "aliases": [
+            "cc",
+            "mi"
+          ],
+          "sql": "mi.movie_id = cc.movie_id"
+        },
+        {
+          "aliases": [
+            "mc",
+            "mi_idx"
+          ],
+          "sql": "mc.movie_id = mi_idx.movie_id"
+        },
+        {
+          "aliases": [
+            "cc",
+            "mc"
+          ],
+          "sql": "mc.movie_id = cc.movie_id"
+        },
+        {
+          "aliases": [
+            "cc",
+            "mi_idx"
+          ],
+          "sql": "mi_idx.movie_id = cc.movie_id"
+        },
+        {
+          "aliases": [
+            "k",
+            "mk"
+          ],
+          "sql": "k.id = mk.keyword_id"
+        },
+        {
+          "aliases": [
+            "it1",
+            "mi"
+          ],
+          "sql": "it1.id = mi.info_type_id"
+        },
+        {
+          "aliases": [
+            "it2",
+            "mi_idx"
+          ],
+          "sql": "it2.id = mi_idx.info_type_id"
+        },
+        {
+          "aliases": [
+            "ct",
+            "mc"
+          ],
+          "sql": "ct.id = mc.company_type_id"
+        },
+        {
+          "aliases": [
+            "cn",
+            "mc"
+          ],
+          "sql": "cn.id = mc.company_id"
+        },
+        {
+          "aliases": [
+            "cc",
+            "cct1"
+          ],
+          "sql": "cct1.id = cc.subject_id"
+        },
+        {
+          "aliases": [
+            "cc",
+            "cct2"
+          ],
+          "sql": "cct2.id = cc.status_id"
+        }
+      ],
+      "unsupported_cross_alias_predicates": [],
+      "edges": [
+        [
+          "cc",
+          "cct1"
+        ],
+        [
+          "cc",
+          "cct2"
+        ],
+        [
+          "cc",
+          "mc"
+        ],
+        [
+          "cc",
+          "mi"
+        ],
+        [
+          "cc",
+          "mi_idx"
+        ],
+        [
+          "cc",
+          "mk"
+        ],
+        [
+          "cc",
+          "t"
+        ],
+        [
+          "cn",
+          "mc"
+        ],
+        [
+          "ct",
+          "mc"
+        ],
+        [
+          "it1",
+          "mi"
+        ],
+        [
+          "it2",
+          "mi_idx"
+        ],
+        [
+          "k",
+          "mk"
+        ],
+        [
+          "kt",
+          "t"
+        ],
+        [
+          "mc",
+          "mi"
+        ],
+        [
+          "mc",
+          "mi_idx"
+        ],
+        [
+          "mc",
+          "mk"
+        ],
+        [
+          "mc",
+          "t"
+        ],
+        [
+          "mi",
+          "mi_idx"
+        ],
+        [
+          "mi",
+          "mk"
+        ],
+        [
+          "mi",
+          "t"
+        ],
+        [
+          "mi_idx",
+          "mk"
+        ],
+        [
+          "mi_idx",
+          "t"
+        ],
+        [
+          "mk",
+          "t"
+        ]
+      ],
+      "edge_count": 23,
+      "components": 1,
+      "cycle_rank": 10,
+      "density": 0.25274725274725274,
+      "max_degree": 7,
+      "self_join": true,
+      "size_stratum": "large",
+      "density_band": "sparse",
+      "normalized_sql_sha256": "94467a19d6cbd436455ea4ae18ab9f566deb439bc394695f81403eeba6802610",
+      "qdbo": {
+        "folder": "vendor/qdbo/workloads/join_ordering/JOB/q97",
+        "sql_sha256": "f4d032f672de59f119453a2f948717e1c88dbd2358e1fb5186ca295030eac9d1",
+        "cards_sha256": "e943ba0372c66a902ec6bae54251587088a4f08b3e2c575f4bd5a014a54259ea",
+        "factors_sha256": "af84147fecd60161af86d93d36d31e4fa574be6162c893a7a0f1e6901881f788",
+        "normalized_sql_matches": true,
+        "alias_order_matches": true,
+        "dimensions_match": true,
+        "factor_above_one": false,
+        "cardinality_provenance": "unverified_published_artifact_inputs"
+      }
+    }
+  ]
+}

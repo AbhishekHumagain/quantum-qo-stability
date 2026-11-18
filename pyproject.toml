@@ -7,10 +7,11 @@ name = "qopt-reliability"
 version = "0.1.0"
 description = "Reproducible reliability experiments for stochastic join ordering"
 requires-python = ">=3.12"
-dependencies = ["dwave-samplers", "psycopg[binary]", "numpy", "scipy", "pandas", "matplotlib"]
+dependencies = ["dwave-samplers", "psycopg[binary]", "numpy", "scipy", "pandas", "matplotlib", "sqlglot", "networkx"]
 
 [project.optional-dependencies]
 dev = ["pytest"]
+research = ["pypdf"]
 
 [project.scripts]
 qopt = "qopt.cli:main"

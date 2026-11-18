@@ -9,3 +9,6 @@ vendor/
 results/
 .env
 *.log
+data/
+references/pdfs/
+references/text/
