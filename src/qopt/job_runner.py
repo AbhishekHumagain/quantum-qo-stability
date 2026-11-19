@@ -167,9 +167,9 @@ def execute_query_plans(store, conn, query_id, candidates, config, session):
            for r in range(config['execution_repeats']) for h in candidates):
         return
     timeout_plans = {r['payload'].get('requested_plan_hash') for r in store.records(query_id=query_id)
-                     if r['phase'] in {'warmup','execution'} and r['payload'] and r['payload']['status']=='timeout'}
+                     if r['state']=='finished' and r['phase'] in {'warmup','execution'} and r['payload'] and r['payload']['status']=='timeout'}
     prior_failed = {r['payload'].get('requested_plan_hash') for r in store.records(query_id=query_id)
-                    if r['phase'] in {'warmup','execution'} and r['payload'] and r['payload']['status']!='ok'}
+                    if r['state']=='finished' and r['phase'] in {'warmup','execution'} and r['payload'] and r['payload']['status']!='ok'}
     # A fresh session warms every still-eligible plan, including after a crash.
     for fingerprint in sorted(candidates):
         if fingerprint in prior_failed:

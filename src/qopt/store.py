@@ -53,6 +53,17 @@ class RunStore:
         if not existing:
             self.db.execute("INSERT INTO metadata VALUES('identity', ?)", (packed(identity),))
             self.db.commit()
+        # A warmup key contains its session ID, so a new session will never
+        # revisit an orphaned key. Preserve it as an abandoned attempt instead.
+        with self.db:
+            for key,attempt,payload in self.db.execute(
+                    "SELECT key,attempt,payload FROM tasks WHERE state='running' AND phase='warmup'").fetchall():
+                value = json.loads(payload) if payload else {}
+                value.update(status='interrupted',task_key=key,attempt=attempt)
+                self.db.execute("UPDATE tasks SET state='abandoned',payload=? WHERE key=?",
+                                (packed(value),key))
+                self.db.execute('INSERT INTO events(task_key,event,utc,detail) VALUES(?,?,?,?)',
+                                (key,'interrupted_attempt',stamp(),packed(value)))
         self.completed = 0
         self.max_new_tasks = max_new_tasks
 
@@ -85,8 +96,9 @@ class RunStore:
             if previous:
                 self.db.execute('INSERT INTO events(task_key,event,utc,detail) VALUES(?,?,?,?)',
                                 (key,'interrupted_attempt',stamp(),packed({'attempt':previous[0]})))
-            self.db.execute('INSERT OR REPLACE INTO tasks VALUES(?,?,?,?,?,NULL)',
-                            (key,phase,query_id,'running',attempt))
+            self.db.execute('INSERT OR REPLACE INTO tasks VALUES(?,?,?,?,?,?)',
+                            (key,phase,query_id,'running',attempt,
+                             packed({**(context or {}),'status':'running'})))
             self.db.execute('INSERT INTO events(task_key,event,utc) VALUES(?,?,?)', (key,'started',stamp()))
         started = time.perf_counter()
         try:

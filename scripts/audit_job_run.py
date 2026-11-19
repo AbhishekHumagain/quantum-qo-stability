@@ -20,7 +20,10 @@ def main():
         rows=[{'key':k,'phase':p,'qid':q,'state':s,'attempt':a,'raw':v,'value':json.loads(v) if v else None}
               for k,p,q,s,a,v in db.execute('SELECT key,phase,query_id,state,attempt,payload FROM tasks ORDER BY key')]
     assert json.loads((args.run/'state.json').read_text())['state']=='complete'
-    assert all(row['state']=='finished' for row in rows), 'Unfinished task records'
+    assert all(row['state']=='finished' or (row['state']=='abandoned' and row['phase']=='warmup'
+               and row['value']['status']=='interrupted') for row in rows), 'Unfinished task records'
+    abandoned_warmups=sum(row['state']=='abandoned' for row in rows)
+    rows=[row for row in rows if row['state']=='finished']
     root=Path(__file__).resolve().parents[1]
     pilot_path=root/identity['config']['workload']
     assert hashlib.sha256(pilot_path.read_bytes()).hexdigest()==identity['pilot_sha256']
@@ -67,6 +70,7 @@ def main():
         assert by_key[key]['attempt']==1
     summary={'complete':True,'optimizer_trials':len(pilot['queries'])*expected_trials*2,
         'verified_measured_executions':verified,'timeout_attempts':sum(timeout_evidence.values()),
+        'abandoned_warmup_attempts':abandoned_warmups,
         'initial_checkpoint_records_unchanged':len(checkpoint),'plan_evidence_verified':True}
     (args.run/'integrity-audit.json').write_text(json.dumps(summary,indent=2)+'\n')
     print(json.dumps(summary,indent=2))
