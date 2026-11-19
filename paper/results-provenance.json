@@ -2,5 +2,11 @@
   "source": "docs/pilot-001/summary.json",
   "summary_sha256": "65907b7a2d2e8a6753e62ae95a567cadf46d75e22c9db01da091d3a5ccc04b51",
   "measurement_source_commit": "cdca2c90ca68ecdfc14c61ef5305161eacaf08b7",
-  "note": "Generated tables and copied figure use audited pilot-001, including its explicitly post-hoc timing screen."
+  "note": "Generated tables and copied figure use audited pilot-001, including its explicitly post-hoc timing screen.",
+  "calibration": {
+    "source": "docs/calibration-001/summary.json",
+    "summary_sha256": "e5995c35b6e64e57242336b184fdcf4c782f9846bdbe3f2ce25c790e18da95d0",
+    "measurement_source_commit": "edd06b4ed082dc72ff38925ce6a883c94f146472",
+    "note": "Separate baseline-only calibration; it does not replace pilot candidate measurements."
+  }
 }

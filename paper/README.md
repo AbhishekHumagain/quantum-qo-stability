@@ -10,7 +10,8 @@ have not been supplied; none were invented. This is generic IEEE conference
 format, not a claim of compliance with a selected venue's submission rules.
 There is no invented venue, copyright notice, funding statement, or coauthor.
 
-The draft reports audited pilot 001, including explicit post-hoc exclusions,
+The draft reports audited pilot 001 and the separate baseline calibration 001.
+It includes explicit post-hoc pilot exclusions,
 unknown comparisons, high baseline noise, and the limits of CPU-only evidence.
 It is a first research draft, not a submission-ready manuscript. See
 `../docs/submission-readiness.md` for the remaining experimental gates.
@@ -18,7 +19,7 @@ It is a first research draft, not a submission-ready manuscript. See
 Files:
 - `main.tex`: manuscript.
 - `references.bib`: cited primary sources and artifact.
-- `tables/`: automatically generated pilot tables.
+- `tables/`: automatically generated pilot and calibration tables.
 - `figures/pilot.png`: reviewed pilot figure.
 - `results-provenance.json`: exact summary hash and measurement source revision.
 

@@ -11,7 +11,9 @@ and the [measured pilot report and evidence](docs/pilot-001/README.md).
 The [IEEE conference first draft](paper/main.tex) reports these results with their
 limitations. Build an Overleaf ZIP and reviewed PDF using
 `bash scripts/build_paper.sh`. The [submission evidence plan](docs/submission-readiness.md)
-tracks the controlled follow-up experiments.
+tracks the controlled follow-up experiments. The separate
+[baseline calibration](docs/calibration-001/README.md) completed all 360 slots
+without detected clock discrepancies, while substantial timing variation remains.
 
 ## What works
 

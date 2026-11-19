@@ -34,7 +34,25 @@ def main():
         'summary_sha256':hashlib.sha256((source/'summary.json').read_bytes()).hexdigest(),
         'measurement_source_commit':evidence['frozen_code_commit'],
         'note':'Generated tables and copied figure use audited pilot-001, including its explicitly post-hoc timing screen.'},indent=2)+'\n')
-    print('Manuscript assets generated from verified pilot-001')
+    calibration=ROOT/'docs/calibration-001'
+    if (calibration/'evidence.json').exists():
+        subprocess.run([sys.executable,str(ROOT/'scripts/analyze_measurement_calibration.py'),
+                        '--verify-export',str(calibration)],check=True)
+        calibrated=json.loads((calibration/'summary.json').read_text())
+        rows=[]
+        for q in calibrated['queries']:
+            m=q['modes']
+            rows.append(' & '.join([q['query_id'],fmt(m['timing_on']['server']['median_ms']),
+                fmt(m['timing_off']['server']['median_ms']),fmt(q['profile_on_off_server_median_ratio']),
+                fmt(m['plain']['client']['median_ms']),fmt(m['plain']['client']['cv'])])+r' \\')
+        (paper/'tables/calibration-results.tex').write_text('\n'.join(rows)+'\n'+r'\bottomrule'+'\n')
+        provenance=json.loads((paper/'results-provenance.json').read_text())
+        provenance['calibration']={'source':'docs/calibration-001/summary.json',
+            'summary_sha256':hashlib.sha256((calibration/'summary.json').read_bytes()).hexdigest(),
+            'measurement_source_commit':json.loads((calibration/'evidence.json').read_text())['measurement_source_commit'],
+            'note':'Separate baseline-only calibration; it does not replace pilot candidate measurements.'}
+        (paper/'results-provenance.json').write_text(json.dumps(provenance,indent=2)+'\n')
+    print('Manuscript assets generated from verified evidence')
 
 if __name__=='__main__':
     main()

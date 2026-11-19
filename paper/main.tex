@@ -28,7 +28,9 @@ numeric timeout caps. A post-hoc clock audit flags 27 measured repeats across 23
 plans, and baseline variability limits performance interpretation. After the
 quality screen, descriptive identification bounds for profiled slowdown exceeding
 1.25 times the baseline are 48.6--86.7\% for SA and 25.0--44.2\% for GEQO.
-A simple estimated-cost guard rejects all SA proposals, illustrating why fallback
+A separate 360-slot baseline calibration detects no clock discrepancies but retains
+substantial timing variability. A simple estimated-cost guard rejects all SA
+proposals, illustrating why fallback
 frequency and useful optimization must be evaluated together. These results are
 an engineering pilot, not a quantum-hardware evaluation, a full QDBO reproduction,
 or evidence of population-level runtime superiority.
@@ -220,8 +222,8 @@ Timing uses EXPLAIN ANALYZE with buffer statistics and JSON output, and default
 node-level \texttt{TIMING ON}. PostgreSQL documents that repeated node clock reads
 can add substantial profiling overhead and that ordinary query execution can
 therefore be faster~\cite{postgres18explain}. We call these values \emph{profiled
-executor times}, not application latency. A TIMING OFF/plain-query comparison
-has not yet been completed.
+executor times}, not application latency. A separate baseline-only TIMING OFF/plain-query calibration is reported in
+Section~\ref{sec:calibration}; it does not replace the candidate profiles.
 
 \subsection{Post-Hoc Timing Quality Screen}\label{sec:quality}
 After the run, some successful PostgreSQL profiles exceed the enclosing client
@@ -337,13 +339,73 @@ tree comparison is included only in total task time. Decode time also includes
 hint construction. Reported guard-comparison time measures only a Python
 comparison. None of these components alone measures policy end-to-end latency.
 
+\section{Baseline Measurement Calibration}\label{sec:calibration}
+A second experiment tests the measurement procedure without drawing new
+optimizer candidates or replacing pilot observations. It includes all twelve
+queries and their same seed-zero default plans. Each baseline fingerprint is
+checked against the historical preflight. The new configuration fixes three
+modes: EXPLAIN ANALYZE with TIMING ON, the same command with TIMING OFF, and
+ordinary SELECT. One warmup per mode precedes ten blocks with seeded randomized
+mode order, for 360 planned measured slots. A first timeout/error stops only the
+affected query/mode and explicitly records subsequent skipped slots. Settings,
+SQL, and the statistics snapshot remain fixed.
+
+The runner holds a process-bound macOS sleep-inhibition assertion and records
+paired UTC/monotonic elapsed times, load averages, and local power/assertion
+snapshots. A one-second cross-clock discrepancy is specified before collecting
+this run; it makes the affected complete median unavailable without a redraw.
+Actual plans are verified for profiled executions. Plain SELECT uses pre/post
+EXPLAIN fingerprints and stable result digests, but its timed physical plan is
+not directly observed. Plain client time includes planning, execution, result
+transfer, and fetching. It cannot be subtracted from server executor time to
+isolate an overhead component.
+
+All 360 slots are accounted for: 308 successes, three measured timeouts, and 49
+explicit skips. Warmups yield 33 successes and three timeouts. There are no
+detected cross-clock anomalies. All 408 task records remain byte-identical after
+a completed-run resume; profile fingerprints and plain-result consistency pass
+the export audit. The measurement source is a separately recorded revision from
+the first pilot.
+
+\begin{table}[t]
+\caption{Separate default-plan calibration: ten valid repeats are required per
+median. ON/OFF are server executor medians; plain SELECT is client latency, in ms.
+CV applies to plain client times. Dashes denote unavailable complete medians.}
+\label{tab:calibration}
+\centering\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Query & ON ms & OFF ms & ON/OFF & Plain ms & Plain CV\\
+\midrule
+\input{tables/calibration-results.tex}
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:calibration} shows ten queries with complete medians in every mode;
+\texttt{18a} and \texttt{25a} still lack complete baseline measurements. Across
+measurable queries, ON/OFF server-median ratios range from 0.602 to 1.086.
+The reversed ordering on some queries, especially \texttt{24a}, prevents treating
+these ratios as a clean causal estimate of instrumentation overhead. Plain-client
+CV ranges from 0.013 to 0.797: four queries exceed 0.3 despite sleep inhibition.
+Recorded one-minute load averages range from 3.71 to 8.90 on the ten-core host;
+these diagnostics do not isolate the source of contention or prove its effect.
+
+The calibration removes the previously detected clock symptom in this run but
+does not establish low-noise timing or validate historical candidate ratios.
+It also does not examine profiling sensitivity across all 485 candidate plans,
+whose operator/loop structure may differ from the baselines. A resource-controlled
+candidate replay, hint-direction ablation, and actual guarded request evaluation
+remain necessary before stronger runtime-risk or safeguard claims.
+
 \section{Threats to Validity and Submission Gates}
 \emph{Measurement validity.} Overnight cross-clock discrepancies, unlogged power
 events, substantial baseline noise, and default node profiling prevent clean
 application-latency conclusions. The post-hoc screen is conservative about
 flagged plans but cannot repair the run or validate all retained measurements.
-A continuously awake host with recorded load/power events and a separate
-TIMING OFF/plain-execution calibration is required.
+The separate awake-host calibration detects no clock discrepancies, but its
+remaining baseline variability means that stronger resource control and candidate
+measurements are still required.
 
 \emph{Construct validity.} Fixed pairwise estimates do not represent exact
 intermediate cardinalities. Membership validity is not full QUBO feasibility.
@@ -364,8 +426,8 @@ sampling, validation, baseline preparation, selection, and execution consistentl
 with a matched baseline request. An always-default policy is a useful control,
 not a novel safeguard result.
 
-Before submission, the measurement calibration, hint-direction ablation, and
-end-to-end guard replay must be completed under new frozen run identifiers.
+Before submission, controlled candidate measurement, hint-direction ablation,
+and end-to-end guard replay must be completed under new frozen run identifiers.
 A broader citation-chain review must also substantiate the final contribution.
 Additional quantum or hybrid experiments are necessary only if the eventual
 claims concern those services; the current evidence supports a CPU methodology
@@ -379,7 +441,7 @@ timed EXPLAIN evidence, and file hashes. An independent verifier recomputes
 physical fingerprints, requested trees, screened medians, and per-query risk
 counts. Database files, connection credentials, original literature PDFs, and
 local absolute paths are excluded. Paper tables and the figure are generated
-from the verified summary, with its hash recorded in the manuscript package.
+from verified summaries, with their hashes recorded in the manuscript package.
 Future-run interruption handling was hardened only after the historical no-op
 check; this does not alter the pilot's measurement source identity.
 
@@ -388,10 +450,12 @@ The pilot demonstrates why stochastic join-order evaluation needs more than an
 average execution speedup: enforcement failures, unavailable baselines, timing
 validity, and fallback utility change what can be concluded. We provide a
 completed, auditable CPU experiment with explicit unknown-outcome accounting.
-Its descriptive results and measurement defects motivate a controlled follow-up;
+The baseline calibration detects no clock discrepancies but retains substantial
+variation. These findings motivate a resource-controlled candidate follow-up;
 they do not establish a submission-ready runtime advantage, quantum effect, or
 production-safe safeguard.
 
+\IEEEtriggeratref{4}
 \bibliographystyle{IEEEtran}
 \bibliography{references}
 \end{document}
