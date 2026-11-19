@@ -1,0 +1,661 @@
+{
+  "kind": "Baseline measurement calibration; no new solver or safeguard effectiveness result",
+  "config": {
+    "awake_policy": "macOS caffeinate -i -s tied to runner lifetime; record UTC and monotonic elapsed times and load. A preselected >1000ms cross-clock discrepancy makes the profile invalid for interpretation. Lid closure and resource contention still require monitoring.",
+    "clock_tolerance_ms": 1000,
+    "execution_repeats": 10,
+    "experiment": "Baseline measurement calibration v1; no new optimizer draws",
+    "measurement_policy": "One warmup per mode/session; ten blocks with seeded randomized mode order. Fixed query order. Warm cache policy, no claim of cache residency.",
+    "modes": [
+      "timing_on",
+      "timing_off",
+      "plain"
+    ],
+    "pilot_evidence": "docs/pilot-001/evidence.json",
+    "scope": "Profile server execution time for TIMING ON/OFF; ordinary SELECT client wall includes planning, execution, and result transfer. Do not subtract unlike timing scopes. Plain SELECT has pre/post EXPLAIN checks, not an observed timed plan.",
+    "seed": 20261119,
+    "selection_policy": "All twelve frozen pilot queries, default baseline recipes only; no outcome-based query or candidate selection",
+    "statement_timeout_ms": 60000,
+    "timeout_policy": "Stop the affected query/mode after its first timeout or error; retain all remaining planned slots as explicit skips. Other modes remain eligible.",
+    "workload": "workloads/job/pilot.json"
+  },
+  "planned_measured_slots": 360,
+  "recorded_measured_slots": 360,
+  "measurement_statuses": {
+    "ok": 308,
+    "not_run_after_failure": 49,
+    "timeout": 3
+  },
+  "warmup_statuses": {
+    "ok": 33,
+    "timeout": 3
+  },
+  "clock_anomalies_all_attempts": 0,
+  "queries": [
+    {
+      "query_id": "3a",
+      "modes": {
+        "timing_on": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 1855.8401254999999,
+            "cv": 0.6753982706489648
+          },
+          "server": {
+            "median_ms": 1854.754,
+            "cv": 0.6762229215880085
+          }
+        },
+        "timing_off": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 1869.449792,
+            "cv": 0.5936800107499184
+          },
+          "server": {
+            "median_ms": 1868.596,
+            "cv": 0.5940018415677593
+          }
+        },
+        "plain": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 1868.5852920000002,
+            "cv": 0.7142978835876885
+          },
+          "server": null
+        }
+      },
+      "profile_on_off_server_median_ratio": 0.9925922992449946
+    },
+    {
+      "query_id": "16a",
+      "modes": {
+        "timing_on": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 200.1332505,
+            "cv": 0.41635627693963667
+          },
+          "server": {
+            "median_ms": 196.51850000000002,
+            "cv": 0.42234518076219735
+          }
+        },
+        "timing_off": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 205.756833,
+            "cv": 0.13829940820128703
+          },
+          "server": {
+            "median_ms": 202.1725,
+            "cv": 0.14017994238862133
+          }
+        },
+        "plain": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 208.307521,
+            "cv": 0.3895808309209158
+          },
+          "server": null
+        }
+      },
+      "profile_on_off_server_median_ratio": 0.9720337830318169
+    },
+    {
+      "query_id": "10a",
+      "modes": {
+        "timing_on": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 8586.636542,
+            "cv": 0.06597258967881653
+          },
+          "server": {
+            "median_ms": 8581.176,
+            "cv": 0.06599952910122561
+          }
+        },
+        "timing_off": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 8479.128917,
+            "cv": 0.07866594304494084
+          },
+          "server": {
+            "median_ms": 8472.5415,
+            "cv": 0.07862105965963459
+          }
+        },
+        "plain": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 8464.8645205,
+            "cv": 0.07403078065685077
+          },
+          "server": null
+        }
+      },
+      "profile_on_off_server_median_ratio": 1.012821949588562
+    },
+    {
+      "query_id": "18a",
+      "modes": {
+        "timing_on": {
+          "recorded_slots": 10,
+          "statuses": {
+            "not_run_after_failure": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 0,
+          "client": {
+            "median_ms": null,
+            "cv": null
+          },
+          "server": {
+            "median_ms": null,
+            "cv": null
+          }
+        },
+        "timing_off": {
+          "recorded_slots": 10,
+          "statuses": {
+            "not_run_after_failure": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 0,
+          "client": {
+            "median_ms": null,
+            "cv": null
+          },
+          "server": {
+            "median_ms": null,
+            "cv": null
+          }
+        },
+        "plain": {
+          "recorded_slots": 10,
+          "statuses": {
+            "not_run_after_failure": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 0,
+          "client": {
+            "median_ms": null,
+            "cv": null
+          },
+          "server": null
+        }
+      },
+      "profile_on_off_server_median_ratio": null
+    },
+    {
+      "query_id": "21a",
+      "modes": {
+        "timing_on": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 54.612271,
+            "cv": 0.04578195293948444
+          },
+          "server": {
+            "median_ms": 48.3575,
+            "cv": 0.04354773039960355
+          }
+        },
+        "timing_off": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 52.889667,
+            "cv": 0.053187779137809706
+          },
+          "server": {
+            "median_ms": 46.625,
+            "cv": 0.04643815331113566
+          }
+        },
+        "plain": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 49.4315,
+            "cv": 0.05181553971021971
+          },
+          "server": null
+        }
+      },
+      "profile_on_off_server_median_ratio": 1.0371581769436997
+    },
+    {
+      "query_id": "23a",
+      "modes": {
+        "timing_on": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 305.08775049999997,
+            "cv": 0.4249180670304602
+          },
+          "server": {
+            "median_ms": 289.5085,
+            "cv": 0.4431478591358438
+          }
+        },
+        "timing_off": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 291.386167,
+            "cv": 0.24082658533292273
+          },
+          "server": {
+            "median_ms": 276.051,
+            "cv": 0.2536352028401603
+          }
+        },
+        "plain": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 267.2083335,
+            "cv": 0.43686050687991257
+          },
+          "server": null
+        }
+      },
+      "profile_on_off_server_median_ratio": 1.0487500498096367
+    },
+    {
+      "query_id": "25a",
+      "modes": {
+        "timing_on": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 3,
+            "timeout": 1,
+            "not_run_after_failure": 6
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 3,
+          "client": {
+            "median_ms": null,
+            "cv": null
+          },
+          "server": {
+            "median_ms": null,
+            "cv": null
+          }
+        },
+        "timing_off": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 2,
+            "timeout": 1,
+            "not_run_after_failure": 7
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 2,
+          "client": {
+            "median_ms": null,
+            "cv": null
+          },
+          "server": {
+            "median_ms": null,
+            "cv": null
+          }
+        },
+        "plain": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 3,
+            "timeout": 1,
+            "not_run_after_failure": 6
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 3,
+          "client": {
+            "median_ms": null,
+            "cv": null
+          },
+          "server": null
+        }
+      },
+      "profile_on_off_server_median_ratio": null
+    },
+    {
+      "query_id": "13a",
+      "modes": {
+        "timing_on": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 8374.7978335,
+            "cv": 0.07139393970091998
+          },
+          "server": {
+            "median_ms": 8361.851999999999,
+            "cv": 0.07159642381882306
+          }
+        },
+        "timing_off": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 8160.995417,
+            "cv": 0.042203375257856404
+          },
+          "server": {
+            "median_ms": 8153.4055,
+            "cv": 0.0421342660192268
+          }
+        },
+        "plain": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 8143.925875,
+            "cv": 0.11820019670440858
+          },
+          "server": null
+        }
+      },
+      "profile_on_off_server_median_ratio": 1.0255655750226085
+    },
+    {
+      "query_id": "26a",
+      "modes": {
+        "timing_on": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 33748.3526665,
+            "cv": 0.040907715435823354
+          },
+          "server": {
+            "median_ms": 33706.6955,
+            "cv": 0.040913872073260776
+          }
+        },
+        "timing_off": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 31943.7387085,
+            "cv": 0.013185998647877136
+          },
+          "server": {
+            "median_ms": 31905.021,
+            "cv": 0.01314736083352419
+          }
+        },
+        "plain": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 31531.2856875,
+            "cv": 0.025678999485424903
+          },
+          "server": null
+        }
+      },
+      "profile_on_off_server_median_ratio": 1.0564699361896674
+    },
+    {
+      "query_id": "29a",
+      "modes": {
+        "timing_on": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 65.5989165,
+            "cv": 0.030838113089475424
+          },
+          "server": {
+            "median_ms": 13.3035,
+            "cv": 0.03894975558474629
+          }
+        },
+        "timing_off": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 66.0247505,
+            "cv": 0.02058131553493652
+          },
+          "server": {
+            "median_ms": 13.323,
+            "cv": 0.09365555176297848
+          }
+        },
+        "plain": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 65.1927915,
+            "cv": 0.012858439979720665
+          },
+          "server": null
+        }
+      },
+      "profile_on_off_server_median_ratio": 0.9985363656834045
+    },
+    {
+      "query_id": "24a",
+      "modes": {
+        "timing_on": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 618.353375,
+            "cv": 0.8665385269015101
+          },
+          "server": {
+            "median_ms": 581.1379999999999,
+            "cv": 0.8927298640938681
+          }
+        },
+        "timing_off": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 1003.6631249999999,
+            "cv": 0.6911026360181348
+          },
+          "server": {
+            "median_ms": 965.3955,
+            "cv": 0.7101092416154294
+          }
+        },
+        "plain": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 726.8415205,
+            "cv": 0.7966939468894526
+          },
+          "server": null
+        }
+      },
+      "profile_on_off_server_median_ratio": 0.6019688303912748
+    },
+    {
+      "query_id": "28a",
+      "modes": {
+        "timing_on": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 971.3682504999999,
+            "cv": 0.09220781234035577
+          },
+          "server": {
+            "median_ms": 927.3050000000001,
+            "cv": 0.09675124313627892
+          }
+        },
+        "timing_off": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 898.3683960000001,
+            "cv": 0.12164001743965043
+          },
+          "server": {
+            "median_ms": 854.136,
+            "cv": 0.12743344519165237
+          }
+        },
+        "plain": {
+          "recorded_slots": 10,
+          "statuses": {
+            "ok": 10
+          },
+          "clock_anomalies": 0,
+          "complete_valid_repeats": 10,
+          "client": {
+            "median_ms": 822.7343545000001,
+            "cv": 0.1304069024800698
+          },
+          "server": null
+        }
+      },
+      "profile_on_off_server_median_ratio": 1.0856643438515647
+    }
+  ],
+  "limits": [
+    "Ten repeats per mode, one machine, fixed query order, interleaved mode order; descriptive calibration only.",
+    "Profile server executor time and plain SELECT client latency have different scopes; no subtraction is valid.",
+    "Plain SELECT has pre/post EXPLAIN checks, not a directly observed timed physical plan.",
+    "Keeping the machine awake does not eliminate load, cache, thermal, or power-state variation.",
+    "No rerun of optimizer candidates, hint ablation, or actual end-to-end safeguard evaluation yet."
+  ]
+}

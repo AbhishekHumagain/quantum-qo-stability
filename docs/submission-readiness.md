@@ -11,7 +11,7 @@ have not yet been supplied; the draft uses Abhishek Humagain's name only.
 | Gate | Current evidence | Required next evidence |
 |---|---|---|
 | Reproducible pilot | Complete; 720 trials and all 2,425 slots audited | Preserve historical evidence and source identity |
-| Measurement validity | Clock anomalies and high baseline CV disclosed | Baseline calibration with awake assertion, paired clocks, load and power snapshots; then choose measurement policy |
+| Measurement validity | Clock anomalies and high baseline CV disclosed | Calibration 001 completed without detected clock anomalies; high CV persists, so resource-controlled candidate replay is still required |
 | Plan-space comparability | Directed hints verified | Flat versus directed hints under matched seeds/inputs; report enforcement failures and physical choices |
 | Runtime risk | Descriptive bounds with unknowns | New fixed-budget candidate execution under validated timing; template-aware uncertainty, no arbitrary significance claims |
 | Safeguard utility | Offline guard rejects all SA candidates | Actually replay guarded and unguarded requests, charging all stages and retaining an always-default control |
@@ -58,3 +58,18 @@ consistency, and verify a completed-run resume changes no task records. Then run
 Only after reviewing this calibration should the next candidate replay protocol
 be frozen. Do not collect an expanding set of experiments and select favorable
 outcomes afterward. Calibration alone does not close the hint/safeguard gates.
+
+## Calibration 001 completed
+
+All 360 slots are recorded: 308 successful measurements, 3 measured timeouts,
+and 49 explicit skips; warmups have 33 successes and 3 timeouts. No clock anomaly
+was detected. All 408 tasks remained unchanged after completed-run resume.
+[Results and portable evidence](calibration-001/README.md) are audited and exported.
+
+This closes the initial baseline instrumentation comparison, not the measurement
+validity gate. ON/OFF server-median ratios range from 0.602 to 1.086; four queries
+have plain-client CV above 0.3. Resource load, cache state, and thermal/power
+effects remain unresolved. Do not replace pilot candidate measurements using
+new baseline times: measurements from different runs must not be combined into
+new purportedly controlled ratios. Freeze a resource-controlled candidate replay
+and paired baseline policy next, retaining the two unavailable queries.

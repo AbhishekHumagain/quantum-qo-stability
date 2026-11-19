@@ -39,6 +39,9 @@ def summary(rows,identity):
     return {'kind':'Baseline measurement calibration; no new solver or safeguard effectiveness result',
         'config':config,'planned_measured_slots':len(queries)*len(config['modes'])*config['execution_repeats'],
         'recorded_measured_slots':sum(r['phase']=='execution' for r in rows),
+        'measurement_statuses':dict(Counter(r['status'] for r in rows if r['phase']=='execution')),
+        'warmup_statuses':dict(Counter(r['status'] for r in rows if r['phase']=='warmup')),
+        'clock_anomalies_all_attempts':sum(r.get('clock_anomaly',False) for r in rows),
         'queries':output,
         'limits':['Ten repeats per mode, one machine, fixed query order, interleaved mode order; descriptive calibration only.',
             'Profile server executor time and plain SELECT client latency have different scopes; no subtraction is valid.',
@@ -112,7 +115,8 @@ def main():
         writer=csv.DictWriter(stream,fieldnames=fields,extrasaction='ignore');writer.writeheader();writer.writerows(rows)
     lines=['# Baseline measurement calibration v1','','Completed descriptive calibration, separate from pilot 001.',
         'ON/OFF values are server executor times; plain SELECT values are client times including planning and transfer.',
-        'A missing median means ten valid repetitions were unavailable. No timeout cap is substituted.','',
+        'A missing median means ten valid repetitions were unavailable. No timeout cap is substituted.',
+        f"Measured outcomes: {report['measurement_statuses']}. Warmups: {report['warmup_statuses']}. Detected clock anomalies: {report['clock_anomalies_all_attempts']}.",'',
         '| Query | ON median ms | OFF median ms | ON/OFF | Plain client ms | Plain CV |','|---|---:|---:|---:|---:|---:|']
     def fmt(v):
         return 'unknown' if v is None else f'{v:.3f}'
