@@ -24,3 +24,13 @@ def test_pairwise_disagreement_excludes_self_pairs():
     assert disagreement(['a','a','b'])==pytest.approx(2/3)
     assert disagreement(['a','a'])==0
     assert disagreement(['a']) is None
+
+
+def test_cross_clock_anomaly_preserves_raw_median_but_makes_ratio_unavailable():
+    result=performance([{'status':'ok','execution_ms':v,'client_wall_ms':20}
+                        for v in [10,12,60010]],[],3)
+    assert result['status']=='timing_anomaly'
+    assert result['clock_anomaly_repeats']==1
+    assert result['reported_median_ms_before_quality_screen']==12
+    assert result['median_ms'] is None
+    assert result['completed_repeats']==3

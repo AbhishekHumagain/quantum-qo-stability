@@ -1,6 +1,8 @@
 # Draft experimental protocol — 2026-11-18
 
-Status: provisional; finalize after artifact inspection and a database-backed pilot.
+Status: provisional. The full JOB CPU pilot is complete; [milestone 04](milestone-04.md)
+records timing anomalies and baseline noise requiring a controlled measurement
+follow-up before freezing the main experiment.
 
 ## Questions
 
@@ -80,5 +82,15 @@ cannot guarantee actual-runtime safety.
    before accepting other plan shapes; do not silently skip unsupported nodes.
 4. Choose the paper's PostgreSQL version, machine, IMDB snapshot, and storage budget.
 5. A performance-blind 12-template JOB pilot manifest is prepared in `workloads/job`.
-   Execute the pilot after populated-data preflight, then freeze the main experiment specification.
+   The full pilot is complete. Resolve clock validity, baseline noise, and instrumentation
+   effects in a separately frozen follow-up before specifying the main experiment.
 6. Add quantum/hybrid adapters and safeguards; analyse and write only observed findings.
+
+## Measurement gate after pilot 001
+
+Use an awake host and record sleep/power and load events. Keep EXPLAIN ANALYZE
+profile times distinct from plain SELECT latency. Compare TIMING OFF/plain query
+execution; size repetitions from the resulting noise floor. Preserve pilot 001
+unchanged, label its clock exclusion as post-hoc, and retain failures/unknowns in
+all denominators. Ablate directed versus flat hints and replay actual safeguard
+latency before interpreting the CPU adaptation as a system improvement.

@@ -2,9 +2,11 @@
 
 Measuring regression risk and evaluating safeguards in quantum-augmented query planning.
 
-This project is an experimental research artifact in development. The first milestone
-is working local infrastructure, not a claim of quantum advantage or publishable results.
-Original proposals in the parent directory are preserved.
+This project is an experimental research artifact in development. The full 12-template
+JOB CPU pilot is complete: 720 optimizer trials and 2,425 execution slots. Timing
+anomalies and high baseline noise limit interpretation; this is not a quantum
+advantage or publication-ready performance claim. Start with [milestone 04](docs/milestone-04.md)
+and the [measured pilot report and evidence](docs/pilot-001/README.md).
 
 ## What works
 
@@ -23,6 +25,8 @@ Original proposals in the parent directory are preserved.
   and 12-template stratified pilot manifest with SQL/input hashes.
 - Canonical IMDB loaded into a separate database; all 12 selected JOB queries pass
   EXPLAIN-only preflight, including filtered-base/pair model extraction.
+- Complete JOB CPU pilot, audited resume, portable raw evidence, independently
+  verified clock-screened analysis, and reviewed PNG/SVG figures.
 
 ## Run locally
 
@@ -77,8 +81,11 @@ hints. Every selected directed order and the baseline receives repeated measurem
 This is still a tiny synthetic workload; it is not a JOB execution experiment.
 The guard decisions use only pre-execution planner costs, but their reported runtime
 ratios reuse the measured plan medians; complete policy latency is not yet replayed.
-The full JOB CPU execution campaign is now running with a durable task ledger,
-explicit failure/timeout accounting, and resumable checkpoints. Hybrid/QPU adapters,
+The full JOB CPU execution campaign is complete with a durable task ledger and
+explicit failure/timeout accounting. Its report flags post-hoc clock anomalies
+consistent with overnight sleep and retains unavailable comparisons as unknown.
+Measured executions use EXPLAIN ANALYZE with per-node timing; a controlled noise
+and instrumentation study is needed before performance claims. Hybrid/QPU adapters,
 other safeguards, and inferential analysis remain pending.
 
 Read [the protocol](docs/protocol.md), [artifact audit](docs/artifact-audit.md),
@@ -91,5 +98,6 @@ Continue with the [literature audit](docs/literature-audit.md),
 studying quantum join-optimization stability; our narrower database-regression
 contribution remains a hypothesis requiring real evidence and further literature review.
 The [third milestone report](docs/milestone-03.md) records the earlier populated-data
-preflight. Actual JOB CPU timings are now being collected under the
-[frozen pilot protocol](docs/job-pilot-protocol.md); see the [running campaign](docs/job-pilot-running.md).
+preflight. Actual JOB CPU timings were collected under the
+[frozen pilot protocol](docs/job-pilot-protocol.md); see the [completion record](docs/job-pilot-running.md),
+[fourth milestone](docs/milestone-04.md), and [results](docs/pilot-001/README.md).

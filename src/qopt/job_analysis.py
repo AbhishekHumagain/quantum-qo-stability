@@ -32,13 +32,20 @@ def performance(executions, warmups, expected):
     statuses = Counter(r['status'] for r in executions)
     timed_out = any(r['status']=='timeout' for r in executions+warmups)
     complete = len(executions)==expected and len(successful)==expected
-    return {'status':'complete' if complete else 'censored' if timed_out else 'incomplete_or_invalid',
+    # Post-hoc quality screen: preserve every sample, but do not interpret a
+    # profile exceeding the enclosing client clock by over one second as latency.
+    anomalies = sum(r['status']=='ok' and r.get('client_wall_ms') is not None
+                    and r['execution_ms'] > r['client_wall_ms'] + 1000 for r in executions)
+    usable = complete and not anomalies
+    return {'status':'timing_anomaly' if anomalies else 'complete' if complete else 'censored' if timed_out else 'incomplete_or_invalid',
         'scheduled_repeats':expected,'recorded_repeats':len(executions),
         'completed_repeats':len(successful),'execution_statuses':dict(statuses),
         'warmup_statuses':dict(Counter(r['status'] for r in warmups)),
-        'median_ms':statistics.median(successful) if complete else None,
-        'cv':statistics.stdev(successful)/statistics.mean(successful) if complete and len(successful)>1 and statistics.mean(successful)>0 else None,
-        'min_ms':min(successful) if complete else None,'max_ms':max(successful) if complete else None}
+        'clock_anomaly_repeats':anomalies,
+        'reported_median_ms_before_quality_screen':statistics.median(successful) if complete else None,
+        'median_ms':statistics.median(successful) if usable else None,
+        'cv':statistics.stdev(successful)/statistics.mean(successful) if usable and len(successful)>1 and statistics.mean(successful)>0 else None,
+        'min_ms':min(successful) if usable else None,'max_ms':max(successful) if usable else None}
 
 
 def median(values):
@@ -133,13 +140,20 @@ def analyze(directory):
         'actual_measured_execution_attempts':len(actual_executions),
         'execution_attempt_statuses':dict(Counter(r['payload']['status'] for r in actual_executions)),
         'warmup_attempts':len(warmups),'warmup_statuses':dict(Counter(r['payload']['status'] for r in warmups)),
-        'interrupted_attempt_events':interruptions,'unfinished_tasks':sum(r['state']!='finished' for r in records),
+        'interrupted_attempt_events':interruptions,'unfinished_tasks':sum(r['state']=='running' for r in records),
+        'abandoned_warmup_attempts':sum(r['state']=='abandoned' and r['phase']=='warmup' for r in records),
+        'timing_quality_screen':{'kind':'Post-hoc conservative quality screen; frozen measurements unchanged',
+            'rule':'Any measured repeat with PostgreSQL execution_ms > client_wall_ms + 1000 makes that plan median unavailable; no clock substitution or redraw',
+            'anomalous_measured_repeats':sum(p['clock_anomaly_repeats'] for q in queries for p in q['physical_plans'].values()),
+            'affected_measured_plans':sum(p['clock_anomaly_repeats']>0 for q in queries for p in q['physical_plans'].values())},
         'pipeline_state':json.loads((directory/'state.json').read_text()) if (directory/'state.json').exists() else {'state':'running_or_interrupted'},
         'aggregate':aggregate,'queries':queries,
         'limitations':['Twelve selected templates; one machine; low-budget CPU solvers; estimated pairwise inputs.',
             'No quantum, hybrid service, full iterative QDBO, or true-cardinality intervention.',
             'This pilot fixes directed nested join hints; the pinned QDBO helper emits flat Leading hints that leave directions free. These are different planning restrictions.',
-            'Complete-only ratios exclude unmeasurable outcomes; risk bounds retain unknowns.',
+            'Complete-only ratios require five successful repeats and no detected cross-clock anomaly; risk bounds retain unknowns.',
+            'EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON) uses default per-node TIMING ON. Profile overhead is plan/platform dependent; these are not plain SELECT latencies.',
+            'Overnight cross-clock discrepancies are consistent with system sleep; the quality screen is post-hoc and cannot certify that other timings are unaffected. Raw reported medians remain available per plan.',
             'Offline guard diagnostics reuse shared medians and do not measure guarded end-to-end latency.',
             'Five repetitions characterize only a preliminary execution-noise floor; no p99 or significance claim.']}
 
@@ -154,13 +168,14 @@ def render_report(report, output):
         f"Optimizer trials recorded: {report['recorded_optimizer_trials']}/{report['planned_optimizer_trials']}. "
         f"Measured execution attempts: {report['actual_measured_execution_attempts']}; warmups: {report['warmup_attempts']}.",
         f"Pipeline state: {report['pipeline_state']['state']}. Optimizer outcomes: {report['optimizer_statuses']}.", '',
+        f"Post-hoc timing quality screen: {report['timing_quality_screen']['anomalous_measured_repeats']} measured repeats across {report['timing_quality_screen']['affected_measured_plans']} plans have PostgreSQL execution time over one second above the enclosing client clock. Their plan medians are unavailable in the ratios below. All raw records are preserved; no repeat was redrawn.", '',
         '| Query | Relations | Default median ms | Default CV | SA plans | GEQO plans | SA median ratio* | SA known/30 | GEQO median ratio* | GEQO known/30 |',
         '|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|']
     for q in report['queries']:
         sa,geqo = q['solvers']['sa'],q['solvers']['geqo']
         lines.append(f"| {q['query_id']} | {q['relations']} | {fmt(q['baseline'].get('median_ms'))} | {fmt(q['baseline'].get('cv'))} | {sa['distinct_physical_plans']} | {geqo['distinct_physical_plans']} | {fmt(sa['median_runtime_ratio_complete_only'])} | {sa['known_runtime_ratios']}/30 | {fmt(geqo['median_runtime_ratio_complete_only'])} | {geqo['known_runtime_ratios']}/30 |")
     lines += ['', '*Ratios use only plans with all five successful measured repetitions and a complete baseline. '
-        'They are conditional descriptions, not estimates that silently count failed/censored plans as fast.', '',
+        'A post-hoc clock screen also excludes affected plan medians. These are conditional descriptions; failed/censored/timing-invalid plans remain unknown.', '',
         '## Risk accounting', '', '| Solver | Slowdown threshold | Observed lower bound | Observed upper bound | Offline guard lower | Offline guard upper |',
         '|---|---:|---:|---:|---:|---:|']
     for solver,item in report['aggregate'].items():
@@ -180,6 +195,7 @@ def render_report(report, output):
         'The guard comparison is only a Python comparison. The preflight EXPLAIN/hash timer '
         'ends before the subsequent structural-tree comparison; optimizer task time includes that comparison. '
         'None of these columns is total end-to-end guarded latency.', '',
+        'Timing interpretation follows the [PostgreSQL 18 EXPLAIN documentation](https://www.postgresql.org/docs/18/sql-explain.html): per-node clock reads can add substantial, plan-dependent profiling overhead. A TIMING OFF/plain-query ablation is still needed.', '',
         '## Limits', '']+[f'- {item}' for item in report['limitations']]
     (output/'README.md').write_text('\n'.join(lines)+'\n')
 
@@ -201,11 +217,11 @@ def plot_report(report, output):
                 axes[1].scatter(i+offset,ratio,color=color,marker=marker,s=45,
                     label=solver.upper() if i==0 else None)
     axes[0].set_yscale('log')
-    axes[0].set_ylabel('Default median execution (ms)')
+    axes[0].set_ylabel('Default median profiled execution (ms)')
     axes[1].set_yscale('log')
     axes[1].axhline(1,color='#334155',linewidth=1)
     axes[1].axhline(1.25,color='#94a3b8',linestyle='--',linewidth=1)
-    axes[1].set_ylabel('Median candidate/default ratio\n(complete plans only)')
+    axes[1].set_ylabel('Median candidate/default profile ratio\n(complete, clock-screened plans only)')
     axes[1].set_xticks(x,[q['query_id'] for q in report['queries']])
     axes[1].set_xlabel('Selected JOB query')
     axes[1].legend(frameon=False)
@@ -213,8 +229,8 @@ def plot_report(report, output):
         axis.grid(axis='y',alpha=.2)
         axis.set_axisbelow(True)
         axis.spines[['top','right']].set_visible(False)
-    figure.suptitle('JOB CPU pilot: timing and conditional slowdown',fontsize=14)
-    figure.text(.5,-.025,'Low-budget SA and GEQO; failures/censoring are accounted for separately in the report.',ha='center',fontsize=9)
+    figure.suptitle('JOB CPU pilot: profiled timing and conditional slowdown',fontsize=14)
+    figure.text(.5,-.025,'CPU SA/GEQO, TIMING ON. Post-hoc clock screen; missing baselines: 18a/25a. See report for unknowns.',ha='center',fontsize=9)
     figure.savefig(Path(output)/'pilot.png',dpi=180,bbox_inches='tight')
     figure.savefig(Path(output)/'pilot.svg',bbox_inches='tight')
     plt.close(figure)

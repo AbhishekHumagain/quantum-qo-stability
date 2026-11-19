@@ -1,0 +1,230 @@
+{
+  "identity": {
+    "config": {
+      "baseline_geqo_seed": 0,
+      "baseline_geqo_threshold": 12,
+      "descriptive_slowdown_thresholds": [
+        1.1,
+        1.25,
+        2.0
+      ],
+      "encoding_policy": "Build once per query from fixed estimated filtered base/pair inputs, save BQM, then independently sample 30 seeds. Encoding is not charged anew to each solve.",
+      "execution_repeats": 5,
+      "experiment": "JOB CPU pilot v1; fixed estimated inputs; no quantum hardware",
+      "geqo_effort": 5,
+      "geqo_generations": 0,
+      "geqo_pool_size": 0,
+      "guard_policy": "Fallback on failed validation or candidate estimated Total Cost greater than cached default cost. Evaluate offline using shared plan medians; do not label this a measured guarded end-to-end policy.",
+      "sa_reads": 10,
+      "sa_sweeps": 200,
+      "seed": 20261118,
+      "solve_repeats": 30,
+      "statement_timeout_ms": 60000,
+      "timeout_policy": "Stop repeating a physical plan after its first timeout; record all unrun scheduled repeats explicitly. Never substitute the timeout cap for a completed runtime.",
+      "timing_policy": "One warmup per physical plan per timing session, then five randomized blocks with the default baseline in every block; verify tree and physical hash on every execution.",
+      "work_mem": "4MB",
+      "workload": "workloads/job/pilot.json"
+    },
+    "hint_binary_sha256": "ef9d5da5bdd4b77fa0f807368271ec61a7f8b16c42a47b58441528b5ef3c714c",
+    "load_receipt_sha256": "04fe63a3a55b16f5ce16e9449a6530707e3993d2d27201e67f54013c4baf2f02",
+    "pilot_sha256": "e98e5aff0e65a7916128f9b3a834098839edda981cefd241c6039473fd8977e4",
+    "source_sha256": {
+      "cardinality.py": "c1c4232224f3d8f58e2bd1302f9083a1f39237197461b86e9a0d96501a32405f",
+      "core.py": "12f6c106f23caa7ec928bac42c9d0f7a0ee887ba9eb2839d8217bb0871af806e",
+      "hints.py": "d81249db266aefb5ec28b9273e5f418ea605ff4634d28ff42e058f0ed9d05958",
+      "job_runner.py": "39cb70280fdf3a462f27bb0d1ad264f366a6233b6a9a3532089181897493c0d4",
+      "store.py": "586d460bb415621f698c2d127f56342306c4c6a94d3e8d109cde506770e16eba"
+    }
+  },
+  "raw_record_counts": {
+    "optimizer_trials": 720,
+    "execution_and_warmup_rows": 2910
+  },
+  "frozen_code_commit": "cdca2c90ca68ecdfc14c61ef5305161eacaf08b7",
+  "machine": {
+    "machdep.cpu.brand_string": "Apple M4",
+    "hw.memsize": "17179869184",
+    "hw.logicalcpu": "10",
+    "hw.physicalcpu": "10",
+    "system": "Darwin",
+    "release": "25.2.0",
+    "machine": "arm64",
+    "macos": "26.2"
+  },
+  "integrity_audit": {
+    "complete": true,
+    "optimizer_trials": 720,
+    "verified_measured_executions": 2042,
+    "timeout_attempts": 81,
+    "abandoned_warmup_attempts": 0,
+    "initial_checkpoint_records_unchanged": 8,
+    "plan_evidence_verified": true
+  },
+  "completed_resume_verification": {
+    "task_count": 3678,
+    "tasks_sha256": "102429db357116d5d04c8c554e03311a0964924ece86a7b6fb5a72dd0c46db6c",
+    "counts": [
+      [
+        "baseline",
+        "finished",
+        12
+      ],
+      [
+        "control",
+        "finished",
+        12
+      ],
+      [
+        "encoding",
+        "finished",
+        12
+      ],
+      [
+        "execution",
+        "finished",
+        2425
+      ],
+      [
+        "model",
+        "finished",
+        12
+      ],
+      [
+        "solve",
+        "finished",
+        720
+      ],
+      [
+        "warmup",
+        "finished",
+        485
+      ]
+    ],
+    "no_new_tasks_or_changed_payloads": true
+  },
+  "environment_verification": {
+    "installed_versions_match_initial_manifest": true,
+    "packages": {
+      "Flask": "3.1.3",
+      "setuptools": "84.2.1",
+      "kiwisolver": "1.5.1",
+      "homebase": "1.0.1",
+      "rustworkx": "0.18.1",
+      "pandas": "3.1.1",
+      "diskcache": "5.6.3",
+      "dwave-cloud-client": "0.14.8",
+      "packaging": "26.3",
+      "networkx": "3.7",
+      "sqlparse": "0.6.1",
+      "zipp": "4.1.2",
+      "numpy": "2.5.5",
+      "Pygments": "2.21.0",
+      "dimod": "0.12.22",
+      "qiskit": "2.6.2",
+      "requests": "2.34.2",
+      "joserfc": "1.8.0",
+      "dwave-samplers": "1.8.0",
+      "certifi": "2026.10.23",
+      "dwave-preprocessing": "0.6.11",
+      "blinker": "1.9.0",
+      "stevedore": "5.10.0",
+      "orjson": "3.13.0",
+      "lazy-importer": "0.1.0",
+      "pydantic": "2.14.3",
+      "qdbo": "0.1.0",
+      "itsdangerous": "2.2.0",
+      "PySocks": "1.7.1",
+      "dwave-ocean-sdk": "9.5.0",
+      "click": "8.5.1",
+      "iniconfig": "2.3.1",
+      "dwave_networkx": "0.8.19",
+      "dwave-hybrid": "0.6.16",
+      "addict": "2.4.0",
+      "fasteners": "0.20",
+      "cryptography": "50.0.2",
+      "pycparser": "3.12",
+      "pydantic_core": "2.50.4",
+      "dwave-graphs": "1.1.0",
+      "pillow": "13.0.0",
+      "contourpy": "1.4.0",
+      "importlib_metadata": "10.2.0",
+      "pluggy": "1.7.0",
+      "typing-inspection": "0.4.5",
+      "dwave-inspector": "0.5.5",
+      "Authlib": "1.9.9",
+      "urllib3": "2.8.0",
+      "python-dateutil": "2.9.0.post0",
+      "PyYAML": "6.0.3",
+      "matplotlib": "3.11.2",
+      "minorminer": "0.2.22",
+      "cffi": "2.1.1",
+      "psycopg-binary": "3.3.9",
+      "penaltymodel": "1.3.0",
+      "pytest": "9.2.0",
+      "cycler": "0.12.1",
+      "Jinja2": "3.1.6",
+      "annotated-types": "0.8.0",
+      "qopt-reliability": "0.1.0",
+      "fonttools": "4.68.0",
+      "dwave-optimization": "0.7.3",
+      "qiskit-optimization": "0.7.0",
+      "http-sf": "1.5.0",
+      "docplex": "2.32.264",
+      "sqlglot": "30.33.0",
+      "typing_extensions": "4.16.0",
+      "MarkupSafe": "3.0.4",
+      "dwave-gate": "0.6.0",
+      "pypdf": "7.1.1",
+      "psycopg2-binary": "2.9.13",
+      "psycopg": "3.3.9",
+      "charset-normalizer": "3.5.2",
+      "dwave-system": "1.36.0",
+      "plucky": "0.4.3",
+      "polars": "2.1.0",
+      "pyparsing": "3.3.3",
+      "six": "1.17.0",
+      "scipy": "1.18.1",
+      "dill": "0.4.1",
+      "polars-runtime-32": "2.1.0",
+      "idna": "3.20",
+      "Werkzeug": "3.1.9",
+      "pytz": "2026.6"
+    },
+    "upstream": {
+      "qdbo": {
+        "commit": "2c8a3b3429634eb5d810b98f343b8729555c24b1",
+        "tracked_python_matches_commit": true
+      },
+      "q2o": {
+        "commit": "1b4b1cd2f1f698cce85c5cb9b94286c681555711",
+        "tracked_python_matches_commit": true
+      },
+      "job": {
+        "commit": "a39603662e023e449cb2121997a5034df9e02ebf",
+        "tracked_python_matches_commit": true
+      },
+      "pg_hint_plan": {
+        "commit": "9a3f851e1993d6728a9707956dabfcf22cc35b38",
+        "tracked_python_matches_commit": true
+      }
+    },
+    "frozen_source_verified_before_hardening": true,
+    "frozen_commit": "cdca2c90ca68ecdfc14c61ef5305161eacaf08b7",
+    "note": "Postrun check; the historical runner did not enforce package/upstream hashes on each resume."
+  },
+  "note": "CSV rows, raw SA samples, preflight plans, and timed EXPLAIN evidence are exported. Full SQLite event ledger and session-wide server settings remain local.",
+  "file_sha256": {
+    "pilot.svg": "d030759a38933d38fc54c2f261149f2ff26ccd91954be651676ec2ede2ca17cd",
+    "summary.json": "65907b7a2d2e8a6753e62ae95a567cadf46d75e22c9db01da091d3a5ccc04b51",
+    "trials.csv": "3e320aa4acb173e1b729ea3b64fe715eab939240587dfb074eaed9cf9c44cb9a",
+    "executions.csv": "f39398e270cb57ebf3473ff56c053aabe06b6a14d9ef2f2a01e5121a6f8b5e68",
+    "baselines.json": "7961fb92fd7d0cea7850292237052edbe12b9df107e9c473cd79072d767ee14a",
+    "estimated-inputs.json": "e8734ede816d4f79141ddda57a4b4903bd0c3c8358a501251da416d05c052667",
+    "pilot.png": "c782204634fb46af05394506620659a2af600aaab154a7080863258d994d1ed6",
+    "timed-plans.jsonl.gz": "364297620122d8ae06ad31687d71f0cacd4959f12d529c8272c471dac398014b",
+    "README.md": "3a55eff27e2cdcf768a3eac400eedc5675dc445fe645a6741a5f1eeaaef0f039",
+    "rejected-plans.json.gz": "8be5bfd4539f21833b99c379f420032281dbc06fb1eb3f8c28ab0ea9e0fedb5d",
+    "plans.json.gz": "763d6b9f049bebe6f9b8c68c34772511b9c15b21b6b6ea0a1effbf6f2fe6754d",
+    "sa-samples.json.gz": "ecc4ade7699e2dc3436bf5a040f71eb44db72bb5dd7e5dd3ccdb7b667a43f8c7"
+  }
+}

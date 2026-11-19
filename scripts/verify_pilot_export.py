@@ -53,8 +53,13 @@ def main():
     medians={}
     n=report['config']['execution_repeats']
     for key,rows in grouped.items():
-        if len(rows)==n and all(row['status']=='ok' for row in rows):
+        if len(rows)==n and all(row['status']=='ok' and
+                float(row['execution_ms']) <= float(row['client_wall_ms'])+1000 for row in rows):
             medians[key]=statistics.median(float(row['execution_ms']) for row in rows)
+    anomalies=[r for r in executions if r['phase']=='execution' and r['status']=='ok'
+               and float(r['execution_ms']) > float(r['client_wall_ms'])+1000]
+    assert len(anomalies)==report['timing_quality_screen']['anomalous_measured_repeats']
+    assert len({(r['query_id'],r['requested_plan_hash']) for r in anomalies})==report['timing_quality_screen']['affected_measured_plans']
     for query in report['queries']:
         qid=query['query_id']
         base=medians.get((qid,baselines[qid]['plan_hash']))

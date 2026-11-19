@@ -1,0 +1,62 @@
+{
+  "10a": {
+    "plan_hash": "fe6b0b4861ab52d16620105dbc25792ff16d7e79ac6931f0d6592ad3dbe44652",
+    "status": "ok",
+    "estimated_total_cost": 76473.41
+  },
+  "13a": {
+    "plan_hash": "6b6b31c792ccc24963469fae2990efbf63e3580981f9c96af5801a7d61e677c2",
+    "status": "ok",
+    "estimated_total_cost": 29017.43
+  },
+  "16a": {
+    "plan_hash": "76833d5e148d67b08e83ed6a004c478facc56d5eaeca47152a2bceb7648a3b7f",
+    "status": "ok",
+    "estimated_total_cost": 3869.72
+  },
+  "18a": {
+    "plan_hash": "c5515465e08a995c5b8d0b2493df08dac2c14633b4c2ee96b39c86543c3e8b50",
+    "status": "ok",
+    "estimated_total_cost": 114936.51
+  },
+  "21a": {
+    "plan_hash": "40111508124fbc1d72d978606c0b75632e7a1b95796a53d81a9d0ff90598b61d",
+    "status": "ok",
+    "estimated_total_cost": 3833.34
+  },
+  "23a": {
+    "plan_hash": "c0e45c17db8f53003ec4fc6138ba4796e6ae6d7c2d5bb4d59d15c1811b8a758f",
+    "status": "ok",
+    "estimated_total_cost": 58627.79
+  },
+  "24a": {
+    "plan_hash": "c8aad179628bde13518af658fc57384f754572b0ee8fa2ae4a513bc0fd0e4dd9",
+    "status": "ok",
+    "estimated_total_cost": 6641.89
+  },
+  "25a": {
+    "plan_hash": "a84d8c4a7d5ea9bf5fade8592b9c961dc228986e0d2656b299a3a6595eae409e",
+    "status": "ok",
+    "estimated_total_cost": 8897.25
+  },
+  "26a": {
+    "plan_hash": "0faa212ff8ff1e32b2047d4b0f6422663d3c9eaf4410be73d1a79f0bbf958a77",
+    "status": "ok",
+    "estimated_total_cost": 10070.79
+  },
+  "28a": {
+    "plan_hash": "f69f9614121c50edabdfa29eb5986ef4fdb0d6079599ab569144903e5941d9c1",
+    "status": "ok",
+    "estimated_total_cost": 7538.49
+  },
+  "29a": {
+    "plan_hash": "36ee1839e05088b68961227a78246216e00ce18a655535a21ba1cc99a631f0bd",
+    "status": "ok",
+    "estimated_total_cost": 4009.69
+  },
+  "3a": {
+    "plan_hash": "ab4e56eb3e2b23ca591ffcbcea138b5ff80bc4fb60f23cd24cc03b6f0e440caf",
+    "status": "ok",
+    "estimated_total_cost": 16916.89
+  }
+}

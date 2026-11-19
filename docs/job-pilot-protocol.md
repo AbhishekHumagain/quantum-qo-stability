@@ -61,3 +61,24 @@ bash scripts/postgres.sh start
 `--max-new-tasks N` stops cleanly after N additional durable tasks for verification.
 Omit it to continue. `run.sqlite3` is authoritative; `tasks.jsonl` is an export.
 Raw plans/timings stay under ignored `results/`; publish a reviewed summary separately.
+
+## Completion and post-hoc quality audit
+
+Pilot 001 completed the entire schedule; see [milestone 04](milestone-04.md).
+The frozen runner uses `EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON)` with default
+`TIMING ON`. These are profiled executor times; node timing can substantially
+affect execution, as described in the
+[PostgreSQL 18 documentation](https://www.postgresql.org/docs/18/sql-explain.html).
+TIMING OFF and plain-query comparisons require a separately frozen experiment.
+
+A post-hoc quality screen flags successful measured profiles exceeding their
+enclosing client monotonic clock by over 1,000 ms. Affected plan medians become
+unavailable, with no substitution, redraw, or modification of historical tasks.
+Raw medians are retained separately. This was not a preselected exclusion rule
+and does not prove other profiles are free of sleep or instrumentation effects.
+
+After the original completed-run no-op check, future-run recovery now preserves
+orphan running warmups as abandoned interruption records. Only finished
+failures/timeouts stop later repeats; a new session warms eligible plans again.
+The historical run had no such orphan. The five frozen source files must match
+the original revision for historical resumption; new source uses a new run ID.

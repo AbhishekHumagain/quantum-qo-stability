@@ -74,9 +74,11 @@ def main():
         'frozen_code_commit':(args.run/'frozen-code-commit.txt').read_text().strip(),
         'machine':json.loads((args.run/'machine.json').read_text()),
         'integrity_audit':json.loads((args.run/'integrity-audit.json').read_text()),
+        'completed_resume_verification':json.loads((args.run/'completed-resume-verification.json').read_text()),
+        'environment_verification':json.loads((args.run/'environment-verification.json').read_text()),
         'note':'CSV rows, raw SA samples, preflight plans, and timed EXPLAIN evidence are exported. Full SQLite event ledger and session-wide server settings remain local.'}
     evidence['file_sha256']={path.name:hashlib.sha256(path.read_bytes()).hexdigest()
-        for path in args.output.iterdir() if path.name in {'trials.csv','executions.csv','baselines.json','estimated-inputs.json','plans.json.gz','sa-samples.json.gz','rejected-plans.json.gz','timed-plans.jsonl.gz'}}
+        for path in args.output.iterdir() if path.name in {'trials.csv','executions.csv','baselines.json','estimated-inputs.json','plans.json.gz','sa-samples.json.gz','rejected-plans.json.gz','timed-plans.jsonl.gz','summary.json','README.md','pilot.png','pilot.svg'}}
     (args.output/'evidence.json').write_text(json.dumps(evidence,indent=2)+'\n')
     print(f'Exported {len(trials)} optimizer trials and {len(executions)} timing/warmup records')
 
