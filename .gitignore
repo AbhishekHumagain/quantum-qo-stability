@@ -12,3 +12,6 @@ results/
 data/
 references/pdfs/
 references/text/
+
+output/
+tmp/

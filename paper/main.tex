@@ -1,0 +1,397 @@
+\documentclass[conference]{IEEEtran}
+\usepackage[T1]{fontenc}
+\usepackage{cite}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\newcommand{\SA}{\mathrm{SA}}
+\newcommand{\GEQO}{\mathrm{GEQO}}
+\begin{document}
+\title{Reliability of Stochastic Join-Order Optimization:\\Measuring Regression Risk and Evaluating Safeguards\\in Quantum-Augmented Query Planning}
+\author{\IEEEauthorblockN{Abhishek Humagain}
+\IEEEauthorblockA{First research draft --- November 19, 2026}}
+\maketitle
+\begin{abstract}
+Stochastic join-order search can produce different physical plans for the same
+query, yet improved model cost or average execution time alone does not establish
+reliable database performance. We present a reproducible evaluation pipeline that
+separates optimizer draws, plan-enforcement failures, physical-plan variability,
+and execution measurements. An exploratory CPU pilot applies simulated annealing
+(SA) to a published quantum-optimization binary model and compares it with seeded
+PostgreSQL genetic query optimization (GEQO) on twelve selected Join Order
+Benchmark templates. Across 720 optimizer trials, 715 proposals pass verification;
+485 distinct physical plans induce 2,425 scheduled execution slots. The pipeline
+retains timeouts and unavailable comparisons rather than replacing them with
+numeric timeout caps. A post-hoc clock audit flags 27 measured repeats across 23
+plans, and baseline variability limits performance interpretation. After the
+quality screen, descriptive identification bounds for profiled slowdown exceeding
+1.25 times the baseline are 48.6--86.7\% for SA and 25.0--44.2\% for GEQO.
+A simple estimated-cost guard rejects all SA proposals, illustrating why fallback
+frequency and useful optimization must be evaluated together. These results are
+an engineering pilot, not a quantum-hardware evaluation, a full QDBO reproduction,
+or evidence of population-level runtime superiority.
+\end{abstract}
+\begin{IEEEkeywords}
+query optimization, join ordering, stochastic optimization, regression risk,
+quantum-inspired optimization, reproducibility
+\end{IEEEkeywords}
+
+\section{Introduction}
+Join ordering exposes a database optimizer to a large search space, imperfect
+cardinality estimates, and competing physical execution choices. The Join Order
+Benchmark (JOB) demonstrates that estimation and enumeration can both matter
+substantially for real multi-join queries~\cite{leis2015job}. Quantum and
+quantum-inspired approaches provide additional ways to search mathematical
+encodings of this problem~\cite{schonberger2023digital,liu2025q2o,liu2026qdbo}.
+Their practical value depends on the complete path from an optimizer output to a
+verified database plan and its execution cost.
+
+A low model objective does not guarantee a fast physical plan. Repeating a
+stochastic optimizer can change the decoded order, while PostgreSQL still chooses
+scan methods, join implementations, and other physical operators. A requested
+hint can also fail to enforce the intended tree. Finally, execution variation and
+measurement instrumentation can obscure the difference between a search failure
+and a measurement failure. Evaluating only successful or improved outputs hides
+these distinctions.
+
+We investigate three questions. \emph{RQ1:} How variable are verified physical
+plans under fixed optimizer inputs? \emph{RQ2:} What fraction of planned optimizer
+outputs can be compared with the default plan, and what descriptive regression
+risk remains when unknown outcomes are retained? \emph{RQ3:} Does an estimated-cost
+fallback offer useful optimization, rather than simply selecting the default?
+
+This draft makes three limited contributions. First, it describes an auditable
+pipeline with durable trial records, directed-tree checks, plan deduplication,
+and explicit timeout accounting. Second, it reports a completed twelve-template
+CPU pilot and separates output variability from runtime coverage. Third, it
+identifies measurement-validity and safeguard-utility issues that must be
+resolved before a stronger experiment. We do not claim the first stability study
+of quantum join ordering: prior work explicitly studies optimization
+stability~\cite{shekar2026spiq}. We also make no claim of quantum advantage.
+
+\section{Background and Related Work}
+\subsection{Quantum and Quantum-Inspired Join Ordering}
+Digital annealing work studies join-order encodings, probabilistic outputs, and
+readout methods, including classical SA comparisons~\cite{schonberger2023digital}.
+Q2O integrates hybrid optimization with PostgreSQL through join-order
+hints~\cite{liu2025q2o}. QDBO introduces mapping and iterative correction for
+low-level quantum sampling and integrates the optimizer with a database
+system~\cite{liu2026qdbo}. Our pilot uses its published binary quadratic model
+(BQM) builder and decoder with CPU SA. It omits quantum embedding, hardware
+sampling, and the full iterative correction procedure. Consequently, our results
+evaluate this adaptation, not the reported QDBO system.
+
+Structured initialization for gate-based join ordering studies stability and
+solution-quality distributions in small simulation-based
+instances~\cite{shekar2026spiq}. Hybrid QUBO research also investigates
+selectivity and connected-order constraints~\cite{nayak2026hybridjournal}.
+Repeated outputs, initialization robustness, and connectivity repair are therefore
+established research topics. Our working focus is the downstream accounting of
+verified physical plans, unavailable database comparisons, and safeguard
+utility; priority and completeness still require a broader literature review.
+
+\subsection{Database Regressions and Safeguards}
+Bao steers an existing optimizer with learned hint choices and addresses practical
+performance, including tail behavior~\cite{marcus2021bao}. Eraser uses risk
+filtering and prediction-quality assessment to mitigate learned-optimizer
+regressions~\cite{weng2024eraser}. Conformal verification also studies checks and
+violation handling for learned optimization~\cite{liu2025conformal}. These systems
+motivate explicit regression evaluation, but our simple planner-cost comparison
+is not a reproduction of their methods and provides no runtime guarantee.
+Robust Predicate Transfer instead changes execution behavior to reduce sensitivity
+to join order~\cite{zhao2025rpt}; our pipeline leaves the execution engine intact.
+
+\section{Reliability Model and Metrics}
+\subsection{Units and Plan Identity}
+For query $q$, let $n_q$ denote the number of planned optimizer draws for one
+method. A draw may yield a verified physical plan, an unenforced requested tree,
+or another recorded failure. Each verified physical plan has a canonical
+structural fingerprint. Repeated draws returning the same fingerprint count
+separately in the optimizer output distribution but share execution measurements.
+The baseline is PostgreSQL's default planning policy under the frozen settings.
+A model objective, a PostgreSQL estimated cost, and an observed execution time are
+distinct quantities throughout the analysis.
+
+If $c_{qp}$ verified draws return physical plan $p$ and $v_q$ draws are verified,
+pairwise plan disagreement is
+\begin{equation}
+ D_q=1-\frac{\sum_p c_{qp}(c_{qp}-1)}{v_q(v_q-1)},\qquad v_q>1.
+\end{equation}
+This is the fraction of ordered pairs of distinct verified draws with different
+fingerprints. It is conditional on verification and is not an execution-noise
+metric. We average $D_q$ across queries rather than interpreting draws from one
+query as independent workload instances.
+
+\subsection{Execution Coverage and Descriptive Risk}
+Each eligible physical plan has five scheduled measured repetitions after a
+warmup. A median is available only when all five measured repetitions succeed
+and pass the timing-quality screen described in Section~\ref{sec:quality}.
+Let $T_q(p)$ be this median and $b_q$ the baseline plan. The ratio
+\begin{equation}
+ r_{qi}=T_q(p_{qi})/T_q(b_q)
+\end{equation}
+is unknown if either median or the verified candidate is unavailable. For a
+threshold $\tau$, define $s_q(\tau)$ as the number of known ratios greater than
+$\tau$, and $u_q$ as the number of unknown ratios among all $n_q$ planned draws.
+Then
+\begin{equation}
+ L_q(\tau)=\frac{s_q(\tau)}{n_q},\qquad
+ U_q(\tau)=\frac{s_q(\tau)+u_q}{n_q}.
+\end{equation}
+Averaging these endpoints equally across queries gives descriptive identification
+bounds over the observed pilot. They are not confidence intervals, and they do
+not address timing noise in known ratios. We use $\tau\in\{1.10,1.25,2.00\}$
+as descriptive sensitivity points, not established practical-effect thresholds.
+
+A timeout is a censored attempt, not a successful 60-second execution. We retain
+it and mark the remaining repetitions of that plan as unrun. A failed baseline
+makes every candidate-to-baseline ratio for that query unknown. This conservative
+accounting does not infer additional slowdown events from partial observations.
+
+\subsection{Offline Estimated-Cost Guard}
+The guard falls back to $b_q$ if candidate verification fails or if its estimated
+PostgreSQL Total Cost exceeds the cached baseline estimate. Otherwise it selects
+the candidate. The diagnostic reuses measured plan medians; it does not actually
+replay a guarded request. In particular, a guard comparison measured in
+microseconds is not the end-to-end cost of optimization, validation, fallback
+planning, and execution. We report fallback frequency alongside risk coverage
+because an always-fallback policy cannot establish useful optimization.
+
+\section{Experimental Method}
+\subsection{Workload, Environment, and Controls}
+The workload contains twelve distinct JOB templates, with one variant per template
+and four selected templates in each of three relation-count strata. Selection was
+fixed before runtime collection and additionally covers graph and self-join
+features. This is a coverage sample, not a probability sample of all 113 JOB
+queries. Selected instances have four to seventeen relations (Table~\ref{tab:queries}).
+Canonical IMDB data contain 21 tables and 74,190,187 rows. We use the canonical
+primary-key and foreign-key-column indexes, without adding foreign-key
+constraints, and retain a fingerprint of the analyzed statistics snapshot.
+
+The host is an Apple M4 with ten CPU cores and 16~GiB of memory, running macOS
+26.2. The isolated PostgreSQL 18.3 cluster loads pg\_hint\_plan 1.8.1 per session.
+Execution uses 4~MB \texttt{work\_mem}, disabled parallel execution and JIT, and a
+60-second statement timeout. Sessions are read-only. No QPU or commercial hybrid
+service is used.
+
+\subsection{Optimizer Draws and Enforcement}
+For each query, PostgreSQL estimates filtered base cardinalities and pairwise
+predicate factors. These inputs and the resulting BQM are fixed across thirty
+SA seeds. Each draw uses ten reads and 200 sweeps, selects the lowest-energy read,
+and applies the unchanged upstream decoder, including its postprocessing. The
+raw membership-validity check tests relation-count and nesting constraints; it
+is not a check of every auxiliary encoding constraint.
+
+Thirty GEQO trials per query force \texttt{geqo\_threshold=2}, with seeds
+$(i+1)/31$ for $i=0,\ldots,29$, and effort/pool-size/generation settings 5/0/0.
+The default baseline uses threshold 12 and seed zero. GEQO is PostgreSQL's genetic
+search mechanism~\cite{postgres18geqo}. Equal draw counts do not equalize compute
+budgets, plan spaces, or objective functions.
+
+SA orders are passed through directed nested \texttt{Leading} hints, with GEQO
+disabled for that planning step. Directed hints fix outer/inner orientation; the
+pinned QDBO helper instead emits a flat list that leaves these choices free.
+This restriction is a material adaptation requiring a future ablation. Structural
+tree comparison, rather than a hint-status message, determines whether a request
+was enforced. Hint-enabled and hint-disabled controls are collected. Every
+successful timed execution is checked again against the expected tree, when
+specified, and the preflight physical-plan fingerprint.
+
+\subsection{Scheduling, Durability, and Measurement}
+All 720 optimizer trials finish before any execution timing is observed. For each
+query, verified candidate and baseline fingerprints are deduplicated. Every
+eligible distinct plan receives one warmup, followed by five deterministic
+randomized blocks containing the eligible candidates and baseline. A warmup is
+a policy, not a guarantee that the working set fits in cache. After a timeout or
+other execution failure, the remaining scheduled slots are explicitly marked as
+unrun. Finished successes and failures are not redrawn on resume.
+
+A single-owner SQLite ledger durably records task state and attempts. A clean
+checkpoint and subsequent resume preserve the first eight completed records.
+After full completion, a no-op resume preserves all 3,678 task payloads. The
+measurement source revision is recorded separately from later analysis and
+recovery hardening. Postrun checks confirm that installed package versions and
+upstream tracked Python sources match the initial environment; the historical
+runner did not enforce these checks on each resume.
+
+Timing uses EXPLAIN ANALYZE with buffer statistics and JSON output, and default
+node-level \texttt{TIMING ON}. PostgreSQL documents that repeated node clock reads
+can add substantial profiling overhead and that ordinary query execution can
+therefore be faster~\cite{postgres18explain}. We call these values \emph{profiled
+executor times}, not application latency. A TIMING OFF/plain-query comparison
+has not yet been completed.
+
+\subsection{Post-Hoc Timing Quality Screen}\label{sec:quality}
+After the run, some successful PostgreSQL profiles exceed the enclosing client
+monotonic duration by tens of seconds or minutes. The discrepancy is consistent
+with system sleep during overnight execution, but an OS sleep trace was not
+collected and the cause is not proven. A statement timeout does not validate
+such recorded durations.
+
+We explicitly introduce a \emph{post-hoc} screen: if any successful measured
+repeat has server execution time greater than client elapsed time plus 1,000~ms,
+its entire plan median becomes unavailable. We neither substitute the client
+clock nor form a median from fewer repeats. All raw observations and unscreened
+five-success medians are retained. The screen flags 27 measured repeats across
+23 plans: one repeat each in \texttt{13a} and \texttt{25a}, and 25 in \texttt{28a}.
+Five \texttt{28a} warmups also exhibit the discrepancy; these are disclosed but
+do not alter historical eligibility. Across both phases, the detected excesses
+range from about 58 seconds to 59 minutes, well above the chosen tolerance.
+The screen does not establish that other timings are unaffected.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=.92\textwidth]{figures/pilot.png}
+\caption{Exploratory CPU pilot. Top: default profiled median execution time.
+Bottom: per-query median candidate/default ratio over available optimizer draws.
+Each candidate plan must have five successful, clock-screened repeats. Missing
+baselines make \texttt{18a}/\texttt{25a} unavailable. Complete-only summaries can
+hide substantial unknown coverage; interpret them with Table~\ref{tab:queries}.
+No confidence intervals or quantum-hardware results are shown.}
+\label{fig:pilot}
+\end{figure*}
+
+\section{Pilot Results}
+\subsection{Accounting and Physical-Plan Variability}
+All 720 planned optimizer trials are recorded: 355/360 SA and 360/360 GEQO
+proposals pass verification. Five SA requests fail directed-tree enforcement and
+remain in trial denominators. Across queries there are 485 distinct physical
+plans including baselines. The schedule contains 2,425 measured slots: 2,042
+successful executions, 14 timeouts, and 369 explicitly unrun slots after timeout.
+Warmups comprise 418 successes and 67 timeouts. All successful measured executions
+pass the structural checks; this does not certify their timing validity.
+
+Mean per-query disagreement among verified draws is 0.971 for SA and 0.588 for
+GEQO. Table~\ref{tab:queries} shows that GEQO returns one fingerprint on some
+queries but many on others. High disagreement is not itself a defect: multiple
+plans could have similar runtimes. Raw SA membership checks pass 206/360 draws.
+Because upstream decoding can repair outputs and the check omits auxiliary
+constraints, this count cannot be interpreted as a complete feasibility rate or
+as the cause of runtime regressions.
+
+\begin{table}[t]
+\caption{Pilot coverage. Known ratios count planned draws with available
+candidate and baseline medians after the post-hoc screen, out of 30 per method.
+Dashes denote unavailable baseline measurements.}
+\label{tab:queries}
+\centering\scriptsize
+\setlength{\tabcolsep}{3.0pt}
+\begin{tabular}{@{}lrrrrrrr@{}}
+\toprule
+& & \multicolumn{2}{c}{Default profile} & \multicolumn{2}{c}{Distinct plans} & \multicolumn{2}{c}{Known ratios}\\
+Query & Rel. & Median ms & CV & SA & GEQO & SA & GEQO\\
+\midrule
+\input{tables/query-results.tex}
+\end{tabular}
+\end{table}
+
+\subsection{Regression Coverage and Noise}
+The default plans for \texttt{18a} and \texttt{25a} time out, so no runtime ratio
+is available for those queries. After the clock screen, 223/360 SA ratios and
+291/360 GEQO ratios are available. The ten completed baselines have five-repeat
+coefficients of variation ranging from 0.120 to 1.178. Such variation makes
+small threshold crossings unstable; this pilot does not establish a practical
+noise-adjusted regression threshold.
+
+At $\tau=1.25$, SA has 175 confirmed slow draws and 137 unknowns, yielding
+48.6--86.7\% bounds. GEQO has 90 confirmed slow draws and 69 unknowns, yielding
+25.0--44.2\%. Table~\ref{tab:risk} reports the other descriptive thresholds.
+These are bounds for the recorded profiled ratios under the stated screen,
+not evidence that SA is generally less reliable or that solver randomness
+caused the observed differences. Before screening, the corresponding arithmetic
+bounds were 52.5--86.7\% and 26.4--43.6\%; those figures include timing-invalid
+profiles. Figure~\ref{fig:pilot} summarizes the conditional per-query medians.
+
+\begin{table}[t]
+\caption{Query-weighted descriptive slowdown bounds (\%). Guard columns are
+an offline diagnostic. Intervals retain unknown comparisons; they are not
+confidence intervals.}
+\label{tab:risk}
+\centering\small
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Method & Threshold $\tau$ & Unguarded & Offline guard\\
+\midrule
+\input{tables/risk-results.tex}
+\end{tabular}
+\end{table}
+
+
+
+\subsection{Fallback Frequency and Optimizer Overhead}
+The estimated-cost guard rejects all 360 SA proposals and 134/360 GEQO proposals.
+For SA, the diagnostic therefore reduces to always selecting the default. Its
+zero confirmed slowdowns on measurable baselines is expected from that policy,
+not evidence of a useful optimizer improvement. Its upper bound remains 16.7\%
+because two baseline medians are unavailable. A real safeguard evaluation must
+measure useful accepted proposals, fallback frequency, and full request latency.
+
+Median SA optimizer-task time varies by query from 1.2 to 462.3~ms; median GEQO
+task time ranges from 0.9 to 28.5~ms. SA sampling medians range from 0.8 to
+28.1~ms. These are different timing scopes, not matched compute budgets. Input
+extraction, encoding, and baseline estimation are cached once per query. The
+preflight timer covers EXPLAIN retrieval and hashing; a subsequent structural
+tree comparison is included only in total task time. Decode time also includes
+hint construction. Reported guard-comparison time measures only a Python
+comparison. None of these components alone measures policy end-to-end latency.
+
+\section{Threats to Validity and Submission Gates}
+\emph{Measurement validity.} Overnight cross-clock discrepancies, unlogged power
+events, substantial baseline noise, and default node profiling prevent clean
+application-latency conclusions. The post-hoc screen is conservative about
+flagged plans but cannot repair the run or validate all retained measurements.
+A continuously awake host with recorded load/power events and a separate
+TIMING OFF/plain-execution calibration is required.
+
+\emph{Construct validity.} Fixed pairwise estimates do not represent exact
+intermediate cardinalities. Membership validity is not full QUBO feasibility.
+Directed hints differ from the upstream integration and constrain plan space.
+The low SA budget is a pilot choice, not a tuned reproduction. These factors
+must be ablated before attributing regressions to stochastic search quality.
+
+\emph{External and statistical validity.} Twelve selected templates and one
+machine do not support population or hardware-general conclusions. Draws share
+queries and sometimes execution measurements; treating them as independent
+workload samples would overstate evidence. We report no significance tests,
+p99 latency estimates, or confidence guarantees. Main-experiment inference
+should account for template clustering and measurement uncertainty.
+
+\emph{Safeguard utility.} Reusing medians avoids performance-based candidate
+selection but does not measure an actual guarded policy. A follow-up must charge
+sampling, validation, baseline preparation, selection, and execution consistently,
+with a matched baseline request. An always-default policy is a useful control,
+not a novel safeguard result.
+
+Before submission, the measurement calibration, hint-direction ablation, and
+end-to-end guard replay must be completed under new frozen run identifiers.
+A broader citation-chain review must also substantiate the final contribution.
+Additional quantum or hybrid experiments are necessary only if the eventual
+claims concern those services; the current evidence supports a CPU methodology
+and diagnostic study.
+
+\section{Artifact and Reproducibility}
+The research artifact~\cite{humagain2026artifact} includes the frozen workload,
+configuration, dependency lock, source revisions, and a portable evidence bundle.
+The bundle contains trial/execution tables, raw SA samples, preflight plans,
+timed EXPLAIN evidence, and file hashes. An independent verifier recomputes
+physical fingerprints, requested trees, screened medians, and per-query risk
+counts. Database files, connection credentials, original literature PDFs, and
+local absolute paths are excluded. Paper tables and the figure are generated
+from the verified summary, with its hash recorded in the manuscript package.
+Future-run interruption handling was hardened only after the historical no-op
+check; this does not alter the pilot's measurement source identity.
+
+\section{Conclusion}
+The pilot demonstrates why stochastic join-order evaluation needs more than an
+average execution speedup: enforcement failures, unavailable baselines, timing
+validity, and fallback utility change what can be concluded. We provide a
+completed, auditable CPU experiment with explicit unknown-outcome accounting.
+Its descriptive results and measurement defects motivate a controlled follow-up;
+they do not establish a submission-ready runtime advantage, quantum effect, or
+production-safe safeguard.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\end{document}

@@ -8,6 +8,11 @@ anomalies and high baseline noise limit interpretation; this is not a quantum
 advantage or publication-ready performance claim. Start with [milestone 04](docs/milestone-04.md)
 and the [measured pilot report and evidence](docs/pilot-001/README.md).
 
+The [IEEE conference first draft](paper/main.tex) reports these results with their
+limitations. Build an Overleaf ZIP and reviewed PDF using
+`bash scripts/build_paper.sh`. The [submission evidence plan](docs/submission-readiness.md)
+tracks the controlled follow-up experiments.
+
 ## What works
 
 - Project-local Python 3.12 environment, pinned installed dependencies.

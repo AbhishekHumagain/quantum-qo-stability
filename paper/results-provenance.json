@@ -1,0 +1,6 @@
+{
+  "source": "docs/pilot-001/summary.json",
+  "summary_sha256": "65907b7a2d2e8a6753e62ae95a567cadf46d75e22c9db01da091d3a5ccc04b51",
+  "measurement_source_commit": "cdca2c90ca68ecdfc14c61ef5305161eacaf08b7",
+  "note": "Generated tables and copied figure use audited pilot-001, including its explicitly post-hoc timing screen."
+}
