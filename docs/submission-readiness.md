@@ -1,0 +1,60 @@
+# From IEEE first draft to submission evidence
+
+The IEEE conference first draft is in `paper/`. Generated PDF and Overleaf ZIP
+are produced by `bash scripts/build_paper.sh`. Tables and the figure derive from
+the independently verified pilot 001 bundle. No pending experiment is presented
+as an observed result. The target venue, page limit, author affiliation, and email
+have not yet been supplied; the draft uses Abhishek Humagain's name only.
+
+## Evidence gates
+
+| Gate | Current evidence | Required next evidence |
+|---|---|---|
+| Reproducible pilot | Complete; 720 trials and all 2,425 slots audited | Preserve historical evidence and source identity |
+| Measurement validity | Clock anomalies and high baseline CV disclosed | Baseline calibration with awake assertion, paired clocks, load and power snapshots; then choose measurement policy |
+| Plan-space comparability | Directed hints verified | Flat versus directed hints under matched seeds/inputs; report enforcement failures and physical choices |
+| Runtime risk | Descriptive bounds with unknowns | New fixed-budget candidate execution under validated timing; template-aware uncertainty, no arbitrary significance claims |
+| Safeguard utility | Offline guard rejects all SA candidates | Actually replay guarded and unguarded requests, charging all stages and retaining an always-default control |
+| Objective/encoding validity | Membership check only | Full auxiliary-constraint audit, penalty/budget sensitivity, decoder-repair accounting |
+| Literature and novelty | Targeted primary-source audit | Full closest-work review and citation chains; align claims with CPU evidence |
+| Venue readiness | Generic IEEEtran conference draft | Venue-specific template, page limit, authorship/affiliation, disclosure and artifact policies |
+
+## Calibration 001: frozen before new timing collection
+
+Configuration: `config/measurement-calibration-v1.json`. All twelve existing
+queries are included; there is no outcome-based subset or new solver draw.
+Measure the default baseline under three modes: EXPLAIN ANALYZE TIMING ON,
+EXPLAIN ANALYZE TIMING OFF, and ordinary SELECT. Keep the original PostgreSQL
+settings/statistics and seed-zero default plan. Verify each baseline fingerprint
+against the historical preflight before collecting new measurements.
+
+One warmup per mode/session precedes ten blocks, each with seeded randomized
+mode order. There are 360 planned measured slots, plus up to 36 initial warmups.
+A first timeout/error stops that query/mode's remaining slots, which are explicitly
+recorded. Other modes remain eligible. No global cap or silent redraw is used.
+The experiment has a new SQLite ledger and cannot change pilot 001.
+
+Profile server executor time and plain SELECT client time have different scopes.
+Plain times include planning, execution, result transfer, and fetching. Plain
+queries have pre/post EXPLAIN fingerprints, not a directly observed timed plan;
+profiles have actual plan verification. Plain result digests must remain stable.
+Do not subtract these timing scopes to estimate an overhead component.
+
+The runner uses a process-bound macOS `caffeinate -i -s` assertion. It records
+client monotonic and UTC elapsed clocks, per-attempt load, and local session
+power/assertion snapshots. This does not override lid closure, prove absence of
+thermal effects, or guarantee no resource contention. A preselected one-second
+cross-clock discrepancy makes a complete median unavailable; all original rows
+remain present. Ten repeats are calibration evidence, not a tail estimate.
+
+Before reporting completion, audit all scheduled keys and profiles, check result
+consistency, and verify a completed-run resume changes no task records. Then run:
+
+```sh
+.venv/bin/python scripts/analyze_measurement_calibration.py --run results/measurement-calibration-001 --output docs/calibration-001
+.venv/bin/python scripts/analyze_measurement_calibration.py --verify-export docs/calibration-001
+```
+
+Only after reviewing this calibration should the next candidate replay protocol
+be frozen. Do not collect an expanding set of experiments and select favorable
+outcomes afterward. Calibration alone does not close the hint/safeguard gates.

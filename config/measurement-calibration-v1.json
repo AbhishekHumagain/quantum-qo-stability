@@ -1,0 +1,15 @@
+{
+  "experiment": "Baseline measurement calibration v1; no new optimizer draws",
+  "workload": "workloads/job/pilot.json",
+  "pilot_evidence": "docs/pilot-001/evidence.json",
+  "modes": ["timing_on", "timing_off", "plain"],
+  "execution_repeats": 10,
+  "seed": 20261119,
+  "statement_timeout_ms": 60000,
+  "clock_tolerance_ms": 1000,
+  "timeout_policy": "Stop the affected query/mode after its first timeout or error; retain all remaining planned slots as explicit skips. Other modes remain eligible.",
+  "selection_policy": "All twelve frozen pilot queries, default baseline recipes only; no outcome-based query or candidate selection",
+  "measurement_policy": "One warmup per mode/session; ten blocks with seeded randomized mode order. Fixed query order. Warm cache policy, no claim of cache residency.",
+  "scope": "Profile server execution time for TIMING ON/OFF; ordinary SELECT client wall includes planning, execution, and result transfer. Do not subtract unlike timing scopes. Plain SELECT has pre/post EXPLAIN checks, not an observed timed plan.",
+  "awake_policy": "macOS caffeinate -i -s tied to runner lifetime; record UTC and monotonic elapsed times and load. A preselected >1000ms cross-clock discrepancy makes the profile invalid for interpretation. Lid closure and resource contention still require monitoring."
+}
