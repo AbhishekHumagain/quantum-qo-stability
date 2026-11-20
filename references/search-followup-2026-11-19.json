@@ -1,0 +1,14 @@
+{
+  "date": "2026-11-19",
+  "review_kind": "Targeted primary-source methods/evaluation and backward-reference review; not systematic or exhaustive",
+  "queries": ["quantum join order optimization stability regression risk 2026", "Conformal Prediction for Verifiable Learned Query Optimization", "pg_hint_plan Leading hint join order direction"],
+  "full_text_methods_checked": [
+    {"url": "https://www.vldb.org/pvldb/vol18/p2653-liu.pdf", "scope": "Methods3-5, evaluation6 including calibration splits, violation handling and timing scope"},
+    {"url": "https://arxiv.org/html/2502.15181v2", "scope": "Algorithms3, DuckDB integration4, random-plan evaluation5, reference-chain screen"},
+    {"url": "https://arxiv.org/html/2405.07770v1", "scope": "MethodologyIV and experimentsV; model-cost and simulation scope"},
+    {"url": "https://arxiv.org/html/2502.00362v1", "scope": "Objective/validity formulations3-5, discussion and evaluation-appendix scope; backward references"}
+  ],
+  "metadata_rechecked": ["https://doi.org/10.3390/info17111130", "https://arxiv.org/abs/2608.20683"],
+  "access_limit": {"url": "https://doi.org/10.1145/3588946", "result": "Publisher403; do not claim a new full-text audit"},
+  "conclusion": "Remove first-stability/distribution/guard claims. Scope paper as CPU pipeline diagnostic with prospective paired hint, physical-plan and actual-policy evidence."
+}

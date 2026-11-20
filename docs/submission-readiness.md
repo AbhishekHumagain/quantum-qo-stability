@@ -15,8 +15,8 @@ have not yet been supplied; the draft uses Abhishek Humagain's name only.
 | Plan-space comparability | Directed hints verified | Flat versus directed hints under matched seeds/inputs; report enforcement failures and physical choices |
 | Runtime risk | Descriptive bounds with unknowns | New fixed-budget candidate execution under validated timing; template-aware uncertainty, no arbitrary significance claims |
 | Safeguard utility | Offline guard rejects all SA candidates | Actually replay guarded and unguarded requests, charging all stages and retaining an always-default control |
-| Objective/encoding validity | Membership check only | Full auxiliary-constraint audit, penalty/budget sensitivity, decoder-repair accounting |
-| Literature and novelty | Targeted primary-source audit | Full closest-work review and citation chains; align claims with CPU evidence |
+| Objective/encoding validity | Full pinned hard-constraint reconstruction and 1,440-draw model-only grid complete | Integrate audited diagnostic; do not infer a JOB runtime cause or tune runtime conditions from it |
+| Literature and novelty | Extended methods/evaluation and backward-reference review complete | Apply conservative claim boundaries; no priority or exhaustive-survey claim |
 | Venue readiness | Generic IEEEtran conference draft | Venue-specific template, page limit, authorship/affiliation, disclosure and artifact policies |
 
 ## Calibration 001: frozen before new timing collection
@@ -73,3 +73,12 @@ effects remain unresolved. Do not replace pilot candidate measurements using
 new baseline times: measurements from different runs must not be combined into
 new purportedly controlled ratios. Freeze a resource-controlled candidate replay
 and paired baseline policy next, retaining the two unavailable queries.
+
+## Prospective completion run
+
+The remaining hint/profile/request evidence is executing under
+[the frozen protocol](submission-study-protocol.md), after all optimizer outputs
+were fixed. [Milestone 06](milestone-06.md) records completed encoding/literature
+work and preflight counts. The 7,450 paired-profile sides and 1,512 actual requests
+remain pending until the ledger is fully audited. Do not label these outcomes
+complete or the paper ready for submission merely because the runner exists.

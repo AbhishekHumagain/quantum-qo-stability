@@ -15,6 +15,13 @@ tracks the controlled follow-up experiments. The separate
 [baseline calibration](docs/calibration-001/README.md) completed all 360 slots
 without detected clock discrepancies, while substantial timing variation remains.
 
+The remaining evidence work is now executing under a separately frozen
+[prospective study](docs/submission-study-protocol.md): paired flat/directed hints,
+load-admitted candidate/baseline profiles, and actual guarded requests.
+The [encoding diagnostic](docs/encoding-001/README.md) and
+[optimizer preparation](docs/study-preparation-001/README.md) are complete;
+[execution status](docs/milestone-06.md) distinguishes them from pending timings.
+
 ## What works
 
 - Project-local Python 3.12 environment, pinned installed dependencies.

@@ -71,3 +71,17 @@ def test_paired_schedule_retains_timeout_and_completed_resume(monkeypatch,tmp_pa
         study.run_profiles(store,None,'q',candidates,base,config,'two')
         assert store.records()==saved
     assert calls.count('bad')==1
+
+
+def test_pair_ratio_rejects_partial_and_mixed_sessions_but_keeps_noise_control():
+    from qopt.study_analysis import paired_ratio
+    def row(h,ms,session='s'):
+        return {'status':'ok','clock_anomaly':False,'requested_plan_hash':h,'execution_ms':ms,'session':session}
+    pair={'baseline':row('base',10),'candidate':row('other',20)}
+    assert paired_ratio([pair],'base',1)['median_ratio']==2
+    assert paired_ratio([pair],'base',2)['median_ratio'] is None
+    pair['candidate']['session']='another'
+    assert paired_ratio([pair],'base',1)['known_pairs']==0
+    same={'baseline':row('base',10),'candidate':row('base',30)}
+    result=paired_ratio([same],'base',1)
+    assert result['median_ratio']==1 and result['raw_pair_ratios']==[3]

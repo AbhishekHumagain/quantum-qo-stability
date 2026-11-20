@@ -1,0 +1,766 @@
+{
+  "identity": {
+    "config": {
+      "experiment": "CPU model-only encoding diagnostic, not a database runtime experiment",
+      "estimated_inputs": "docs/pilot-001/estimated-inputs.json",
+      "seeds_per_query": 30,
+      "seed": 20261121,
+      "penalty_multipliers": [
+        1,
+        4
+      ],
+      "sampling_budgets": [
+        {
+          "name": "pilot",
+          "reads": 10,
+          "sweeps": 200
+        },
+        {
+          "name": "higher",
+          "reads": 50,
+          "sweeps": 1000
+        }
+      ],
+      "selection_policy": "Every query and configuration retained. No choice from this sensitivity is used to select runtime-study methods or tune on their outcomes.",
+      "scope": "Check the pinned model's actual count/nesting/one-way predicate hard penalties and objective slack separately. Inactive applicable predicates are not hard violations. Compare decoded model costs, not energies across differently weighted models. Synthetic exact witness is explanatory, post-hoc to pilot, and not causal evidence about JOB/QDBO system performance."
+    },
+    "inputs_sha256": "e8734ede816d4f79141ddda57a4b4903bd0c3c8358a501251da416d05c052667",
+    "source_sha256": {
+      "scripts/run_encoding_sensitivity.py": "e88d1c105896eb8a3c6197c274ed6410d65c6289aafdec19944d62094a4c8fb8",
+      "src/qopt/encoding_audit.py": "5ce8c92b826b98c99572e10b7aa1181ba1ed587a1a1decbe9bf35b3c3562adf5",
+      "src/qopt/store.py": "07c991307c7e6bf1be3eb4b1134980358d63f9199a9c3872065227b8aa22a937"
+    },
+    "upstream_generator_sha256": "0d30055566b166c0a442b26258d20cc68f11b20a6c64c9a4cd4e8081a6a52428",
+    "packages": {
+      "Flask": "3.1.3",
+      "setuptools": "84.2.1",
+      "kiwisolver": "1.5.1",
+      "homebase": "1.0.1",
+      "rustworkx": "0.18.1",
+      "pandas": "3.1.1",
+      "diskcache": "5.6.3",
+      "dwave-cloud-client": "0.14.8",
+      "packaging": "26.3",
+      "networkx": "3.7",
+      "sqlparse": "0.6.1",
+      "zipp": "4.1.2",
+      "numpy": "2.5.5",
+      "Pygments": "2.21.0",
+      "dimod": "0.12.22",
+      "qiskit": "2.6.2",
+      "requests": "2.34.2",
+      "joserfc": "1.8.0",
+      "dwave-samplers": "1.8.0",
+      "certifi": "2026.10.23",
+      "dwave-preprocessing": "0.6.11",
+      "blinker": "1.9.0",
+      "stevedore": "5.10.0",
+      "orjson": "3.13.0",
+      "lazy-importer": "0.1.0",
+      "pydantic": "2.14.3",
+      "qdbo": "0.1.0",
+      "itsdangerous": "2.2.0",
+      "PySocks": "1.7.1",
+      "dwave-ocean-sdk": "9.5.0",
+      "click": "8.5.1",
+      "iniconfig": "2.3.1",
+      "dwave_networkx": "0.8.19",
+      "dwave-hybrid": "0.6.16",
+      "addict": "2.4.0",
+      "fasteners": "0.20",
+      "cryptography": "50.0.2",
+      "pycparser": "3.12",
+      "pydantic_core": "2.50.4",
+      "dwave-graphs": "1.1.0",
+      "pillow": "13.0.0",
+      "contourpy": "1.4.0",
+      "importlib_metadata": "10.2.0",
+      "pluggy": "1.7.0",
+      "typing-inspection": "0.4.5",
+      "dwave-inspector": "0.5.5",
+      "Authlib": "1.9.9",
+      "urllib3": "2.8.0",
+      "python-dateutil": "2.9.0.post0",
+      "PyYAML": "6.0.3",
+      "matplotlib": "3.11.2",
+      "minorminer": "0.2.22",
+      "cffi": "2.1.1",
+      "psycopg-binary": "3.3.9",
+      "penaltymodel": "1.3.0",
+      "pytest": "9.2.0",
+      "cycler": "0.12.1",
+      "Jinja2": "3.1.6",
+      "annotated-types": "0.8.0",
+      "qopt-reliability": "0.1.0",
+      "fonttools": "4.68.0",
+      "dwave-optimization": "0.7.3",
+      "qiskit-optimization": "0.7.0",
+      "http-sf": "1.5.0",
+      "docplex": "2.32.264",
+      "sqlglot": "30.33.0",
+      "typing_extensions": "4.16.0",
+      "MarkupSafe": "3.0.4",
+      "dwave-gate": "0.6.0",
+      "pypdf": "7.1.1",
+      "psycopg2-binary": "2.9.13",
+      "psycopg": "3.3.9",
+      "charset-normalizer": "3.5.2",
+      "dwave-system": "1.36.0",
+      "plucky": "0.4.3",
+      "polars": "2.1.0",
+      "pyparsing": "3.3.3",
+      "six": "1.17.0",
+      "scipy": "1.18.1",
+      "dill": "0.4.1",
+      "polars-runtime-32": "2.1.0",
+      "idna": "3.20",
+      "Werkzeug": "3.1.9",
+      "pytz": "2026.6"
+    }
+  },
+  "original_pilot_samples_audited": 360,
+  "original_pilot_hard_feasible": 114,
+  "configurations": [
+    {
+      "query_id": "10a",
+      "penalty_multiplier": 1,
+      "budget": "pilot",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 24,
+      "membership_feasible": 29,
+      "median_decoded_model_cost": 7302.0,
+      "median_sampling_ms": 2.193354
+    },
+    {
+      "query_id": "10a",
+      "penalty_multiplier": 1,
+      "budget": "higher",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 30,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 7302.0,
+      "median_sampling_ms": 34.9918545
+    },
+    {
+      "query_id": "10a",
+      "penalty_multiplier": 4,
+      "budget": "pilot",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 30,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 5647.5,
+      "median_sampling_ms": 2.3067295000000003
+    },
+    {
+      "query_id": "10a",
+      "penalty_multiplier": 4,
+      "budget": "higher",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 30,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 7302.0,
+      "median_sampling_ms": 32.873582999999996
+    },
+    {
+      "query_id": "13a",
+      "penalty_multiplier": 1,
+      "budget": "pilot",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 1,
+      "membership_feasible": 19,
+      "median_decoded_model_cost": 2609160.0,
+      "median_sampling_ms": 4.0965625
+    },
+    {
+      "query_id": "13a",
+      "penalty_multiplier": 1,
+      "budget": "higher",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 0,
+      "membership_feasible": 27,
+      "median_decoded_model_cost": 1994591.5,
+      "median_sampling_ms": 67.163104
+    },
+    {
+      "query_id": "13a",
+      "penalty_multiplier": 4,
+      "budget": "pilot",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 30,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 1380052.0,
+      "median_sampling_ms": 3.9566455
+    },
+    {
+      "query_id": "13a",
+      "penalty_multiplier": 4,
+      "budget": "higher",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 30,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 24426.0,
+      "median_sampling_ms": 63.9263955
+    },
+    {
+      "query_id": "16a",
+      "penalty_multiplier": 1,
+      "budget": "pilot",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 0,
+      "membership_feasible": 10,
+      "median_decoded_model_cost": 127459.0,
+      "median_sampling_ms": 3.478604
+    },
+    {
+      "query_id": "16a",
+      "penalty_multiplier": 1,
+      "budget": "higher",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 23,
+      "membership_feasible": 28,
+      "median_decoded_model_cost": 73510.0,
+      "median_sampling_ms": 54.7650625
+    },
+    {
+      "query_id": "16a",
+      "penalty_multiplier": 4,
+      "budget": "pilot",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 30,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 73511.0,
+      "median_sampling_ms": 3.4138960000000003
+    },
+    {
+      "query_id": "16a",
+      "penalty_multiplier": 4,
+      "budget": "higher",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 30,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 34.0,
+      "median_sampling_ms": 53.068833
+    },
+    {
+      "query_id": "18a",
+      "penalty_multiplier": 1,
+      "budget": "pilot",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 1,
+      "membership_feasible": 24,
+      "median_decoded_model_cost": 2280094.0,
+      "median_sampling_ms": 2.415771
+    },
+    {
+      "query_id": "18a",
+      "penalty_multiplier": 1,
+      "budget": "higher",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 22,
+      "membership_feasible": 29,
+      "median_decoded_model_cost": 236.0,
+      "median_sampling_ms": 38.1042295
+    },
+    {
+      "query_id": "18a",
+      "penalty_multiplier": 4,
+      "budget": "pilot",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 30,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 13007.0,
+      "median_sampling_ms": 2.3409165
+    },
+    {
+      "query_id": "18a",
+      "penalty_multiplier": 4,
+      "budget": "higher",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 30,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 235.0,
+      "median_sampling_ms": 36.767375
+    },
+    {
+      "query_id": "21a",
+      "penalty_multiplier": 1,
+      "budget": "pilot",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 20,
+      "membership_feasible": 27,
+      "median_decoded_model_cost": 54986.0,
+      "median_sampling_ms": 4.8174165
+    },
+    {
+      "query_id": "21a",
+      "penalty_multiplier": 1,
+      "budget": "higher",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 28,
+      "membership_feasible": 29,
+      "median_decoded_model_cost": 13066.0,
+      "median_sampling_ms": 76.592833
+    },
+    {
+      "query_id": "21a",
+      "penalty_multiplier": 4,
+      "budget": "pilot",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 30,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 13066.0,
+      "median_sampling_ms": 4.7369995
+    },
+    {
+      "query_id": "21a",
+      "penalty_multiplier": 4,
+      "budget": "higher",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 30,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 11924.0,
+      "median_sampling_ms": 73.638146
+    },
+    {
+      "query_id": "23a",
+      "penalty_multiplier": 1,
+      "budget": "pilot",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 28,
+      "membership_feasible": 28,
+      "median_decoded_model_cost": 2522.0,
+      "median_sampling_ms": 7.960854
+    },
+    {
+      "query_id": "23a",
+      "penalty_multiplier": 1,
+      "budget": "higher",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 30,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 184.0,
+      "median_sampling_ms": 126.13668799999999
+    },
+    {
+      "query_id": "23a",
+      "penalty_multiplier": 4,
+      "budget": "pilot",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 30,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 184.0,
+      "median_sampling_ms": 7.774271000000001
+    },
+    {
+      "query_id": "23a",
+      "penalty_multiplier": 4,
+      "budget": "higher",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 30,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 184.0,
+      "median_sampling_ms": 123.111854
+    },
+    {
+      "query_id": "24a",
+      "penalty_multiplier": 1,
+      "budget": "pilot",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 0,
+      "membership_feasible": 3,
+      "median_decoded_model_cost": 400686.0,
+      "median_sampling_ms": 10.9505415
+    },
+    {
+      "query_id": "24a",
+      "penalty_multiplier": 1,
+      "budget": "higher",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 6,
+      "membership_feasible": 28,
+      "median_decoded_model_cost": 1460331.0,
+      "median_sampling_ms": 171.1457085
+    },
+    {
+      "query_id": "24a",
+      "penalty_multiplier": 4,
+      "budget": "pilot",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 30,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 126940.0,
+      "median_sampling_ms": 10.766
+    },
+    {
+      "query_id": "24a",
+      "penalty_multiplier": 4,
+      "budget": "higher",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 30,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 47754.0,
+      "median_sampling_ms": 165.5366455
+    },
+    {
+      "query_id": "25a",
+      "penalty_multiplier": 1,
+      "budget": "pilot",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 10,
+      "membership_feasible": 16,
+      "median_decoded_model_cost": 85607.0,
+      "median_sampling_ms": 5.001292
+    },
+    {
+      "query_id": "25a",
+      "penalty_multiplier": 1,
+      "budget": "higher",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 29,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 37177.0,
+      "median_sampling_ms": 77.383166
+    },
+    {
+      "query_id": "25a",
+      "penalty_multiplier": 4,
+      "budget": "pilot",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 30,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 37177.0,
+      "median_sampling_ms": 4.858021
+    },
+    {
+      "query_id": "25a",
+      "penalty_multiplier": 4,
+      "budget": "higher",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 30,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 29295.0,
+      "median_sampling_ms": 74.8914375
+    },
+    {
+      "query_id": "26a",
+      "penalty_multiplier": 1,
+      "budget": "pilot",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 1,
+      "membership_feasible": 8,
+      "median_decoded_model_cost": 995155.0,
+      "median_sampling_ms": 9.8546665
+    },
+    {
+      "query_id": "26a",
+      "penalty_multiplier": 1,
+      "budget": "higher",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 18,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 74003.0,
+      "median_sampling_ms": 155.561708
+    },
+    {
+      "query_id": "26a",
+      "penalty_multiplier": 4,
+      "budget": "pilot",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 29,
+      "membership_feasible": 29,
+      "median_decoded_model_cost": 56221.0,
+      "median_sampling_ms": 10.098208
+    },
+    {
+      "query_id": "26a",
+      "penalty_multiplier": 4,
+      "budget": "higher",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 30,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 56218.0,
+      "median_sampling_ms": 151.3300205
+    },
+    {
+      "query_id": "28a",
+      "penalty_multiplier": 1,
+      "budget": "pilot",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 5,
+      "membership_feasible": 11,
+      "median_decoded_model_cost": 190926.5,
+      "median_sampling_ms": 17.915229
+    },
+    {
+      "query_id": "28a",
+      "penalty_multiplier": 1,
+      "budget": "higher",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 30,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 37077.0,
+      "median_sampling_ms": 263.38293799999997
+    },
+    {
+      "query_id": "28a",
+      "penalty_multiplier": 4,
+      "budget": "pilot",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 29,
+      "membership_feasible": 29,
+      "median_decoded_model_cost": 74207.0,
+      "median_sampling_ms": 17.305854
+    },
+    {
+      "query_id": "28a",
+      "penalty_multiplier": 4,
+      "budget": "higher",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 30,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 37077.0,
+      "median_sampling_ms": 256.0044375
+    },
+    {
+      "query_id": "29a",
+      "penalty_multiplier": 1,
+      "budget": "pilot",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 1,
+      "membership_feasible": 3,
+      "median_decoded_model_cost": 55688.5,
+      "median_sampling_ms": 27.668291500000002
+    },
+    {
+      "query_id": "29a",
+      "penalty_multiplier": 1,
+      "budget": "higher",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 30,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 2.0,
+      "median_sampling_ms": 398.4265415
+    },
+    {
+      "query_id": "29a",
+      "penalty_multiplier": 4,
+      "budget": "pilot",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 23,
+      "membership_feasible": 23,
+      "median_decoded_model_cost": 4047.5,
+      "median_sampling_ms": 27.5457915
+    },
+    {
+      "query_id": "29a",
+      "penalty_multiplier": 4,
+      "budget": "higher",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 30,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 2.0,
+      "median_sampling_ms": 395.634125
+    },
+    {
+      "query_id": "3a",
+      "penalty_multiplier": 1,
+      "budget": "pilot",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 26,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 620.5,
+      "median_sampling_ms": 0.7424375
+    },
+    {
+      "query_id": "3a",
+      "penalty_multiplier": 1,
+      "budget": "higher",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 30,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 613.0,
+      "median_sampling_ms": 9.068999999999999
+    },
+    {
+      "query_id": "3a",
+      "penalty_multiplier": 4,
+      "budget": "pilot",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 30,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 613.0,
+      "median_sampling_ms": 0.659104
+    },
+    {
+      "query_id": "3a",
+      "penalty_multiplier": 4,
+      "budget": "higher",
+      "planned": 30,
+      "statuses": {
+        "ok": 30
+      },
+      "hard_feasible": 30,
+      "membership_feasible": 30,
+      "median_decoded_model_cost": 613.0,
+      "median_sampling_ms": 8.371146
+    }
+  ],
+  "synthetic_witness": [
+    {
+      "penalty_multiplier": 1,
+      "states": 4096,
+      "minimum_energy": 48.8369,
+      "minimum_hard_feasible_energy": 87.79689999999998,
+      "all_ground_states_hard_feasible": false
+    },
+    {
+      "penalty_multiplier": 4,
+      "states": 4096,
+      "minimum_energy": 87.79689999999998,
+      "minimum_hard_feasible_energy": 87.79689999999998,
+      "all_ground_states_hard_feasible": true
+    }
+  ],
+  "note": "Model-only sensitivity, no tuning choice transferred to runtime experiment; synthetic witness is not an observed JOB failure mechanism."
+}
