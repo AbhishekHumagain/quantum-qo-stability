@@ -26,6 +26,12 @@ def audit(records,identity,complete):
     def parse_selectivities(factors):
         pred=[(i,j) for i in range(len(factors)) for j in range(i+1,len(factors)) if factors[i][j]!=1]
         return pred,[factors[i][j] for i,j in pred]
+    original_path=ROOT/'docs/pilot-001/sa-samples.json.gz'
+    previous_evidence=json.loads((ROOT/config['source_pilot_evidence']).read_text())
+    assert sha(original_path)==previous_evidence['file_sha256']['sa-samples.json.gz']
+    original=json.loads(gzip.decompress(original_path.read_bytes()))
+    original_lookup={(r['query_id'],r['seed']):hashlib.sha256(bytes(r['bits'])).hexdigest() for r in original}
+    shared=0
     for q in pilot['queries']:
         qid=q['query_id'];base=bykey[qid+'/baseline'];assert base['status']=='ok'
         assert bykey[qid+'/control']['status']=='ok'
@@ -33,6 +39,10 @@ def audit(records,identity,complete):
             sample=bykey[f'{qid}/sample/{i:03d}'];model=models[qid];pred,sel=parse_selectivities(model['factors'])
             a=components(sample['bits'],model['cards'],pred,sel)
             assert a==sample['encoding_audit']
+            assert hashlib.sha256(bytes(sample['bits'])).hexdigest()==sample['bits_sha256']
+            if (qid,sample['seed']) in original_lookup:
+                shared+=1
+                assert sample['bits_sha256']==original_lookup[(qid,sample['seed'])]
             assert abs(a['reconstructed_energy']-sample['energy'])<1e-4
             for method in config['candidate_methods']:
                 value=bykey[f'{qid}/proposal/{method}/{i:03d}']
@@ -50,6 +60,16 @@ def audit(records,identity,complete):
                     c=bykey[f'{qid}/proposal/{method}/{i:03d}']
                     if c['status']=='ok':
                         plans.setdefault(c['plan_hash'],c)
+            for record in records:
+                if record['query_id']==qid and record['phase']=='warmup' and record['state']=='finished' and record['payload']['status']=='ok':
+                    row=record['payload'];h=row['requested_plan_hash']
+                    if row['stage']=='profile':
+                        assert plan_hash(row['explain']['Plan'])==row['plan_hash']==h
+                        recipe=plans[h]['recipe']
+                        if recipe['aliases'] is not None:
+                            verify_order(row['explain']['Plan'],recipe['aliases'],recipe['directed'])
+                    else:
+                        assert row['pre_plan_hash']==row['post_plan_hash']==h
             for h in plans:
                 for r in range(config['execution_repeats']):
                     for role in ['baseline','candidate']:
@@ -99,7 +119,8 @@ def audit(records,identity,complete):
             assert failure.get('requested_plan_hash')==row.get('requested_plan_hash')
         if row['status']=='timeout' or row['status']=='not_run_after_failure':
             assert 'execution_ms' not in row
-    return {'preparation_verified':True,'complete_schedule_verified':complete,'result_consistency_verified':complete}
+    return {'preparation_verified':True,'complete_schedule_verified':complete,'result_consistency_verified':complete,
+        'reused_seed_samples_bit_identical':shared}
 
 
 def clean(value):
@@ -160,6 +181,7 @@ def main():
         evidence['completed_resume_verification']=json.loads((args.run/'completed-resume-verification.json').read_text())
     lines=['# Prospective CPU submission study','','**Preparation only; no runtime results yet.**' if args.prepare_only else '**Complete paired-profile and actual-policy study.**','',
         f"Profile slots: {report['recorded_profile_slots']}/{report['planned_profile_slots']}; policy slots: {report['recorded_policy_slots']}/{report['planned_policy_slots']}.",'',
+        f"Seed provenance: {report['seed_reuse']['shared_sa_seeds_per_query']} of 30 SA seeds per query overlap the pilot; all {integrity['reused_seed_samples_bit_identical']} shared raw samples reproduce exactly. Treat this as controlled remeasurement, not independent replication.",'',
         '| Query | Both hints verified /30 | Changed physical plan | Flat cost lower | Flat cost equal | Flat cost higher |',
         '|---|---:|---:|---:|---:|---:|---:|']
     for q in report['queries']:

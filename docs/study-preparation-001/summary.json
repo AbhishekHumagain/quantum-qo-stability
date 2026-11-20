@@ -1,5 +1,5 @@
 {
-  "kind": "Prospective CPU study; paired TIMING OFF profiles and actual validated warm requests",
+  "kind": "Controlled CPU follow-up; paired TIMING OFF profiles and actual validated warm requests",
   "config": {
     "baseline_geqo_seed": 0,
     "baseline_geqo_threshold": 12,
@@ -11581,6 +11581,11 @@
       }
     }
   ],
+  "seed_reuse": {
+    "shared_sa_seeds_per_query": 28,
+    "shared_seed_query_pairs": 336,
+    "interpretation": "Partially reused seeds and same workload/estimates: controlled remeasurement, not an independent replication of the original pilot."
+  },
   "planned_profile_slots": 7450,
   "recorded_profile_slots": 0,
   "planned_policy_slots": 1512,

@@ -1,6 +1,8 @@
 """Failure-aware summaries of the prospective study; no timeout-cap imputation."""
 from collections import Counter
+import json
 import statistics
+from qopt.cli import ROOT
 
 from qopt.job_analysis import bounded_risk,disagreement
 
@@ -28,6 +30,8 @@ def paired_ratio(rows,base_hash,expected):
 
 def summarize(records,identity):
     config=identity['config']
+    previous=json.loads((ROOT/config['source_pilot_evidence']).read_text())['identity']['config']
+    shared_seeds=set(range(config['seed'],config['seed']+config['solve_repeats'])) & set(range(previous['seed'],previous['seed']+previous['solve_repeats']))
     finished=[r for r in records if r['state']=='finished']
     bykey={r['key']:r['payload'] for r in finished}
     qids=[r['query_id'] for r in finished if r['phase']=='baseline']
@@ -105,8 +109,11 @@ def summarize(records,identity):
             event=(record['query_id'],row.get('session'),row.get('pair_plan_hash'),row.get('repetition'),
                    row.get('arm'),row.get('run'),row['admission_wait_seconds'])
             admission_events[event]=row['admission_wait_seconds']
-    return {'kind':'Prospective CPU study; paired TIMING OFF profiles and actual validated warm requests',
+    return {'kind':'Controlled CPU follow-up; paired TIMING OFF profiles and actual validated warm requests',
         'config':config,'queries':queries,
+        'seed_reuse':{'shared_sa_seeds_per_query':len(shared_seeds),
+            'shared_seed_query_pairs':len(shared_seeds)*len(qids),
+            'interpretation':'Partially reused seeds and same workload/estimates: controlled remeasurement, not an independent replication of the original pilot.'},
         'planned_profile_slots':sum(q['distinct_physical_plans']*config['execution_repeats']*2 for q in queries),
         'recorded_profile_slots':sum(r['phase']=='profile' for r in finished),
         'planned_policy_slots':len(qids)*len(config['policy_seed_indices'])*config['policy_repeats']*len(config['policy_arms']),

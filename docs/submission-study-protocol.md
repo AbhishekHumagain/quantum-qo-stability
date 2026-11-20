@@ -117,3 +117,15 @@ Export portable evidence, recompute summaries independently, update the IEEE
 manuscript only with audited observations, and inspect its rendered pages. Sole
 author and committer remain Abhishek Humagain. Stop the isolated cluster on
 completion. Submission itself needs venue/author details and explicit instruction.
+
+## Seed provenance audit
+
+The date-based range chosen for this follow-up overlaps the original pilot in
+28 of 30 SA seeds per query. All 336 common seed/query pairs reproduce the raw
+bitstrings exactly. The follow-up uses newly collected timings and the frozen
+new comparison schedule, but is a controlled remeasurement on partially reused
+seeds, not an independent replication. GEQO's fixed seed grid is also reused.
+The separate encoding grid uses common seeds across its configurations and
+partially overlaps these studies. Report this dependence explicitly; do not
+count the different artifacts as independent replications. Frozen inputs and
+schedules are preserved rather than changed after observing this overlap.

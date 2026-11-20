@@ -230,12 +230,13 @@
     "preparation_verified": true,
     "complete_schedule_verified": false,
     "result_consistency_verified": false,
+    "reused_seed_samples_bit_identical": 336,
     "preparation_resume_unchanged_records": 1476
   },
   "kind": "Optimizer preparation only; execution pending",
   "file_sha256": {
-    "summary.json": "d795cee3c7d8249885aea87157210ad00d761c861704720ec3408f929b0f1a24",
-    "README.md": "753c55ab330ace80c507e2e6ad81446fbe751713f757c760ceae01e3078b2902",
+    "summary.json": "55d694f5a5b1f7ebc208de838f0fdc6322ff1cf4d041e82d098daf0ece267df8",
+    "README.md": "bb68400cbad8f02448e280751daa7bab4c64980cdf68741133ca2f2c30029dc2",
     "records.jsonl.gz": "e851f4cc8dff3ac7cb6166c4aeadc462147506c649a78aa03ecc8d7fcd512391"
   }
 }

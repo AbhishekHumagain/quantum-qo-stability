@@ -4,6 +4,8 @@
 
 Profile slots: 0/7450; policy slots: 0/1512.
 
+Seed provenance: 28 of 30 SA seeds per query overlap the pilot; all 336 shared raw samples reproduce exactly. Treat this as controlled remeasurement, not independent replication.
+
 | Query | Both hints verified /30 | Changed physical plan | Flat cost lower | Flat cost equal | Flat cost higher |
 |---|---:|---:|---:|---:|---:|---:|
 | 10a | 30/30 | 13 | 13 | 17 | 0 |
