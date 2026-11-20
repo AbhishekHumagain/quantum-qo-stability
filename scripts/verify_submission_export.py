@@ -35,6 +35,10 @@ def main():
         row=record['payload']
         if row['status']=='ok' and record['phase'] in {'baseline','proposal','profile'}:
             assert plan_hash(row['explain']['Plan'])==row['plan_hash']
+            if record['phase'] in {'baseline','proposal'}:
+                recipe=row['recipe']
+                if recipe['aliases'] is not None:
+                    verify_order(row['explain']['Plan'],recipe['aliases'],recipe['directed'])
             if record['phase']=='profile':
                 assert row['plan_hash']==row['requested_plan_hash']
         if record['phase']=='policy' and row['status']=='ok':

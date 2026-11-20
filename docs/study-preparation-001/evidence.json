@@ -231,12 +231,14 @@
     "complete_schedule_verified": false,
     "result_consistency_verified": false,
     "reused_seed_samples_bit_identical": 336,
+    "interrupted_attempt_events": 0,
     "preparation_resume_unchanged_records": 1476
   },
   "kind": "Optimizer preparation only; execution pending",
   "file_sha256": {
-    "summary.json": "55d694f5a5b1f7ebc208de838f0fdc6322ff1cf4d041e82d098daf0ece267df8",
+    "summary.json": "7e37b89e9461c6930d0d44a170e38a8caadf4bd7a3e30d71c23dc49ff36d1440",
     "README.md": "bb68400cbad8f02448e280751daa7bab4c64980cdf68741133ca2f2c30029dc2",
+    "interruptions.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
     "records.jsonl.gz": "e851f4cc8dff3ac7cb6166c4aeadc462147506c649a78aa03ecc8d7fcd512391"
   }
 }

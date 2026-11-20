@@ -11603,6 +11603,7 @@
     "policy": {}
   },
   "measured_clock_anomalies": 0,
+  "abandoned_warmup_attempts": 0,
   "measured_load_after_above_admission_limit": 0,
   "total_recorded_admission_wait_seconds": 0,
   "method_aggregate": {

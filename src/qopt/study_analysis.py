@@ -120,6 +120,7 @@ def summarize(records,identity):
         'recorded_policy_slots':sum(r['phase']=='policy' for r in finished),
         'phase_statuses':{phase:dict(Counter(r['payload']['status'] for r in finished if r['phase']==phase)) for phase in ['sample','proposal','warmup','profile','policy']},
         'measured_clock_anomalies':sum(r.get('clock_anomaly',False) for r in measured),
+        'abandoned_warmup_attempts':sum(r['state']=='abandoned' and r['phase']=='warmup' for r in records),
         'measured_load_after_above_admission_limit':sum(bool(r.get('load_after')) and r['load_after'][0]>r.get('admission_limit',float('inf')) for r in measured),
         'total_recorded_admission_wait_seconds':sum(admission_events.values()),
         'method_aggregate':aggregate('methods',config['candidate_methods']),

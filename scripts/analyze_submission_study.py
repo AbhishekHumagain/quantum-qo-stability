@@ -92,7 +92,7 @@ def audit(records,identity,complete):
             assert len(digests)<=1,'Policy result changed across join orders'
     for record in records:
         if record['state']!='finished':
-            assert not complete or (record['state']=='abandoned' and record['phase']=='warmup')
+            assert not complete or (record['state']=='abandoned' and record['phase']=='warmup' and record['payload']['status']=='interrupted')
             continue
         row=record['payload']
         tolerance=config['clock_tolerance_ms']
@@ -156,12 +156,15 @@ def main():
         identity=json.loads(db.execute("SELECT value FROM metadata WHERE key='identity'").fetchone()[0])
         records=[{'key':k,'phase':p,'query_id':q,'state':s,'attempt':a,'payload':json.loads(v) if v else None}
             for k,p,q,s,a,v in db.execute('SELECT key,phase,query_id,state,attempt,payload FROM tasks ORDER BY key')]
+        interruptions=[{'task_key':k,'utc':utc,'detail':json.loads(d) if d else None} for k,utc,d in db.execute(
+            "SELECT task_key,utc,detail FROM events WHERE event='interrupted_attempt' ORDER BY id")]
     if args.prepare_only:
         records=[r for r in records if r['phase'] in {'baseline','control','encoding','proposal','sample'}]
         assert all(r['state']=='finished' for r in records)
     else:
         assert json.loads((args.run/'state.json').read_text())['state']=='complete'
     integrity=audit(records,identity,not args.prepare_only)
+    integrity['interrupted_attempt_events']=len(interruptions)
     checkpoint=args.run/'preparation-checkpoint.json'
     if checkpoint.exists():
         bykey={r['key']:r for r in records if r['state']=='finished'}
@@ -173,8 +176,9 @@ def main():
     report=summarize(records,identity)
     args.output.mkdir(parents=True,exist_ok=True)
     write_json(args.output/'summary.json',report)
-    payload=''.join(json.dumps(clean(r),sort_keys=True)+'\n' for r in records if r['state']=='finished').encode()
+    payload=''.join(json.dumps(clean(r),sort_keys=True)+'\n' for r in records if r['state'] in {'finished','abandoned'}).encode()
     (args.output/'records.jsonl.gz').write_bytes(gzip.compress(payload,mtime=0))
+    write_json(args.output/'interruptions.json',clean(interruptions))
     evidence={'identity':identity,'measurement_source_commit':(args.run/'frozen-code-commit.txt').read_text().strip(),
         'integrity':integrity,'kind':'Optimizer preparation only; execution pending' if args.prepare_only else 'Completed prospective study'}
     if not args.prepare_only:
@@ -194,7 +198,7 @@ def main():
                     lines.append(f"| {method} | {risk['threshold']} | {risk['lower']:.1%} | {risk['upper']:.1%} | {risk['unknown']} |")
     lines+=['','## Limits','']+['- '+s for s in report['limits']]
     (args.output/'README.md').write_text('\n'.join(lines)+'\n')
-    evidence['file_sha256']={p.name:sha(p) for p in args.output.iterdir() if p.name in {'summary.json','records.jsonl.gz','README.md'}}
+    evidence['file_sha256']={p.name:sha(p) for p in args.output.iterdir() if p.name in {'summary.json','records.jsonl.gz','README.md','interruptions.json'}}
     write_json(args.output/'evidence.json',evidence)
     if not args.prepare_only:
         verify_export(args.output)
