@@ -1,0 +1,10 @@
+{
+  "experiment": "CPU model-only encoding diagnostic, not a database runtime experiment",
+  "estimated_inputs": "docs/pilot-001/estimated-inputs.json",
+  "seeds_per_query": 30,
+  "seed": 20261121,
+  "penalty_multipliers": [1, 4],
+  "sampling_budgets": [{"name": "pilot", "reads": 10, "sweeps": 200}, {"name": "higher", "reads": 50, "sweeps": 1000}],
+  "selection_policy": "Every query and configuration retained. No choice from this sensitivity is used to select runtime-study methods or tune on their outcomes.",
+  "scope": "Check the pinned model's actual count/nesting/one-way predicate hard penalties and objective slack separately. Inactive applicable predicates are not hard violations. Compare decoded model costs, not energies across differently weighted models. Synthetic exact witness is explanatory, post-hoc to pilot, and not causal evidence about JOB/QDBO system performance."
+}
