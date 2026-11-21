@@ -120,9 +120,21 @@
   },
   "file_sha256": {
     "summary.json": "cb19890a08fccb899c2df51d241c7859c3b1a6a75ad30ef8d7452d09dc95e70e",
+    "README.md": "2a9117cb258438ddbb5a46b29c327a7ab5e7e6e5b4af6ffde58b36327a837b2a",
     "pilot-constraint-audit.json.gz": "a0066bb6078982087691fd1b2d05e1e87b11d076207a9b631b14e6289f648bcc",
-    "sensitivity-samples.json.gz": "a0d97a74abb9cae09cb31f2cc2747bcb18db9ee6290023e0f8ed8d1845caebca",
-    "README.md": "2a9117cb258438ddbb5a46b29c327a7ab5e7e6e5b4af6ffde58b36327a837b2a"
+    "sensitivity-samples.json.gz": "a0d97a74abb9cae09cb31f2cc2747bcb18db9ee6290023e0f8ed8d1845caebca"
   },
-  "measurement_source_commit": "82f2f61a9afdf2ce8474b052317d33af91645ec6"
+  "measurement_source_commit": "82f2f61a9afdf2ce8474b052317d33af91645ec6",
+  "completed_resume_verification": {
+    "before": {
+      "task_count": 1440,
+      "task_rows_sha256": "019a4d08cfffc09a5804e760bb7254d8b5dc1fdd58cd9529fb501535c6466a7b"
+    },
+    "after": {
+      "task_count": 1440,
+      "task_rows_sha256": "019a4d08cfffc09a5804e760bb7254d8b5dc1fdd58cd9529fb501535c6466a7b"
+    },
+    "unchanged": true,
+    "new_measurement_tasks": 0
+  }
 }
