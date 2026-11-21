@@ -1,0 +1,198 @@
+{
+  "policy": {
+    "default": {
+      "complete": 198,
+      "fallback": 0,
+      "nonexecution_ms_success_only_median": 25.861853500002326
+    },
+    "sa_flat_unguarded": {
+      "complete": 199,
+      "fallback": 0,
+      "nonexecution_ms_success_only_median": 35.20887500000026
+    },
+    "sa_flat_guarded": {
+      "complete": 198,
+      "fallback": 210,
+      "nonexecution_ms_success_only_median": 39.6249585000005
+    },
+    "sa_directed_unguarded": {
+      "complete": 192,
+      "fallback": 0,
+      "nonexecution_ms_success_only_median": 34.98289600000044
+    },
+    "sa_directed_guarded": {
+      "complete": 198,
+      "fallback": 216,
+      "nonexecution_ms_success_only_median": 39.780562500003725
+    },
+    "geqo_unguarded": {
+      "complete": 195,
+      "fallback": 0,
+      "nonexecution_ms_success_only_median": 55.69704200000001
+    },
+    "geqo_guarded": {
+      "complete": 198,
+      "fallback": 87,
+      "nonexecution_ms_success_only_median": 54.582208000000264
+    }
+  },
+  "hint_runtime": {
+    "3a": {
+      "known": 30,
+      "flat_lower": 23,
+      "equal": 2,
+      "flat_higher": 5
+    },
+    "10a": {
+      "known": 24,
+      "flat_lower": 7,
+      "equal": 14,
+      "flat_higher": 3
+    },
+    "13a": {
+      "known": 14,
+      "flat_lower": 10,
+      "equal": 4,
+      "flat_higher": 0
+    },
+    "16a": {
+      "known": 19,
+      "flat_lower": 14,
+      "equal": 2,
+      "flat_higher": 3
+    },
+    "18a": {
+      "known": 0,
+      "flat_lower": 0,
+      "equal": 0,
+      "flat_higher": 0
+    },
+    "21a": {
+      "known": 29,
+      "flat_lower": 14,
+      "equal": 7,
+      "flat_higher": 8
+    },
+    "23a": {
+      "known": 30,
+      "flat_lower": 22,
+      "equal": 0,
+      "flat_higher": 8
+    },
+    "24a": {
+      "known": 30,
+      "flat_lower": 13,
+      "equal": 3,
+      "flat_higher": 14
+    },
+    "25a": {
+      "known": 0,
+      "flat_lower": 0,
+      "equal": 0,
+      "flat_higher": 0
+    },
+    "26a": {
+      "known": 17,
+      "flat_lower": 10,
+      "equal": 1,
+      "flat_higher": 6
+    },
+    "28a": {
+      "known": 30,
+      "flat_lower": 15,
+      "equal": 2,
+      "flat_higher": 13
+    },
+    "29a": {
+      "known": 28,
+      "flat_lower": 12,
+      "equal": 10,
+      "flat_higher": 6
+    }
+  },
+  "noise": {
+    "3a": {
+      "pairs": 5,
+      "raw_min": 0.2996238181937078,
+      "raw_max": 10.367659632350081
+    },
+    "10a": {
+      "pairs": 5,
+      "raw_min": 0.7851466346850376,
+      "raw_max": 1.122854224006133
+    },
+    "13a": {
+      "pairs": 5,
+      "raw_min": 0.9439608828889761,
+      "raw_max": 1.0996213853055166
+    },
+    "16a": {
+      "pairs": 5,
+      "raw_min": 0.5084513928181014,
+      "raw_max": 19.83591728548289
+    },
+    "18a": {
+      "pairs": 0,
+      "raw_min": null,
+      "raw_max": null
+    },
+    "21a": {
+      "pairs": 5,
+      "raw_min": 0.20048130752112686,
+      "raw_max": 0.7814008826418383
+    },
+    "23a": {
+      "pairs": 5,
+      "raw_min": 0.5580889795678057,
+      "raw_max": 1.4532041717475441
+    },
+    "24a": {
+      "pairs": 5,
+      "raw_min": 0.17455710497854132,
+      "raw_max": 6.3865991260299575
+    },
+    "25a": {
+      "pairs": 0,
+      "raw_min": null,
+      "raw_max": null
+    },
+    "26a": {
+      "pairs": 5,
+      "raw_min": 0.8858304352270483,
+      "raw_max": 1.078031167718352
+    },
+    "28a": {
+      "pairs": 5,
+      "raw_min": 0.5007008522663389,
+      "raw_max": 1.750727019675878
+    },
+    "29a": {
+      "pairs": 5,
+      "raw_min": 0.9891576313594662,
+      "raw_max": 1.209288478713903
+    }
+  },
+  "hint_runtime_total": {
+    "known": 251,
+    "flat_lower": 140,
+    "equal": 45,
+    "flat_higher": 66,
+    "unknown": 109
+  },
+  "same_plan_noise": {
+    "valid_pairs": 50,
+    "minimum": 0.17455710497854132,
+    "maximum": 19.83591728548289,
+    "outside_1_25_band": 27
+  },
+  "mean_disagreement": {
+    "sa_flat": 0.9729033631332482,
+    "sa_directed": 0.97312382168704,
+    "geqo": 0.5881226053639846
+  },
+  "source_sha256": {
+    "docs/submission-study-001/summary.json": "f14dd5409b52e3d60d956069dc9c9b6c9e00df6fd3e94a1a0b67b77ed0a8a995",
+    "docs/submission-study-001/records.jsonl.gz": "268cae9dbda56871a0c1855baa845bf60bf42297b9d805ecd97a9a1899ac3607",
+    "docs/encoding-001/summary.json": "cb19890a08fccb899c2df51d241c7859c3b1a6a75ad30ef8d7452d09dc95e70e"
+  }
+}

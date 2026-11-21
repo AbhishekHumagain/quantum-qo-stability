@@ -1,0 +1,31 @@
+{
+  "manuscript": "paper/main.tex",
+  "pages": 6,
+  "visual_review": "All six final rendered pages and the main PNG/SVG figure reviewed; no clipping or overlap observed.",
+  "latex": "Final build has no undefined references, overfull boxes, or BibTeX warnings.",
+  "tests": {
+    "passed": 25
+  },
+  "verification": [
+    "analyze_submission_study.py --verify-export",
+    "verify_submission_export.py",
+    "verify_encoding_export.py",
+    "verify_pilot_export.py",
+    "analyze_measurement_calibration.py --verify-export",
+    "Completed-run task count/payload/attempt hash equality",
+    "Public export path/DSN scan",
+    "Overleaf ZIP file-by-file source equality",
+    "Frozen measurement source digest equality"
+  ],
+  "measurement_source_commit": "82f2f61a9afdf2ce8474b052317d33af91645ec6",
+  "deliverable_sha256": {
+    "output/pdf/quantum-qo-ieee-draft.pdf": "004bf8e73944649577126c2b203f185c603e24218a0fff4d00f2578d63cec689",
+    "output/quantum-qo-ieee-draft.zip": "9ebe2a55e0663a182d13aa99dfe2abfdffbc51fcb3a0517250b492172504ee82"
+  },
+  "remaining": [
+    "Final author/advisor review",
+    "Affiliation and publication email",
+    "Target venue and its page limit, anonymity and submission policies"
+  ],
+  "submission_performed": false
+}

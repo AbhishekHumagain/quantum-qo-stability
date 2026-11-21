@@ -2,25 +2,27 @@
 
 Measuring regression risk and evaluating safeguards in quantum-augmented query planning.
 
-This project is an experimental research artifact in development. The full 12-template
-JOB CPU pilot is complete: 720 optimizer trials and 2,425 execution slots. Timing
-anomalies and high baseline noise limit interpretation; this is not a quantum
-advantage or publication-ready performance claim. Start with [milestone 04](docs/milestone-04.md)
-and the [measured pilot report and evidence](docs/pilot-001/README.md).
+The full authorized CPU study is complete: **7,450 paired profile slots and
+1,512 actual policy-request slots**, plus a separate 1,440-draw encoding diagnostic.
+Start with [milestone 07](docs/milestone-07.md) and the
+[completed report and portable evidence](docs/submission-study-001/README.md).
+Failures, timeouts, unknown comparisons, six profile clock discrepancies and
+substantial same-plan variation are explicit. This is a diagnostic CPU study,
+not a quantum advantage, full-QDBO reproduction or production-safety claim.
 
-The [IEEE conference first draft](paper/main.tex) reports these results with their
-limitations. Build an Overleaf ZIP and reviewed PDF using
-`bash scripts/build_paper.sh`. The [submission evidence plan](docs/submission-readiness.md)
-tracks the controlled follow-up experiments. The separate
-[baseline calibration](docs/calibration-001/README.md) completed all 360 slots
-without detected clock discrepancies, while substantial timing variation remains.
+The [completed IEEE research draft](paper/main.tex) integrates the actual results.
+Build its PDF and self-contained Overleaf ZIP with `bash scripts/build_paper.sh`.
+[Finalization status](docs/submission-readiness.md) distinguishes completed
+experiments from pending author/advisor review and venue/affiliation details.
+No paper has been submitted externally.
 
-The remaining evidence work is now executing under a separately frozen
-[prospective study](docs/submission-study-protocol.md): paired flat/directed hints,
-load-admitted candidate/baseline profiles, and actual guarded requests.
-The [encoding diagnostic](docs/encoding-001/README.md) and
-[optimizer preparation](docs/study-preparation-001/README.md) are complete;
-[execution status](docs/milestone-06.md) distinguishes them from pending timings.
+The [frozen study protocol](docs/submission-study-protocol.md),
+[encoding evidence](docs/encoding-001/README.md), and
+[preparation snapshot](docs/study-preparation-001/README.md) retain source identities.
+The new measurements reuse 28/30 SA seeds per query (336 identical shared samples)
+and the GEQO grid: this is controlled remeasurement, not independent replication.
+Historical [pilot](docs/pilot-001/README.md) and
+[calibration](docs/calibration-001/README.md) exports remain separate and unchanged.
 
 ## What works
 
@@ -93,14 +95,15 @@ extracts estimated filtered base/pair rows from the synthetic database, builds t
 published BQM, solves it on a CPU, and executes the decoded plans through verified
 hints. Every selected directed order and the baseline receives repeated measurements.
 This is still a tiny synthetic workload; it is not a JOB execution experiment.
-The guard decisions use only pre-execution planner costs, but their reported runtime
-ratios reuse the measured plan medians; complete policy latency is not yet replayed.
+The synthetic smoke guard reuses measured medians; actual policy latency is
+separately measured in the completed JOB follow-up.
 The full JOB CPU execution campaign is complete with a durable task ledger and
 explicit failure/timeout accounting. Its report flags post-hoc clock anomalies
 consistent with overnight sleep and retains unavailable comparisons as unknown.
-Measured executions use EXPLAIN ANALYZE with per-node timing; a controlled noise
-and instrumentation study is needed before performance claims. Hybrid/QPU adapters,
-other safeguards, and inferential analysis remain pending.
+The historical pilot uses EXPLAIN ANALYZE with per-node timing. The completed
+follow-up uses paired TIMING OFF profiles and actual ordinary SELECT requests.
+Shared-host noise still limits inference. QPU/full iterative QDBO evaluation and
+production guarantees remain outside this CPU study.
 
 Read [the protocol](docs/protocol.md), [artifact audit](docs/artifact-audit.md),
 and milestone reports [1](docs/milestone-01.md) and [2](docs/milestone-02.md)
@@ -109,8 +112,8 @@ before interpreting outputs.
 Continue with the [literature audit](docs/literature-audit.md),
 [JOB setup instructions](docs/job-setup.md), and
 [selected workload](workloads/job/README.md). The review found prior work explicitly
-studying quantum join-optimization stability; our narrower database-regression
-contribution remains a hypothesis requiring real evidence and further literature review.
+studying quantum join-optimization stability; the completed CPU diagnostic
+contribution is positioned conservatively without a first-of-kind claim.
 The [third milestone report](docs/milestone-03.md) records the earlier populated-data
 preflight. Actual JOB CPU timings were collected under the
 [frozen pilot protocol](docs/job-pilot-protocol.md); see the [completion record](docs/job-pilot-running.md),

@@ -1,4 +1,4 @@
-"""Generate manuscript tables and figures only from the verified pilot export."""
+"""Generate manuscript assets from verified historical and completed-study exports."""
 import hashlib
 import json
 from pathlib import Path
@@ -52,6 +52,8 @@ def main():
             'measurement_source_commit':json.loads((calibration/'evidence.json').read_text())['measurement_source_commit'],
             'note':'Separate baseline-only calibration; it does not replace pilot candidate measurements.'}
         (paper/'results-provenance.json').write_text(json.dumps(provenance,indent=2)+'\n')
+    from build_submission_paper_assets import build
+    build()
     print('Manuscript assets generated from verified evidence')
 
 if __name__=='__main__':

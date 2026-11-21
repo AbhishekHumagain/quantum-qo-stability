@@ -1,34 +1,32 @@
-# IEEE conference first draft for Overleaf
+# Completed IEEE research draft for Overleaf
 
 Upload the contents of `quantum-qo-ieee-draft.zip` as a new Overleaf project.
-Select `main.tex` as the main document and pdfLaTeX as the compiler. IEEEtran and
-its BibTeX style are standard TeX Live/Overleaf dependencies. Recompile from
-scratch if citations do not resolve on the first pass.
+Select `main.tex` and pdfLaTeX; recompile from scratch to resolve BibTeX citations.
+IEEEtran and its bibliography style are standard Overleaf dependencies.
 
-Author: Abhishek Humagain only. Affiliation/email and target venue/page limit
-have not been supplied; none were invented. This is generic IEEE conference
-format, not a claim of compliance with a selected venue's submission rules.
-There is no invented venue, copyright notice, funding statement, or coauthor.
+Sole author: Abhishek Humagain. Affiliation, publication email, target venue and
+page limit have not been supplied; none are invented. This is generic IEEE
+conference format, not a claim of venue compliance. Final author/advisor review
+and venue-specific finalization remain before submission; no external submission
+has occurred.
 
-The draft reports audited pilot 001 and the separate baseline calibration 001.
-It includes explicit post-hoc pilot exclusions,
-unknown comparisons, high baseline noise, and the limits of CPU-only evidence.
-It is a first research draft, not a submission-ready manuscript. See
-`../docs/submission-readiness.md` for the remaining experimental gates.
+The draft integrates completed paired TIMING OFF profiles, actual guarded and
+unguarded prepared-input warm requests, the model-only encoding diagnostic, and
+historical pilot/calibration context. Seed reuse, censoring, six clock anomalies,
+large same-plan noise, indirect plain-plan observation, and CPU-only scope remain
+explicit. The guard is measured in the follow-up; the historical pilot guard
+remains an offline diagnostic. The factual acknowledgment discloses OpenAI Codex
+assistance beyond language editing.
 
-Files:
-- `main.tex`: manuscript.
-- `references.bib`: cited primary sources and artifact.
-- `tables/`: automatically generated pilot and calibration tables.
-- `figures/pilot.png`: reviewed pilot figure.
-- `results-provenance.json`: exact summary hash and measurement source revision.
+- `main.tex`, `references.bib`: manuscript and bibliography.
+- `tables/`: generated verified study, encoding, and historical tables.
+- `figures/study.png`, `figures/study.svg`: main results figure.
+- `derived-results.json`: hint comparison, noise and client residual diagnostics.
+- `results-provenance.json`: evidence hashes, measurement revisions and no-op proofs.
 
-From the repository root, regenerate assets with:
-
-```sh
-.venv/bin/python scripts/build_paper_assets.py
-```
-
-Compile with `latexmk -pdf main.tex` from this directory. The local helper
-`scripts/build_paper.sh` uses a project-local IEEEtran cache if needed. Generated
-build files and deliverable PDF/ZIP stay outside this source folder.
+From the repository root run `bash scripts/build_paper.sh`. The assets builder
+runs both completed-study export checks and independent encoding verification,
+in addition to historical pilot/calibration checks. It reads public exports,
+not live database files. Measurement source identity is distinct from the later
+manuscript/build revision. Deliverable PDF/ZIP and TeX build files remain outside
+this source directory. See `../docs/submission-readiness.md` for finalization scope.

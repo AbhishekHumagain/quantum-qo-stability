@@ -12,6 +12,6 @@ from pathlib import Path
 from zipfile import ZipFile,ZIP_DEFLATED
 with ZipFile('../output/quantum-qo-ieee-draft.zip','w',ZIP_DEFLATED) as bundle:
     for path in sorted(Path('.').rglob('*')):
-        if path.is_file() and (path.suffix in {'.tex','.bib','.png','.json','.md'}):
+        if path.is_file() and (path.suffix in {'.tex','.bib','.png','.svg','.json','.md'}):
             bundle.write(path,path.as_posix())
 PY

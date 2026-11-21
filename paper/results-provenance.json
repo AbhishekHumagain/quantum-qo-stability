@@ -8,5 +8,52 @@
     "summary_sha256": "e5995c35b6e64e57242336b184fdcf4c782f9846bdbe3f2ce25c790e18da95d0",
     "measurement_source_commit": "edd06b4ed082dc72ff38925ce6a883c94f146472",
     "note": "Separate baseline-only calibration; it does not replace pilot candidate measurements."
-  }
+  },
+  "submission_study": {
+    "source": "docs/submission-study-001",
+    "measurement_source_commit": "82f2f61a9afdf2ce8474b052317d33af91645ec6",
+    "evidence_sha256": "ec2f8c8078ad88a92519d5c9520fa55ec0939f9261469145979f30bd83eca846",
+    "file_sha256": {
+      "summary.json": "f14dd5409b52e3d60d956069dc9c9b6c9e00df6fd3e94a1a0b67b77ed0a8a995",
+      "README.md": "3ce76d4dcdcaed3c9fdc024af0aba2b3e2a5897dd280caa63c7c82b5f81d67f7",
+      "interruptions.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "records.jsonl.gz": "268cae9dbda56871a0c1855baa845bf60bf42297b9d805ecd97a9a1899ac3607"
+    },
+    "completed_resume_verification": {
+      "before": {
+        "task_count": 11350,
+        "task_rows_sha256": "b6b358d3e5b0eaba68129636eafb7af561a6d987c4a5f1650d1bd1f7e4c6a626"
+      },
+      "after": {
+        "task_count": 11350,
+        "task_rows_sha256": "b6b358d3e5b0eaba68129636eafb7af561a6d987c4a5f1650d1bd1f7e4c6a626"
+      },
+      "unchanged": true,
+      "new_measurement_tasks": 0
+    }
+  },
+  "encoding": {
+    "source": "docs/encoding-001",
+    "measurement_source_commit": "82f2f61a9afdf2ce8474b052317d33af91645ec6",
+    "evidence_sha256": "117e4691127c6f90814f7d80c06048feaaab2831203fe2f2bc141b52b5f9324e",
+    "file_sha256": {
+      "summary.json": "cb19890a08fccb899c2df51d241c7859c3b1a6a75ad30ef8d7452d09dc95e70e",
+      "README.md": "2a9117cb258438ddbb5a46b29c327a7ab5e7e6e5b4af6ffde58b36327a837b2a",
+      "pilot-constraint-audit.json.gz": "a0066bb6078982087691fd1b2d05e1e87b11d076207a9b631b14e6289f648bcc",
+      "sensitivity-samples.json.gz": "a0d97a74abb9cae09cb31f2cc2747bcb18db9ee6290023e0f8ed8d1845caebca"
+    },
+    "completed_resume_verification": {
+      "before": {
+        "task_count": 1440,
+        "task_rows_sha256": "019a4d08cfffc09a5804e760bb7254d8b5dc1fdd58cd9529fb501535c6466a7b"
+      },
+      "after": {
+        "task_count": 1440,
+        "task_rows_sha256": "019a4d08cfffc09a5804e760bb7254d8b5dc1fdd58cd9529fb501535c6466a7b"
+      },
+      "unchanged": true,
+      "new_measurement_tasks": 0
+    }
+  },
+  "derived_results_sha256": "70a73785f6f290a1e3f3214881d6b33a3f9782a9732daa1ad4a541aeeecabcb8"
 }

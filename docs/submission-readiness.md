@@ -1,84 +1,51 @@
-# From IEEE first draft to submission evidence
+# IEEE manuscript readiness
 
-The IEEE conference first draft is in `paper/`. Generated PDF and Overleaf ZIP
-are produced by `bash scripts/build_paper.sh`. Tables and the figure derive from
-the independently verified pilot 001 bundle. No pending experiment is presented
-as an observed result. The target venue, page limit, author affiliation, and email
-have not yet been supplied; the draft uses Abhishek Humagain's name only.
+The completed research draft is in [paper/main.tex](../paper/main.tex).
+`bash scripts/build_paper.sh` generates the PDF and self-contained Overleaf ZIP.
+The completed CPU study is reported in [milestone 07](milestone-07.md).
 
-## Evidence gates
+## Evidence status
 
-| Gate | Current evidence | Required next evidence |
-|---|---|---|
-| Reproducible pilot | Complete; 720 trials and all 2,425 slots audited | Preserve historical evidence and source identity |
-| Measurement validity | Clock anomalies and high baseline CV disclosed | Calibration 001 completed without detected clock anomalies; high CV persists, so resource-controlled candidate replay is still required |
-| Plan-space comparability | Directed hints verified | Flat versus directed hints under matched seeds/inputs; report enforcement failures and physical choices |
-| Runtime risk | Descriptive bounds with unknowns | New fixed-budget candidate execution under validated timing; template-aware uncertainty, no arbitrary significance claims |
-| Safeguard utility | Offline guard rejects all SA candidates | Actually replay guarded and unguarded requests, charging all stages and retaining an always-default control |
-| Objective/encoding validity | Full pinned hard-constraint reconstruction and 1,440-draw model-only grid complete | Integrate audited diagnostic; do not infer a JOB runtime cause or tune runtime conditions from it |
-| Literature and novelty | Extended methods/evaluation and backward-reference review complete | Apply conservative claim boundaries; no priority or exhaustive-survey claim |
-| Venue readiness | Generic IEEEtran conference draft | Venue-specific template, page limit, authorship/affiliation, disclosure and artifact policies |
+| Item | Status |
+|---|---|
+| Historical pilot | Complete, preserved with explicit post-hoc clock screen and offline guard scope |
+| Baseline instrumentation calibration | Complete; timing scopes and remaining noise disclosed |
+| Paired flat/directed hints | Complete; shared samples, enforcement failures, physical choices and profile summaries reported |
+| Candidate/default profiles | All 7,450 slots accounted for; six clock anomalies and unknown ratios retained |
+| Actual guarded/unguarded/default requests | All 1,512 slots accounted for; fallback frequency, service cost, failures and unknowns reported |
+| Encoding validity/sensitivity | Complete 1,440-draw grid and finite synthetic witness; no runtime tuning transferred |
+| Literature positioning | Targeted primary-source follow-up complete; no first-of-kind or exhaustive-survey claim |
+| Durability and evidence | No-op resume preserves 11,350 study and 1,440 encoding rows; both study export checks and encoding verification pass |
+| Manuscript | Actual results integrated; generated assets and source hashes in package; factual AI-assistance acknowledgment |
+| Venue and author finalization | Pending affiliation, publication email, target venue/page limit, final author/advisor review and venue-specific policy checks |
 
-## Calibration 001: frozen before new timing collection
+## What the evidence supports
 
-Configuration: `config/measurement-calibration-v1.json`. All twelve existing
-queries are included; there is no outcome-based subset or new solver draw.
-Measure the default baseline under three modes: EXPLAIN ANALYZE TIMING ON,
-EXPLAIN ANALYZE TIMING OFF, and ordinary SELECT. Keep the original PostgreSQL
-settings/statistics and seed-zero default plan. Verify each baseline fingerprint
-against the historical preflight before collecting new measurements.
+An auditable failure-aware CPU diagnostic study of a low-budget BQM/decoder
+adaptation and seeded GEQO on twelve coverage-selected JOB templates. It shows
+that hint semantics, feasibility, censoring, noise, and actual policy cost change
+what can be concluded. It does not establish that any solver is causally more
+reliable across workloads, or that a guard is production-safe.
 
-One warmup per mode/session precedes ten blocks, each with seeded randomized
-mode order. There are 360 planned measured slots, plus up to 36 initial warmups.
-A first timeout/error stops that query/mode's remaining slots, which are explicitly
-recorded. Other modes remain eligible. No global cap or silent redraw is used.
-The experiment has a new SQLite ledger and cannot change pilot 001.
+The full frozen schedule is complete. Do not add runs to select favorable
+outcomes or describe the partially reused seeds as independent replication.
+Twenty-eight of thirty SA seeds/query overlap the pilot, with all 336 shared
+bitstrings reproduced; GEQO seeds are reused. Guard requests have cached estimated
+inputs/BQM, fresh proposer/selection/validation and ordinary SELECT, with queue
+wait outside the service timer. Plain timed plans are checked indirectly through
+pre/post fingerprints and result consistency, not directly observed.
 
-Profile server executor time and plain SELECT client time have different scopes.
-Plain times include planning, execution, result transfer, and fetching. Plain
-queries have pre/post EXPLAIN fingerprints, not a directly observed timed plan;
-profiles have actual plan verification. Plain result digests must remain stable.
-Do not subtract these timing scopes to estimate an overhead component.
+## Submission boundary
 
-The runner uses a process-bound macOS `caffeinate -i -s` assertion. It records
-client monotonic and UTC elapsed clocks, per-attempt load, and local session
-power/assertion snapshots. This does not override lid closure, prove absence of
-thermal effects, or guarantee no resource contention. A preselected one-second
-cross-clock discrepancy makes a complete median unavailable; all original rows
-remain present. Ten repeats are calibration evidence, not a tail estimate.
+This is a completed generic IEEEtran research draft, not a certification of
+acceptance prospects or compliance with an unspecified venue. The shared-host
+noise is substantial and six profile clock discrepancies remain; the manuscript
+reports these limits rather than claiming validated causal rankings. A venue
+requiring strong performance superiority or quantum hardware evidence would need
+a different evidence scope. No external submission is authorized or performed.
 
-Before reporting completion, audit all scheduled keys and profiles, check result
-consistency, and verify a completed-run resume changes no task records. Then run:
-
-```sh
-.venv/bin/python scripts/analyze_measurement_calibration.py --run results/measurement-calibration-001 --output docs/calibration-001
-.venv/bin/python scripts/analyze_measurement_calibration.py --verify-export docs/calibration-001
-```
-
-Only after reviewing this calibration should the next candidate replay protocol
-be frozen. Do not collect an expanding set of experiments and select favorable
-outcomes afterward. Calibration alone does not close the hint/safeguard gates.
-
-## Calibration 001 completed
-
-All 360 slots are recorded: 308 successful measurements, 3 measured timeouts,
-and 49 explicit skips; warmups have 33 successes and 3 timeouts. No clock anomaly
-was detected. All 408 tasks remained unchanged after completed-run resume.
-[Results and portable evidence](calibration-001/README.md) are audited and exported.
-
-This closes the initial baseline instrumentation comparison, not the measurement
-validity gate. ON/OFF server-median ratios range from 0.602 to 1.086; four queries
-have plain-client CV above 0.3. Resource load, cache state, and thermal/power
-effects remain unresolved. Do not replace pilot candidate measurements using
-new baseline times: measurements from different runs must not be combined into
-new purportedly controlled ratios. Freeze a resource-controlled candidate replay
-and paired baseline policy next, retaining the two unavailable queries.
-
-## Prospective completion run
-
-The remaining hint/profile/request evidence is executing under
-[the frozen protocol](submission-study-protocol.md), after all optimizer outputs
-were fixed. [Milestone 06](milestone-06.md) records completed encoding/literature
-work and preflight counts. The 7,450 paired-profile sides and 1,512 actual requests
-remain pending until the ledger is fully audited. Do not label these outcomes
-complete or the paper ready for submission merely because the runner exists.
+The sole author must review the methods, code, numerical results, references,
+AI-assistance acknowledgment and final manuscript, and supply affiliation/email
+and a target venue. Then apply that venue's page limit, anonymity, artifact and
+disclosure rules without inventing missing metadata. See
+[IEEE submission notes](ieee-submission-notes.md).

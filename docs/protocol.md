@@ -1,8 +1,10 @@
 # Draft experimental protocol — 2026-11-18
 
-Status: provisional. The full JOB CPU pilot is complete; [milestone 04](milestone-04.md)
-records timing anomalies and baseline noise requiring a controlled measurement
-follow-up before freezing the main experiment.
+Status: historical design notes, superseded for the completed CPU study by the
+[frozen follow-up protocol](submission-study-protocol.md). [Milestone 07](milestone-07.md)
+records all 7,450 profile and 1,512 policy slots, no-op resume and export checks,
+and manuscript integration. The original questions below are retained as design
+history, not a claim that every proposed experiment was performed.
 
 ## Questions
 
@@ -94,3 +96,17 @@ execution; size repetitions from the resulting noise floor. Preserve pilot 001
 unchanged, label its clock exclusion as post-hoc, and retain failures/unknowns in
 all denominators. Ablate directed versus flat hints and replay actual safeguard
 latency before interpreting the CPU adaptation as a system improvement.
+
+## Completed CPU scope (November 21, 2026)
+
+The finite frozen follow-up is complete. It uses median paired profile ratios,
+not the historical ratio-of-separate-medians proposal above. Thresholds remain
+descriptive, not calibrated noise margins. Shared-host timing variation and six
+clock anomalies prevent strong causal rankings. The cost guard was actually
+executed with cached inputs/BQM and fresh proposer/validation work; best-of-k,
+classical refinement, pinning, oracle cardinalities and QPU experiments were not
+performed. These are outside the completed manuscript's claims, not hidden results.
+
+The SA hint conditions share samples and 28/30 seeds overlap the pilot; disclose
+controlled remeasurement rather than independent replication. See the completed
+[report](submission-study-001/README.md) and [readiness assessment](submission-readiness.md).
